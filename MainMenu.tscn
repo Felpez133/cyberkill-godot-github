@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dyi20e0sm2pbu"]
+
+[ext_resource type="Script" uid="uid://l1ik57knekom" path="res://main_menu.gd" id="1_i26rj"]
+[ext_resource type="Texture2D" uid="uid://ca1ni50pyhd80" path="res://sprites/fundo beta/city 2/10.png" id="2_eiy7p"]
+[ext_resource type="Script" uid="uid://bcdn0b2i4h4fn" path="res://play_button_2.gd" id="3_qoqlk"]
+[ext_resource type="Texture2D" uid="uid://ddk4angi4kety" path="res://sprites/menu/start.png" id="4_iwfq2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7r1g0"]
+atlas = ExtResource("4_iwfq2")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqjrg"]
+atlas = ExtResource("4_iwfq2")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2xy7"]
+atlas = ExtResource("4_iwfq2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fimr5"]
+atlas = ExtResource("4_iwfq2")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bhunq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7r1g0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqjrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2xy7")
+}],
+"loop": 1,
+"name": &"hover",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fimr5")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=1311328614]
+
+[node name="MainMenu" type="Control" parent="." unique_id=2055604941]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_i26rj")
+
+[node name="background" type="TextureRect" parent="MainMenu" unique_id=115073444]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 1155.0
+offset_bottom = 650.0
+texture = ExtResource("2_eiy7p")
+expand_mode = 1
+
+[node name="PlayButton2" type="TextureButton" parent="MainMenu" unique_id=1193019512]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 5.4810004
+anchor_bottom = 3.0740001
+offset_right = -130.24002
+offset_bottom = -20.960007
+script = ExtResource("3_qoqlk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MainMenu/PlayButton2" unique_id=1637420808]
+position = Vector2(550.00006, 307)
+scale = Vector2(5.421875, 3.609375)
+sprite_frames = SubResource("SpriteFrames_bhunq")
+animation = &"idle"
+frame_progress = 0.88077676
+
+[node name="Button" type="Button" parent="MainMenu/PlayButton2" unique_id=37521216]
+layout_mode = 0
+offset_left = 405.0
+offset_top = 287.0
+offset_right = 708.0
+offset_bottom = 371.0
+
+[node name="Title" type="Label" parent="MainMenu" unique_id=1300291854]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 9.033
+anchor_bottom = 3.015
+offset_left = 85.0
+offset_top = -8.0
+offset_right = -63.320007
+offset_bottom = -25.600006
+
+[node name="PlayButton" type="Button" parent="MainMenu" unique_id=637123273]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="OptionsButton" type="Button" parent="MainMenu" unique_id=1457517378]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="QuitButton" type="Button" parent="MainMenu" unique_id=1017941848]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0

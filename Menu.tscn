@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://br7yfafa34pky"]
+
+[ext_resource type="Script" uid="uid://cfp6e3qqgrgrc" path="res://control.gd" id="1_uubjt"]
+[ext_resource type="Texture2D" uid="uid://dab4isw3q7whj" path="res://sprites/fundo beta/city 3/9.png" id="2_5yleq"]
+
+[node name="Control" type="Control" unique_id=1267851613]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_uubjt")
+
+[node name="background" type="TextureRect" parent="." unique_id=2045711223]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 1132.0
+offset_bottom = 628.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5yleq")
+expand_mode = 1
+
+[node name="Titulo" type="Label" parent="." unique_id=216215303]
+layout_mode = 0
+offset_left = -5.0
+offset_top = 48.0
+offset_right = 1145.0
+offset_bottom = 136.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 64
+text = "Cyber Kill"
+horizontal_alignment = 1
+
+[node name="BotaoIniciar" type="Button" parent="." unique_id=1539365096]
+layout_mode = 0
+offset_left = 436.0
+offset_top = 275.0
+offset_right = 718.0
+offset_bottom = 357.0
+theme_override_font_sizes/font_size = 32
+text = "Iniciar"
+
+[node name="BotaoSair" type="Button" parent="." unique_id=1038923678]
+layout_mode = 0
+offset_left = 458.0
+offset_top = 398.0
+offset_right = 692.0
+offset_bottom = 481.0
+theme_override_font_sizes/font_size = 32
+text = "Sair
+"
