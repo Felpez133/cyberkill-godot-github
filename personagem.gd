@@ -5,13 +5,19 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
 @export var max_health: int = 5
+@export var body_left_offset: float = 16.0
+
 var health: int = 5
 var is_attacking: bool = false
 var invulnerability_time: float = 0.0
 
+var original_body_x: float
+var original_attack_x: float
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
+@onready var body_shape: CollisionShape2D = $CollisionShape2D
 
 @onready var hearts: Array[AnimatedSprite2D] = [
 	$CanvasLayer/HBoxContainer/Heart1,
@@ -24,46 +30,73 @@ var invulnerability_time: float = 0.0
 
 func _ready() -> void:
 	health = max_health
+
+	original_body_x = body_shape.position.x
+	original_attack_x = attack_area.position.x
+
 	attack_shape.disabled = true
 	update_health_display()
 
 
 func _physics_process(delta: float) -> void:
+	# Gravidade
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
+	# Tempo de invulnerabilidade
 	if invulnerability_time > 0.0:
 		invulnerability_time -= delta
+
+	# Direção
+	var direction := Input.get_axis("ui_left", "ui_right")
 
 	# Pulo
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and not is_attacking:
 		velocity.y = JUMP_VELOCITY
 
-	var direction := Input.get_axis("ui_left", "ui_right")
+	# Atualiza o lado para o qual o personagem olha
+	if direction != 0:
+		update_facing(direction)
 
-	# Ataque com E (ação "attack")
+	# Ataque
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		is_attacking = true
 		sprite.play("attack")
 		attack_shape.set_deferred("disabled", false)
 
-	# Movimento
+	# Movimento e animações
 	if is_attacking:
 		velocity.x = 0
 	else:
 		velocity.x = direction * SPEED
 
-		if direction != 0:
-			sprite.flip_h = direction < 0
-
 		if not is_on_floor():
-			sprite.play("jump")
+			play_animation("jump")
 		elif direction != 0:
-			sprite.play("run")
+			play_animation("run")
 		else:
-			sprite.play("idle")
+			play_animation("idle")
 
 	move_and_slide()
+
+
+func update_facing(direction: float) -> void:
+	if direction == 0:
+		return
+
+	sprite.flip_h = direction < 0
+
+	if direction < 0:
+		body_shape.position.x = -original_body_x - body_left_offset
+		attack_area.position.x = -original_attack_x
+	else:
+		body_shape.position.x = original_body_x
+		attack_area.position.x = original_attack_x
+
+
+func play_animation(animation_name: String) -> void:
+	if sprite.animation != animation_name:
+		sprite.play(animation_name)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -83,6 +116,7 @@ func take_damage(amount: int) -> void:
 
 	health = max(health - amount, 0)
 	invulnerability_time = 0.8
+
 	update_health_display()
 
 	if health <= 0:

@@ -7,9 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://d26hysyq3aheh" path="res://sprites/fundo beta/city 1/11.png" id="3_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://7v13i6ycm64n" path="res://sprites/personagens beta/1 Biker/Biker_attack1.png" id="3_rj586"]
 [ext_resource type="Script" uid="uid://buamyj5ye5myc" path="res://camera_2d.gd" id="4_q6r6c"]
+[ext_resource type="Texture2D" uid="uid://d3kuw5rw83n6d" path="res://sprites/personagens beta/1 Biker/Biker_run_attack.png" id="8_0h7mo"]
 [ext_resource type="Texture2D" uid="uid://cs8vpa5cbftve" path="res://sprites/vida 1-style/normal_Heath.png" id="8_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://3cppwunp7x0n" path="res://sprites/vida 1-style/empty.png" id="8_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="8_rj586"]
+[ext_resource type="Script" uid="uid://cmm5n1b46j8f7" path="res://enemy.gd" id="11_x0ka3"]
+[ext_resource type="Texture2D" uid="uid://xk5njevg5m47" path="res://sprites/inimigos/BB9/New Piskel-1.png.png" id="12_0h7mo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("8_rj586")
@@ -109,6 +112,30 @@ region = Rect2(192, 0, 48, 48)
 atlas = ExtResource("2_0hol4")
 region = Rect2(240, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fr6y"]
+atlas = ExtResource("8_0h7mo")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hxjc"]
+atlas = ExtResource("8_0h7mo")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebxd8"]
+atlas = ExtResource("8_0h7mo")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2u7jv"]
+atlas = ExtResource("8_0h7mo")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24dk6"]
+atlas = ExtResource("8_0h7mo")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mryly"]
+atlas = ExtResource("8_0h7mo")
+region = Rect2(240, 0, 48, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_bhunq"]
 animations = [{
 "frames": [{
@@ -190,13 +217,36 @@ animations = [{
 "loop": 1,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fr6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hxjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebxd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2u7jv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24dk6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mryly")
+}],
+"loop": 1,
+"name": &"walking_attack",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sn0t7"]
-size = Vector2(17, 37)
+size = Vector2(14.5, 37)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(20, 21)
+size = Vector2(19.5, 21)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e8dv2"]
 atlas = ExtResource("8_ir8iy")
@@ -228,6 +278,35 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
 size = Vector2(2307, 41.25)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjha6"]
+atlas = ExtResource("12_0h7mo")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ir8iy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjha6")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjha6")
+}],
+"loop": 1,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqns4"]
+size = Vector2(19, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x0ka3"]
+radius = 165.77394
+
 [node name="Node2D" type="Node2D" unique_id=1246239979]
 position = Vector2(314, 562)
 
@@ -255,11 +334,6 @@ position = Vector2(1332.0001, -48)
 scale = Vector2(0.28993055, 0.2962963)
 texture = ExtResource("3_q6r6c")
 
-[node name="fundo4" type="Sprite2D" parent="." unique_id=1300347812]
-position = Vector2(2049, -40)
-scale = Vector2(0.28993055, 0.2962963)
-texture = ExtResource("3_q6r6c")
-
 [node name="fundo2" type="Sprite2D" parent="." unique_id=155861125]
 position = Vector2(5.9999924, -48)
 scale = Vector2(0.28993055, 0.2962963)
@@ -270,65 +344,66 @@ position = Vector2(673.00006, -48)
 scale = Vector2(0.28993055, 0.2962963)
 texture = ExtResource("3_q6r6c")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=789966263]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=789966263 groups=["player"]]
 script = ExtResource("1_epypp")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1834294323]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1834294323]
 position = Vector2(-9, 114)
 scale = Vector2(1.2083334, 1.1666666)
 sprite_frames = SubResource("SpriteFrames_bhunq")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1995215454]
-position = Vector2(-19, 125)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1995215454]
+position = Vector2(-21.25, 125)
 shape = SubResource("RectangleShape2D_sn0t7")
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=932059514]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=932059514]
 position = Vector2(-1, 103)
 offset = Vector2(0, -100)
 zoom = Vector2(1.75, 1.75)
 position_smoothing_enabled = true
 script = ExtResource("4_q6r6c")
 
-[node name="AttackArea" type="Area2D" parent="CharacterBody2D" unique_id=104242496]
+[node name="AttackArea" type="Area2D" parent="Player" unique_id=104242496]
+collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/AttackArea" unique_id=1352419516]
-position = Vector2(0, 120)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea" unique_id=1352419516]
+position = Vector2(-4.75, 120)
 shape = SubResource("RectangleShape2D_bhunq")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="CharacterBody2D" unique_id=608251090]
+[node name="CanvasLayer" type="CanvasLayer" parent="Player" unique_id=608251090]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CharacterBody2D/CanvasLayer" unique_id=1629488761]
+[node name="HBoxContainer" type="HBoxContainer" parent="Player/CanvasLayer" unique_id=1629488761]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 196.0
 offset_bottom = 60.0
 
-[node name="Heart1" type="AnimatedSprite2D" parent="CharacterBody2D/CanvasLayer/HBoxContainer" unique_id=1588757046]
+[node name="Heart1" type="AnimatedSprite2D" parent="Player/CanvasLayer/HBoxContainer" unique_id=1588757046]
 position = Vector2(60, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
-[node name="Heart2" type="AnimatedSprite2D" parent="CharacterBody2D/CanvasLayer/HBoxContainer" unique_id=1213904399]
+[node name="Heart2" type="AnimatedSprite2D" parent="Player/CanvasLayer/HBoxContainer" unique_id=1213904399]
 position = Vector2(128, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
-[node name="Heart3" type="AnimatedSprite2D" parent="CharacterBody2D/CanvasLayer/HBoxContainer" unique_id=679969200]
+[node name="Heart3" type="AnimatedSprite2D" parent="Player/CanvasLayer/HBoxContainer" unique_id=679969200]
 position = Vector2(329, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
-[node name="Heart4" type="AnimatedSprite2D" parent="CharacterBody2D/CanvasLayer/HBoxContainer" unique_id=1622082538]
+[node name="Heart4" type="AnimatedSprite2D" parent="Player/CanvasLayer/HBoxContainer" unique_id=1622082538]
 position = Vector2(263, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
-[node name="Heart5" type="AnimatedSprite2D" parent="CharacterBody2D/CanvasLayer/HBoxContainer" unique_id=1270506440]
+[node name="Heart5" type="AnimatedSprite2D" parent="Player/CanvasLayer/HBoxContainer" unique_id=1270506440]
 position = Vector2(195, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
@@ -346,15 +421,23 @@ scale = Vector2(4.645834, 0.1419753)
 texture = ExtResource("8_rj586")
 
 [node name="enemy" type="CharacterBody2D" parent="." unique_id=1842335545]
+script = ExtResource("11_x0ka3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="enemy" unique_id=893230991]
-position = Vector2(-195, -3)
+position = Vector2(551, 125)
+sprite_frames = SubResource("SpriteFrames_ir8iy")
+animation = &"run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy" unique_id=1440442455]
+position = Vector2(550.5, 123)
+shape = SubResource("RectangleShape2D_hqns4")
 
 [node name="Area2D" type="Area2D" parent="enemy" unique_id=345188630]
+position = Vector2(545, 128)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/Area2D" unique_id=831021408]
+position = Vector2(6, -4)
+shape = SubResource("CircleShape2D_x0ka3")
 
-[connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="CharacterBody2D/AttackArea" to="CharacterBody2D" method="_on_attack_area_area_entered"]
+[connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="area_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_area_entered"]
