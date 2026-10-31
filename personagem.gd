@@ -6,6 +6,7 @@ const JUMP_VELOCITY = -400.0
 
 @export var max_health: int = 5
 @export var body_left_offset: float = 16.0
+@export var attack_left_offset: float = 500.0
 
 var health: int = 5
 var is_attacking: bool = false
@@ -14,6 +15,7 @@ var invulnerability_time: float = 0.0
 var original_body_x: float
 var original_attack_x: float
 
+@onready var footsteps: AudioStreamPlayer2D = $Footsteps
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
@@ -46,6 +48,12 @@ func _physics_process(delta: float) -> void:
 	# Tempo de invulnerabilidade
 	if invulnerability_time > 0.0:
 		invulnerability_time -= delta
+	
+	if is_on_floor() and abs(velocity.x) > 10 and not is_attacking:
+		if not footsteps.playing:
+			footsteps.play()
+	else:
+		footsteps.stop()
 
 	# Direção
 	var direction := Input.get_axis("ui_left", "ui_right")

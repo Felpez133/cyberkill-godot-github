@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="8_rj586"]
 [ext_resource type="Script" uid="uid://cmm5n1b46j8f7" path="res://enemy.gd" id="11_x0ka3"]
 [ext_resource type="Texture2D" uid="uid://xk5njevg5m47" path="res://sprites/inimigos/BB9/New Piskel-1.png.png" id="12_0h7mo"]
+[ext_resource type="AudioStream" uid="uid://can0u6egu0vca" path="res://sounds/running_player/Footsteps.mp3" id="12_nr8wp"]
+[ext_resource type="AudioStream" uid="uid://befkq4nftl1qm" path="res://sounds/BackgroundMusic/Endless Cyber Runner.mp3" id="15_ta5nu"]
+[ext_resource type="Script" path="res://background_music.gd" id="16_flf07"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("8_rj586")
@@ -409,6 +412,10 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="Player" unique_id=1422244595]
+stream = ExtResource("12_nr8wp")
+volume_db = 4.245
+
 [node name="floor" type="StaticBody2D" parent="." unique_id=1525324326]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floor" unique_id=1648211674]
@@ -438,6 +445,12 @@ position = Vector2(545, 128)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/Area2D" unique_id=831021408]
 position = Vector2(6, -4)
 shape = SubResource("CircleShape2D_x0ka3")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=1955862355]
+stream = ExtResource("15_ta5nu")
+volume_db = -19.102
+autoplay = true
+script = ExtResource("16_flf07")
 
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_area_entered"]
