@@ -11,11 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://cs8vpa5cbftve" path="res://sprites/vida 1-style/normal_Heath.png" id="8_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://3cppwunp7x0n" path="res://sprites/vida 1-style/empty.png" id="8_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="8_rj586"]
-[ext_resource type="Script" uid="uid://cmm5n1b46j8f7" path="res://enemy.gd" id="11_x0ka3"]
-[ext_resource type="Texture2D" uid="uid://xk5njevg5m47" path="res://sprites/inimigos/BB9/New Piskel-1.png.png" id="12_0h7mo"]
 [ext_resource type="AudioStream" uid="uid://can0u6egu0vca" path="res://sounds/running_player/Footsteps.mp3" id="12_nr8wp"]
 [ext_resource type="AudioStream" uid="uid://befkq4nftl1qm" path="res://sounds/BackgroundMusic/Endless Cyber Runner.mp3" id="15_ta5nu"]
-[ext_resource type="Script" path="res://background_music.gd" id="16_flf07"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("8_rj586")
@@ -281,35 +278,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
 size = Vector2(2307, 41.25)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bjha6"]
-atlas = ExtResource("12_0h7mo")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ir8iy"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bjha6")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bjha6")
-}],
-"loop": 1,
-"name": &"run",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqns4"]
-size = Vector2(19, 28)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_x0ka3"]
-radius = 165.77394
-
 [node name="Node2D" type="Node2D" unique_id=1246239979]
 position = Vector2(314, 562)
 
@@ -427,30 +395,10 @@ position = Vector2(328.00003, 165.00002)
 scale = Vector2(4.645834, 0.1419753)
 texture = ExtResource("8_rj586")
 
-[node name="enemy" type="CharacterBody2D" parent="." unique_id=1842335545]
-script = ExtResource("11_x0ka3")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="enemy" unique_id=893230991]
-position = Vector2(551, 125)
-sprite_frames = SubResource("SpriteFrames_ir8iy")
-animation = &"run"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy" unique_id=1440442455]
-position = Vector2(550.5, 123)
-shape = SubResource("RectangleShape2D_hqns4")
-
-[node name="Area2D" type="Area2D" parent="enemy" unique_id=345188630]
-position = Vector2(545, 128)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/Area2D" unique_id=831021408]
-position = Vector2(6, -4)
-shape = SubResource("CircleShape2D_x0ka3")
-
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=1955862355]
 stream = ExtResource("15_ta5nu")
 volume_db = -19.102
 autoplay = true
-script = ExtResource("16_flf07")
 
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_area_entered"]
