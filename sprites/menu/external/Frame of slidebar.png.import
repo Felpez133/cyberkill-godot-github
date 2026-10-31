@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddk4angi4kety"
-path="res://.godot/imported/start.png-c10b2fa79aecaa4e5fc3291b2ee61c54.ctex"
+uid="uid://cxchmyxpqn00"
+path="res://.godot/imported/Frame of slidebar.png-ad674ff55192e524fa079552cd936b17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/menu/start.png"
-dest_files=["res://.godot/imported/start.png-c10b2fa79aecaa4e5fc3291b2ee61c54.ctex"]
+source_file="res://sprites/menu/external/Frame of slidebar.png"
+dest_files=["res://.godot/imported/Frame of slidebar.png-ad674ff55192e524fa079552cd936b17.ctex"]
 
 [params]
 

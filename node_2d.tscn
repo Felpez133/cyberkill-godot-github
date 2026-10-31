@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b513mlgyogkei" path="res://sprites/personagens beta/1 Biker/Biker_run.png" id="2_0hol4"]
 [ext_resource type="Texture2D" uid="uid://coj0aaj0td50x" path="res://sprites/personagens beta/1 Biker/Biker_idle.png" id="2_kdubu"]
 [ext_resource type="Texture2D" uid="uid://br7h4ancjsnge" path="res://sprites/personagens beta/1 Biker/Biker_jump.png" id="2_q6r6c"]
+[ext_resource type="Texture2D" uid="uid://bvbhhxt0fgnc1" path="res://sprites/stop/stop-sing.png" id="3_nr8wp"]
 [ext_resource type="Texture2D" uid="uid://d26hysyq3aheh" path="res://sprites/fundo beta/city 1/11.png" id="3_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://7v13i6ycm64n" path="res://sprites/personagens beta/1 Biker/Biker_attack1.png" id="3_rj586"]
 [ext_resource type="Script" uid="uid://buamyj5ye5myc" path="res://camera_2d.gd" id="4_q6r6c"]
@@ -29,8 +30,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1esiv"]
-size = Vector2(87, 268)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6f8o3"]
+size = Vector2(150.99998, 528.99994)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_flf07"]
 atlas = ExtResource("3_rj586")
@@ -296,9 +297,18 @@ position = Vector2(-658.99994, -45)
 scale = Vector2(0.29, 0.29)
 texture = ExtResource("3_q6r6c")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Border" unique_id=178078451]
-position = Vector2(-628.99994, 9)
-shape = SubResource("RectangleShape2D_1esiv")
+[node name="stop-sing" type="StaticBody2D" parent="." unique_id=1572558902]
+position = Vector2(-6.1035156e-05, 0)
+scale = Vector2(1, 1.0000001)
+
+[node name="Sprite2D" type="Sprite2D" parent="stop-sing" unique_id=1587503586]
+position = Vector2(-586.99994, 108)
+scale = Vector2(0.9262501, 1.035624)
+texture = ExtResource("3_nr8wp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stop-sing" unique_id=1760355217]
+position = Vector2(-647.49994, -122.5)
+shape = SubResource("RectangleShape2D_6f8o3")
 
 [node name="fundo1" type="Sprite2D" parent="." unique_id=1381192499]
 position = Vector2(1332.0001, -48)
@@ -322,7 +332,7 @@ script = ExtResource("1_epypp")
 position = Vector2(-9, 114)
 scale = Vector2(1.2083334, 1.1666666)
 sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"idle"
+animation = &"walking_attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1995215454]
 position = Vector2(-21.25, 125)
