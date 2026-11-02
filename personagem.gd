@@ -143,3 +143,7 @@ func die() -> void:
 	print("O jogador morreu!")
 	set_physics_process(false)
 	sprite.stop()
+
+
+func _on_level_1_entrance_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
