@@ -615,11 +615,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "PRESSIONE \"E\" PARA ENTRAR"
 
-[node name="Enemy" type="CharacterBody2D" parent="." unique_id=756410080]
-position = Vector2(-314, -562)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Enemy" unique_id=935316317]
-
 [connection signal="body_entered" from="Level1Entrance" to="." method="_on_level_1_entrance_body_entered"]
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_area_entered"]
