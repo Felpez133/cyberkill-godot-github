@@ -503,7 +503,7 @@ position = Vector2(402, 106)
 scale = Vector2(0.671875, 0.640625)
 sprite_frames = SubResource("SpriteFrames_sn0t7")
 animation = &"activated"
-frame_progress = 0.9151073
+frame_progress = 0.776838
 
 [node name="Level2Entrance" type="Area2D" parent="." unique_id=1101987250]
 
