@@ -254,7 +254,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=389633421 groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=389633421]
 script = ExtResource("1_n7ghd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=102352416]
@@ -278,7 +278,7 @@ script = ExtResource("7_u1c27")
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=131950539]
-position = Vector2(-4.75, 120)
+position = Vector2(-2, 120)
 shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2124339909]
@@ -302,19 +302,19 @@ sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
 [node name="Heart3" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1110553807]
-position = Vector2(329, 60)
+position = Vector2(191, 59)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
 [node name="Heart4" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1028235804]
-position = Vector2(263, 60)
+position = Vector2(253, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
-[node name="Heart5" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1501652440]
-position = Vector2(195, 60)
+[node name="Heart5" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1501652440 groups=["player"]]
+position = Vector2(315, 59)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
@@ -328,4 +328,4 @@ volume_db = 4.245
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=246854566]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="AttackArea" to="." method="_on_attack_area_area_entered"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

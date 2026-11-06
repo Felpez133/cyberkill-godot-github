@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://d1uo15dg4su2k"]
+
+[ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="1_o33f8"]
+[ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_md8xg"]
+size = Vector2(2307, 41.25)
+
+[node name="Level01Entrance" type="Node2D" unique_id=798484912]
+
+[node name="floor" type="StaticBody2D" parent="." unique_id=1556988326]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor" unique_id=181625683]
+position = Vector2(533.50024, 644.625)
+shape = SubResource("RectangleShape2D_md8xg")
+
+[node name="Sprite2D" type="Sprite2D" parent="floor" unique_id=95500472]
+position = Vector2(350.00027, 645)
+scale = Vector2(4.645834, 0.1419753)
+texture = ExtResource("1_o33f8")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(200, 480)
+groups = ["player"]

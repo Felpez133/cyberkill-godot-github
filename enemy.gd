@@ -1,107 +1,51 @@
-
 extends CharacterBody2D
-
-@export var speed: float = 90.0
+@export var speed: float = 85.0
 @export var max_health: int = 3
 @export var contact_damage: int = 1
-@export var contact_range: float = 28.0
+@export var patrol_distance: float = 180.0
+@export var detection_radius: float = 230.0
+@export var contact_range: float = 30.0
 @export var damage_cooldown: float = 1.0
-
-var health: int = 3
-var player: Node2D = null
-var damage_timer: float = 0.0
-
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var detection_area: Area2D = $Area2D
-
-
+var health: int
+var player: Node2D
+var damage_timer := 0.0
+var patrol_origin := 0.0
+var patrol_direction := 1.0
+var flash_timer := 0.0
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var detection: Area2D = $DetectionArea
 func _ready() -> void:
 	health = max_health
-
-	detection_area.body_entered.connect(_on_body_entered)
-	detection_area.body_exited.connect(_on_body_exited)
-
-	sprite.play("idle")
-
-
+	patrol_origin = global_position.x
+	var circle := CircleShape2D.new()
+	circle.radius = detection_radius
+	$DetectionArea/CollisionShape2D.shape = circle
+	detection.body_entered.connect(_on_detection_entered)
+	detection.body_exited.connect(_on_detection_exited)
 func _physics_process(delta: float) -> void:
-
-	# Gravidade
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Tempo entre danos
-	if damage_timer > 0:
-		damage_timer -= delta
-
-	# Perseguição
+	if not is_on_floor(): velocity += get_gravity() * delta
+	damage_timer = maxf(0.0, damage_timer - delta)
+	flash_timer = maxf(0.0, flash_timer - delta)
+	sprite.modulate = Color(1, 0.35, 0.35) if flash_timer > 0 else Color.WHITE
+	var dir := patrol_direction
 	if is_instance_valid(player):
-
-		# Calcula a distância entre Enemy e Player
-		var distance_x = player.global_position.x - global_position.x
-
-		# Descobre a direção do jogador
-		var direction = 0
-
-		if distance_x > 0:
-			direction = 1
-		else:
-			direction = -1
-
-		# Verifica se o jogador está longe
-		if abs(distance_x) > contact_range:
-
-			velocity.x = direction * speed
-
-			sprite.flip_h = direction < 0
-
-			if sprite.animation != "run":
-				sprite.play("run")
-
-		else:
-
-			velocity.x = 0
-
-			if sprite.animation != "idle":
-				sprite.play("idle")
-
-			# Causar dano ao jogador
-			if damage_timer <= 0:
-				if player.has_method("take_damage"):
-					player.take_damage(contact_damage)
-					damage_timer = damage_cooldown
-
+		dir = signf(player.global_position.x - global_position.x)
+		if absf(player.global_position.x - global_position.x) <= contact_range and damage_timer <= 0:
+			if player.has_method("take_damage"):
+				player.take_damage(contact_damage)
+				damage_timer = damage_cooldown
 	else:
-		velocity.x = 0
-
-		if sprite.animation != "idle":
-			sprite.play("idle")
-
+		if global_position.x >= patrol_origin + patrol_distance: patrol_direction = -1.0
+		elif global_position.x <= patrol_origin - patrol_distance: patrol_direction = 1.0
+		dir = patrol_direction
+	velocity.x = dir * speed
+	sprite.flip_h = dir < 0
 	move_and_slide()
-
-
-func _on_body_entered(body: Node2D) -> void:
-	print("OBJETO DETECTADO: ", body.name)
-	print("ESTÁ NO GRUPO PLAYER? ", body.is_in_group("player"))
-
-	if body.is_in_group("player"):
-		player = body
-		print("JOGADOR REGISTRADO: ", player.name)
-
-
-func _on_body_exited(body: Node2D) -> void:
-
-	if body == player:
-		print("JOGADOR SAIU DA ÁREA!")
-		player = null
-
-
+func _on_detection_entered(body: Node2D) -> void:
+	if body.is_in_group("player"): player = body
+func _on_detection_exited(body: Node2D) -> void:
+	if body == player: player = null
 func take_damage(amount: int) -> void:
-
 	health -= amount
-
-	print("ROBÔ RECEBEU DANO!")
-	print("Vida do robô: ", health)
-
-	if health <= 0:
-		queue_free()
+	flash_timer = 0.16
+	if health <= 0: queue_free()

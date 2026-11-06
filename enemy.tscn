@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b054feeggosfi"]
+
+[ext_resource type="Script" uid="uid://cmm5n1b46j8f7" path="res://enemy.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://xk5njevg5m47" path="res://sprites/inimigos/BB9/New Piskel-1.png.png" id="2"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(11, 12)
+
+[sub_resource type="CircleShape2D" id="Sight"]
+radius = 230.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1259613167]
+script = ExtResource("1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=614312000]
+position = Vector2(-1.4999995, 5.5)
+scale = Vector2(0.59374994, 0.59375)
+texture = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157585059]
+position = Vector2(-1.5, 7)
+shape = SubResource("Body")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1763588061]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=216131525]
+shape = SubResource("Sight")

@@ -1,7 +1,7 @@
 
 extends Control
 
-@export_file("*.tscn") var game_scene: String = "res://Main.tscn"
+@export_file("*.tscn") var game_scene: String = "res://node_2d.tscn"
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var click_button: Button = $Button
