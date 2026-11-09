@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://xk5njevg5m47" path="res://sprites/inimigos/BB9/New Piskel-1.png.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="Body"]
-size = Vector2(25, 42)
+size = Vector2(23, 42)
 
 [sub_resource type="CircleShape2D" id="Sight"]
 radius = 230.0
@@ -18,7 +18,7 @@ scale = Vector2(1.0625, 1.1875001)
 texture = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157585059]
-position = Vector2(5.5, -8)
+position = Vector2(6.5, -8)
 shape = SubResource("Body")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1763588061]
