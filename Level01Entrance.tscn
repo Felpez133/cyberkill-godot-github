@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="1_o33f8"]
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://b054feeggosfi" path="res://enemy.tscn" id="3_2a8em"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md8xg"]
 size = Vector2(2307, 41.25)
@@ -19,6 +20,8 @@ position = Vector2(350.00027, 645)
 scale = Vector2(4.645834, 0.1419753)
 texture = ExtResource("1_o33f8")
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
+[node name="Player" parent="." unique_id=2007473112 instance=ExtResource("2_player")]
 position = Vector2(200, 480)
-groups = ["player"]
+
+[node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("3_2a8em")]
+position = Vector2(445, 605)

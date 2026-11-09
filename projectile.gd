@@ -9,6 +9,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += direction.normalized() * speed * delta
 func _on_body_entered(body: Node2D) -> void:
-	if body.has_method("take_damage"):
+	if body.is_in_group("player"):
+		return
+	if body.has_method("take_damage") and body.is_in_group("enemy"):
 		body.take_damage(damage)
-	queue_free()
+		queue_free()
+	elif not body.is_in_group("player"):
+		queue_free()

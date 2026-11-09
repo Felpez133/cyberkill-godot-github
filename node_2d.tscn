@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c16e1wsqv5ewr"]
 
 [ext_resource type="Script" uid="uid://pmsfktvmloym" path="res://personagem.gd" id="1_epypp"]
-[ext_resource type="Script" path="res://portal.gd" id="16_portal"]
 [ext_resource type="Texture2D" uid="uid://b513mlgyogkei" path="res://sprites/personagens beta/1 Biker/Biker_run.png" id="2_0hol4"]
 [ext_resource type="Texture2D" uid="uid://coj0aaj0td50x" path="res://sprites/personagens beta/1 Biker/Biker_idle.png" id="2_kdubu"]
 [ext_resource type="Texture2D" uid="uid://br7h4ancjsnge" path="res://sprites/personagens beta/1 Biker/Biker_jump.png" id="2_q6r6c"]
@@ -16,11 +15,10 @@
 [ext_resource type="AudioStream" uid="uid://can0u6egu0vca" path="res://sounds/running_player/Footsteps.mp3" id="12_nr8wp"]
 [ext_resource type="Texture2D" uid="uid://fs3hxql0c4o5" path="res://sprites/portal/portals.png" id="15_d2bti"]
 [ext_resource type="AudioStream" uid="uid://befkq4nftl1qm" path="res://sounds/BackgroundMusic/Endless Cyber Runner.mp3" id="15_ta5nu"]
-
-[ext_resource type="PackedScene" path="res://enemy.tscn" id="enemy_scene"]
+[ext_resource type="Script" uid="uid://cfnsrx5ibodt3" path="res://portal.gd" id="16_portal"]
+[ext_resource type="PackedScene" path="res://checkpoint.tscn" id="checkpoint_scene"]
 [ext_resource type="PackedScene" path="res://weapon_pickup.tscn" id="weapon_scene"]
 
-[ext_resource type="PackedScene" path="res://checkpoint.tscn" id="checkpoint_scene"]
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("8_rj586")
 region = Rect2(0, 0, 576, 324)
@@ -606,13 +604,10 @@ volume_db = 4.245
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D" unique_id=1716782509]
 
-[node name="Enemy" parent="." instance=ExtResource("enemy_scene")]
-position = Vector2(900, 130)
-
-[node name="WeaponPickup" parent="." instance=ExtResource("weapon_scene")]
+[node name="WeaponPickup" parent="." unique_id=897978754 instance=ExtResource("weapon_scene")]
 position = Vector2(570, 130)
 
-[node name="Checkpoint" parent="." instance=ExtResource("checkpoint_scene")]
+[node name="Checkpoint" parent="." unique_id=1768448503 instance=ExtResource("checkpoint_scene")]
 position = Vector2(1450, 100)
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=1955862355]
@@ -635,9 +630,9 @@ offset_right = 220.0
 offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
+text = "PRESSIONE \"E\" PARA ENTRAR"
 horizontal_alignment = 1
 vertical_alignment = 1
-text = "PRESSIONE \"E\" PARA ENTRAR"
 
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_body_entered"]

@@ -30,7 +30,11 @@ func _physics_process(delta: float) -> void:
 	var dir := patrol_direction
 	if is_instance_valid(player):
 		dir = signf(player.global_position.x - global_position.x)
-		if absf(player.global_position.x - global_position.x) <= contact_range and damage_timer <= 0:
+		var player_body := player.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		var enemy_body := get_node_or_null("CollisionShape2D") as CollisionShape2D
+		var vertical_gap := (player_body.global_position.y - enemy_body.global_position.y) if player_body and enemy_body else (player.global_position.y - global_position.y)
+		# Só causa dano quando o jogador está ao lado, não quando está saltando por cima.
+		if absf(player.global_position.x - global_position.x) <= contact_range and absf(vertical_gap) <= 24.0 and damage_timer <= 0:
 			if player.has_method("take_damage"):
 				player.take_damage(contact_damage)
 				damage_timer = damage_cooldown

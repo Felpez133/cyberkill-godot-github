@@ -3,6 +3,11 @@ extends CharacterBody2D
 const SPEED := 300.0
 const JUMP_VELOCITY := -400.0
 const PROJECTILE_SCENE := preload("res://projectile.tscn")
+const ARMED_SPRITES := {
+	"armed_idle": ["res://sprites/guns/1 Characters/1 Biker/Idle1.png", 4, 5.0],
+	"armed_run": ["res://sprites/guns/1 Characters/1 Biker/Run1.png", 6, 10.0],
+	"armed_jump": ["res://sprites/guns/1 Characters/1 Biker/Jump1.png", 4, 7.0]
+}
 
 @export var max_health: int = 5
 @export var body_left_offset: float = 16.0
@@ -36,12 +41,28 @@ var original_attack_x: float
 
 func _ready() -> void:
 	health = max_health
+	add_to_group("player")
+	_setup_armed_animations()
 	original_body_x = body_shape.position.x
 	original_attack_x = attack_area.position.x
 	attack_shape.disabled = true
 	update_health_display()
 	if PlayerData.current_checkpoint != Vector2.ZERO and PlayerData.checkpoint_scene == get_tree().current_scene.scene_file_path:
 		global_position = PlayerData.current_checkpoint
+
+func _setup_armed_animations() -> void:
+	sprite.sprite_frames = sprite.sprite_frames.duplicate()
+	for animation_name in ARMED_SPRITES:
+		sprite.sprite_frames.add_animation(animation_name)
+		var texture: Texture2D = load(ARMED_SPRITES[animation_name][0])
+		var frame_count: int = ARMED_SPRITES[animation_name][1]
+		for i in range(frame_count):
+			var atlas := AtlasTexture.new()
+			atlas.atlas = texture
+			atlas.region = Rect2(i * 48, 0, 48, 48)
+			sprite.sprite_frames.add_frame(animation_name, atlas)
+		sprite.sprite_frames.set_animation_speed(animation_name, ARMED_SPRITES[animation_name][2])
+		sprite.sprite_frames.set_animation_loop(animation_name, true)
 
 func _physics_process(delta: float) -> void:
 	if dead:
@@ -65,11 +86,11 @@ func _physics_process(delta: float) -> void:
 			shoot()
 		velocity.x = direction * SPEED
 		if not is_on_floor():
-			play_animation("jump")
+			play_animation("armed_jump")
 		elif direction != 0:
-			play_animation("walking_attack")
+			play_animation("armed_run")
 		else:
-			play_animation("idle")
+			play_animation("armed_idle")
 	else:
 		if Input.is_action_just_pressed("attack") and not is_attacking:
 			is_attacking = true
@@ -113,7 +134,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		attack_shape.set_deferred("disabled", true)
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if is_attacking and body.has_method("take_damage"):
+	if is_attacking and not body.is_in_group("player") and body.has_method("take_damage"):
 		body.take_damage(1)
 
 func take_damage(amount: int) -> void:
@@ -133,7 +154,7 @@ func update_health_display() -> void:
 func shoot() -> void:
 	shot_timer = shot_cooldown
 	var projectile = PROJECTILE_SCENE.instantiate()
-	projectile.global_position = global_position + Vector2(facing * 35.0, -5.0)
+	projectile.global_position = sprite.global_position + Vector2(facing * 18.0, -2.0)
 	projectile.direction = Vector2(facing, 0)
 	get_tree().current_scene.add_child(projectile)
 

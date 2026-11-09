@@ -254,7 +254,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=389633421]
+[node name="Player" type="CharacterBody2D" unique_id=389633421 groups=["player"]]
 script = ExtResource("1_n7ghd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=102352416]
@@ -313,7 +313,7 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
-[node name="Heart5" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1501652440 groups=["player"]]
+[node name="Heart5" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1501652440]
 position = Vector2(315, 59)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
