@@ -2,6 +2,9 @@ extends CharacterBody2D
 
 const SPEED := 300.0
 const JUMP_VELOCITY := -400.0
+const WALL_JUMP_HORIZONTAL_SPEED := 340.0
+const WALL_JUMP_VERTICAL_SPEED := -420.0
+const WALL_SLIDE_SPEED := 110.0
 const PROJECTILE_SCENE := preload("res://projectile.tscn")
 const ARMED_SPRITES := {
 	"armed_idle": ["res://sprites/guns/1 Characters/1 Biker/Idle1.png", 4, 5.0],
@@ -25,6 +28,9 @@ var attack_timer := 0.0
 var dead := false
 var original_body_x: float
 var original_attack_x: float
+# Guarda a direção do último impulso. O próximo wall jump só acontece
+# quando o jogador alcançar a parede oposta ou tocar o chão.
+var last_wall_jump_normal_x := 0.0
 
 @onready var footsteps: AudioStreamPlayer2D = get_node_or_null("Footsteps")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -79,8 +85,25 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction != 0.0:
 		update_facing(direction)
-	if Input.is_action_just_pressed("move_up") and is_on_floor() and not near_portal:
-		velocity.y = JUMP_VELOCITY
+	if is_on_floor():
+		last_wall_jump_normal_x = 0.0
+
+	var touching_wall := is_on_wall() and not is_on_floor()
+	if touching_wall and velocity.y > 0.0:
+		velocity.y = minf(velocity.y, WALL_SLIDE_SPEED)
+
+	if Input.is_action_just_pressed("move_up") and not near_portal:
+		if is_on_floor():
+			velocity.y = JUMP_VELOCITY
+		elif touching_wall:
+			var wall_normal := get_wall_normal()
+			var wall_side := signf(wall_normal.x)
+			var can_alternate_jump := last_wall_jump_normal_x == 0.0 or wall_side != last_wall_jump_normal_x
+			if wall_side != 0.0 and can_alternate_jump:
+				velocity.x = wall_normal.x * WALL_JUMP_HORIZONTAL_SPEED
+				velocity.y = WALL_JUMP_VERTICAL_SPEED
+				last_wall_jump_normal_x = wall_side
+				update_facing(wall_normal.x)
 	if PlayerData.has_weapon:
 		if Input.is_action_just_pressed("attack") and shot_timer <= 0.0:
 			shoot()

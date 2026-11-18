@@ -2,7 +2,7 @@
 extends Control
 
 # Troque pelo caminho da sua cena de gameplay
-@export_file("*.tscn") var game_scene: String = "res://node_2d.tscn"
+@export_file("*.tscn") var game_scene: String = "res://IntroCinematic.tscn"
 
 @onready var play_button: Button = $PlayButton
 @onready var options_button: Button = $OptionsButton
