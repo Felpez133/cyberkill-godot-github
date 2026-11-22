@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ballrwdmfuawx"]
+
+[ext_resource type="Texture2D" uid="uid://dybiflf2ermf0" path="res://sprites/level-1/box-prosseced.png" id="1_g2tbl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(72, 36)
+
+[node name="box" type="Area2D" unique_id=1864723986]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=61004241]
+scale = Vector2(0.1, 0.093)
+texture = ExtResource("1_g2tbl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=485145597]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_bhunq")

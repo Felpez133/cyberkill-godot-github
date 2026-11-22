@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://d1uo15dg4su2k"]
+
+[ext_resource type="PackedScene" uid="uid://dg8bqebkuxbcb" path="res://map.tscn" id="1_56m0x"]
+[ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://b054feeggosfi" path="res://enemy.tscn" id="3_2a8em"]
+[ext_resource type="Texture2D" uid="uid://dvbpwovr7f463" path="res://sprites/fundo beta/city 4/1.png" id="4_56m0x"]
+[ext_resource type="PackedScene" path="res://wall_jump_crate.tscn" id="5_wall_jump_crate"]
+
+[node name="Level01Entrance" type="Node2D" unique_id=798484912]
+
+[node name="map" parent="." unique_id=1450266795 instance=ExtResource("1_56m0x")]
+
+[node name="Player" parent="." unique_id=2007473112 instance=ExtResource("2_player")]
+position = Vector2(-2928, 3876)
+
+[node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("3_2a8em")]
+position = Vector2(445, 605)
+
+[node name="WallJumpCrate" parent="." instance=ExtResource("5_wall_jump_crate")]
+position = Vector2(-2760, 4020)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=394979115]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground" unique_id=1008246727]
+position = Vector2(427.99997, 153)
+scale = Vector2(2.5920143, 2.470679)
+texture = ExtResource("4_56m0x")

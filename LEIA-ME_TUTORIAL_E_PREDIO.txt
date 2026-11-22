@@ -1,0 +1,19 @@
+CYBERKILL — TUTORIAL E HUB INTERNO
+
+Alterações desta versão:
+- Menu principal ganhou o botão TUTORIAL.
+- INICIAR mantém o fluxo da campanha já existente.
+- Tutorial opcional em Tutorial.tscn, com diálogos de controles e objetivos progressivos.
+- No tutorial, o jogador começa sem arma e sem Wall Jump.
+- A caixa de Wall Jump deve ser aberta com E; o pendrive precisa ser coletado.
+- A arma aparece depois, e o ataque é explicado somente após a coleta.
+- Ao concluir o tutorial, o jogador pode ir para a cidade.
+- Na cidade (node_2d.tscn), os portais antigos da rua são escondidos.
+- Uma porta de prédio é colocada na posição do antigo acesso central; use E para entrar.
+- BuildingInterior.tscn cria um interior cyberpunk com três portais visíveis. O portal da Fase 1 está ativo; os outros dois aparecem bloqueados como espaços para fases futuras.
+- Há uma porta de saída no interior para voltar à cidade.
+
+Observações:
+- A posição da porta da cidade usa a posição do antigo portal central (coordenadas locais aproximadas 833,105), para aproveitar a fachada existente.
+- O interior é uma sala nova construída por código com formas, cores e colisões simples; não foi fornecida uma arte específica de interior.
+- Não foi possível executar o projeto no Godot neste ambiente. Abra o projeto no Godot 4.7 e teste as transições, as áreas de interação e as colisões. Ajustes visuais/posicionais podem ser necessários.

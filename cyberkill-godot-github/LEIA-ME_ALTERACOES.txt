@@ -1,0 +1,30 @@
+CYBERKILL — ALTERAÇÕES DESTA VERSÃO
+
+1) INTRODUÇÃO CINEMATOGRÁFICA
+- Ao clicar em Iniciar no menu principal, o jogo abre IntroCinematic.tscn.
+- A câmera percorre a cidade usando as mesmas imagens e escalas utilizadas em node_2d.tscn.
+- Os botões PULAR e CONTINUAR levam para WorldSelect.tscn.
+- O texto é editável no Inspector do nó raiz IntroCinematic:
+  - chapter_title
+  - lore_text
+  - camera_pan_duration
+  - camera_end_x
+- Para adicionar música, selecione o nó Music dentro de IntroCinematic.tscn e atribua seu arquivo de áudio à propriedade Stream.
+- A música começa automaticamente se houver um Stream atribuído.
+
+2) WALL JUMP ALTERNADO
+- Implementado em personagem.gd, compartilhado pelo personagem das cenas.
+- O primeiro wall jump pode ser feito em qualquer parede.
+- O próximo exige contato com a parede oposta.
+- Ao tocar o chão, a sequência é reiniciada.
+- A velocidade de deslizamento e a força do impulso ficam como constantes no início do script.
+
+3) COLISÃO DO TILEMAP
+- Level01Entrance.tscn já tinha uma camada física no TileSet, mas os tiles do atlas não tinham polígonos de colisão.
+- Foram adicionados polígonos retangulares às células do atlas e collision_enabled foi explicitado no TileMapLayer.
+- O objetivo é que o terreno volte a bloquear o jogador e o inimigo.
+
+IMPORTANTE
+- Esta versão foi editada estaticamente. O ambiente de trabalho não tem o editor/executável Godot disponível, então não foi possível executar o jogo nem validar colisões/física em runtime.
+- Abra o projeto no Godot 4.7, rode primeiro a cena Level01Entrance.tscn para testar o chão e depois rode o projeto pelo menu.
+- Se o piso ficar sólido em lugares indevidos, envie uma captura da cena TileMapLayer e ajustaremos a forma por tipo de tile.

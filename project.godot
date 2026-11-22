@@ -22,7 +22,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerData="*res://player_data.gd"
-Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
@@ -42,10 +41,6 @@ variables={}
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
 [input]
 

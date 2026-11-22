@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://wall_jump_crate.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://sprites/level-1/box-prosseced.png" id="2_box"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate"]
+size = Vector2(62, 48)
+
+[node name="WallJumpCrate" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("2_box")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_crate")
+
+[node name="Prompt" type="Label" parent="."]
+offset_left = -55.0
+offset_top = -58.0
+offset_right = 55.0
+offset_bottom = -34.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 16
+text = "E - ABRIR"
+horizontal_alignment = 1

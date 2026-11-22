@@ -4,12 +4,18 @@ extends Node2D
 @export_multiline var lore_text: String = "[ESCREVA AQUI O TEXTO DA HISTÓRIA]\n\nEste espaço está reservado para a lore. Você poderá editar este texto pelo Inspector."
 @export var camera_pan_duration: float = 12.0
 @export var camera_end_x: float = 1320.0
-@export_file("*.tscn") var next_scene: String = "res://WorldSelect.tscn"
+@export_file("*.tscn") var next_scene: String = "res://Tutorial.tscn"
 
 @onready var camera: Camera2D = $Camera2D
 @onready var music: AudioStreamPlayer = $Music
 
 var transition_started := false
+@export var background_scroll_speed: float = 22.0
+@onready var city_backgrounds: Array[Sprite2D] = [
+	$CityBackgroundLeft,
+	$CityBackgroundMiddle,
+	$CityBackgroundRight
+]
 
 func _ready() -> void:
 	_build_overlay()
@@ -17,8 +23,24 @@ func _ready() -> void:
 		music.play()
 
 	camera.position = Vector2(314.0, 565.0)
-	var pan := create_tween()
-	pan.tween_property(camera, "position:x", camera_end_x, camera_pan_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# O cenário desliza continuamente; cada painel reaparece depois do último.
+	# Assim o prólogo não termina com uma faixa vazia no horizonte.
+
+func _process(delta: float) -> void:
+	if transition_started:
+		return
+	var widths: Array[float] = []
+	for background in city_backgrounds:
+		widths.append(background.texture.get_width() * absf(background.scale.x))
+	for i in range(city_backgrounds.size()):
+		var background := city_backgrounds[i]
+		background.position.x -= background_scroll_speed * delta
+		var half_width: float = widths[i] * 0.5
+		if background.position.x + half_width < camera.position.x - 640.0:
+			var rightmost := city_backgrounds[0].position.x
+			for other in city_backgrounds:
+				rightmost = maxf(rightmost, other.position.x)
+			background.position.x = rightmost + half_width + widths[i] * 0.5
 
 func _build_overlay() -> void:
 	var layer := CanvasLayer.new()

@@ -1,0 +1,13 @@
+CYBERKILL v0.6 - pacote revisado
+Abra esta pasta pelo Godot usando project.godot. A cena principal continua sendo Menu.tscn.
+Após a importação, pressione F5. Start abre a seleção de mundos; Mundo 1 abre node_2d.tscn.
+
+Controles: A/D mover, W pular, clique esquerdo socar/disparar, E coletar arma/entrar no portal, Esc pausar.
+A arma é mantida ao trocar cenas durante a sessão e reiniciada ao iniciar novo jogo.
+Os mundos 2-5 estão bloqueados como solicitado.
+
+Áudio: coloque seus arquivos nas subpastas de assets/audio/ conforme o README dessa pasta.
+Checkpoint: há um checkpoint inicial na fase. Para novos pontos, instancie checkpoint.tscn no local desejado.
+Inimigo: duplique enemy.tscn para criar mais inimigos e ajuste os exports no Inspector.
+
+Importante: o Godot não estava instalado no ambiente de edição, então não foi possível fazer um teste de execução F5 nesta sessão. Os caminhos externos de cenas foram verificados estaticamente, mas teste em runtime continua necessário. Não substitua sua pasta original até confirmar a abertura no seu Godot.

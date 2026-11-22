@@ -1,0 +1,22 @@
+CYBERKILL v0.7 - ALTERACOES
+
+WALL JUMP DESBLOQUEAVEL
+- Na fase 1 (Level01Entrance.tscn), foi adicionada uma caixa perto do inicio.
+- Aproxime-se e pressione E (acao "interact" ja existente no projeto).
+- A caixa some e toca a animacao e o audio de explosao existentes.
+- Quando a explosao termina, o pendrive aparece no mesmo local.
+- Encoste no pendrive para desbloquear Wall Jump.
+- O desbloqueio fica salvo em PlayerData durante a execucao da campanha e continua depois de trocar/recarregar a fase.
+- PlayerData.new_game() limpa o desbloqueio para uma campanha nova.
+- Wall Jump fica bloqueado ate coletar o pendrive; depois pode ser usado repetidamente com intervalo de 0,25 s.
+
+COLISOES DA FASE 1
+- A colisao foi adicionada ao TileSet compartilhado em map.tscn.
+- Foram configurados poligonos retangulares nas 900 celulas de atlas existentes.
+- A camada de TileMap que contem o mapa esta com collision_enabled = true.
+- O tamanho de celula foi definido como 16x16, correspondente ao atlas de 480x480 com 30x30 celulas.
+
+OBSERVACOES
+- A caixa foi posicionada perto do ponto inicial em Level01Entrance.tscn; ajuste o transform do no WallJumpCrate no editor se quiser outro local.
+- As colisoes usam retangulos completos por tile. Se houver tiles puramente decorativos, talvez seja necessario remover a colisao desses tiles individualmente no TileSet.
+- O projeto foi alterado por edicao estatica dos arquivos. Este ambiente nao tem o executavel Godot, entao abra no Godot 4.7 e teste a fase, a animacao, a coleta e as colisoes. Se algum tile decorativo ficar bloqueando o jogador, envie um print para refinarmos os poligonos.

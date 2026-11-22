@@ -16,8 +16,9 @@
 [ext_resource type="Texture2D" uid="uid://fs3hxql0c4o5" path="res://sprites/portal/portals.png" id="15_d2bti"]
 [ext_resource type="AudioStream" uid="uid://befkq4nftl1qm" path="res://sounds/BackgroundMusic/Endless Cyber Runner.mp3" id="15_ta5nu"]
 [ext_resource type="Script" uid="uid://cfnsrx5ibodt3" path="res://portal.gd" id="16_portal"]
+[ext_resource type="Script" uid="uid://8lt3mtrqxw06" path="res://world_map.gd" id="17_world_map"]
 [ext_resource type="PackedScene" path="res://checkpoint.tscn" id="checkpoint_scene"]
-[ext_resource type="PackedScene" path="res://weapon_pickup.tscn" id="weapon_scene"]
+[ext_resource type="PackedScene" uid="uid://dkxphnms0ff4m" path="res://weapon_pickup.tscn" id="weapon_scene"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("8_rj586")
@@ -438,6 +439,7 @@ animations = [{
 
 [node name="WorldMap" type="Node2D" unique_id=1246239979]
 position = Vector2(314, 562)
+script = ExtResource("17_world_map")
 
 [node name="Sky" type="AnimatedSprite2D" parent="." unique_id=1454194373]
 position = Vector2(333.5, -339)
@@ -484,14 +486,14 @@ texture = ExtResource("3_q6r6c")
 
 [node name="floor" type="StaticBody2D" parent="." unique_id=1525324326]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="floor" unique_id=1648211674]
-position = Vector2(511.5, 164.625)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Sprite2D" type="Sprite2D" parent="floor" unique_id=1311769450]
 position = Vector2(328.00003, 165.00002)
 scale = Vector2(4.645834, 0.1419753)
 texture = ExtResource("8_rj586")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor" unique_id=1648211674]
+position = Vector2(511.5, 164.625)
+shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Level1Entrance" type="Area2D" parent="." unique_id=469857505]
 script = ExtResource("16_portal")
@@ -612,7 +614,7 @@ position = Vector2(1450, 100)
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=1955862355]
 stream = ExtResource("15_ta5nu")
-volume_db = -19.102
+volume_db = -3.535
 autoplay = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1850188914]

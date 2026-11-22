@@ -261,10 +261,10 @@ script = ExtResource("1_n7ghd")
 position = Vector2(-9, 114)
 scale = Vector2(1.2083334, 1.1666666)
 sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"walking_attack"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=593194639]
-position = Vector2(-21.25, 125)
+position = Vector2(-9, 112)
 shape = SubResource("RectangleShape2D_sn0t7")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1018815753]
@@ -272,13 +272,14 @@ position = Vector2(-1, 103)
 offset = Vector2(0, -100)
 zoom = Vector2(1.75, 1.75)
 position_smoothing_enabled = true
+position_smoothing_speed = 20.0
 script = ExtResource("7_u1c27")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=450811]
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=131950539]
-position = Vector2(-2, 120)
+position = Vector2(7, 111)
 shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2124339909]

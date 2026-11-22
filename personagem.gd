@@ -5,6 +5,7 @@ const JUMP_VELOCITY := -400.0
 const WALL_JUMP_HORIZONTAL_SPEED := 340.0
 const WALL_JUMP_VERTICAL_SPEED := -420.0
 const WALL_SLIDE_SPEED := 110.0
+const WALL_JUMP_COOLDOWN := 0.25
 const PROJECTILE_SCENE := preload("res://projectile.tscn")
 const ARMED_SPRITES := {
 	"armed_idle": ["res://sprites/guns/1 Characters/1 Biker/Idle1.png", 4, 5.0],
@@ -13,7 +14,6 @@ const ARMED_SPRITES := {
 }
 
 @export var max_health: int = 5
-@export var body_left_offset: float = 16.0
 @export var attack_left_offset: float = 500.0
 @export var projectile_speed: float = 520.0
 @export var shot_cooldown: float = 0.35
@@ -26,11 +26,11 @@ var facing := 1.0
 var shot_timer := 0.0
 var attack_timer := 0.0
 var dead := false
-var original_body_x: float
 var original_attack_x: float
-# Guarda a direção do último impulso. O próximo wall jump só acontece
-# quando o jogador alcançar a parede oposta ou tocar o chão.
-var last_wall_jump_normal_x := 0.0
+# Intervalo entre impulsos de Wall Jump após desbloquear a habilidade.
+var wall_jump_timer := 0.0
+var wall_jump_push_timer := 0.0
+var wall_jump_push_direction := 0.0
 
 @onready var footsteps: AudioStreamPlayer2D = get_node_or_null("Footsteps")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -49,9 +49,9 @@ func _ready() -> void:
 	health = max_health
 	add_to_group("player")
 	_setup_armed_animations()
-	original_body_x = body_shape.position.x
 	original_attack_x = attack_area.position.x
 	attack_shape.disabled = true
+	attack_area.monitoring = false
 	update_health_display()
 	if PlayerData.current_checkpoint != Vector2.ZERO and PlayerData.checkpoint_scene == get_tree().current_scene.scene_file_path:
 		global_position = PlayerData.current_checkpoint
@@ -82,32 +82,40 @@ func _physics_process(delta: float) -> void:
 		sprite.visible = true
 	if shot_timer > 0.0:
 		shot_timer -= delta
+	if wall_jump_timer > 0.0:
+		wall_jump_timer = maxf(0.0, wall_jump_timer - delta)
+	if wall_jump_push_timer > 0.0:
+		wall_jump_push_timer = maxf(0.0, wall_jump_push_timer - delta)
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction != 0.0:
 		update_facing(direction)
-	if is_on_floor():
-		last_wall_jump_normal_x = 0.0
 
 	var touching_wall := is_on_wall() and not is_on_floor()
 	if touching_wall and velocity.y > 0.0:
 		velocity.y = minf(velocity.y, WALL_SLIDE_SPEED)
 
+	var did_wall_jump := false
 	if Input.is_action_just_pressed("move_up") and not near_portal:
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
-		elif touching_wall:
+		elif touching_wall and PlayerData.has_wall_jump and wall_jump_timer <= 0.0:
 			var wall_normal := get_wall_normal()
-			var wall_side := signf(wall_normal.x)
-			var can_alternate_jump := last_wall_jump_normal_x == 0.0 or wall_side != last_wall_jump_normal_x
-			if wall_side != 0.0 and can_alternate_jump:
+			if wall_normal.x != 0.0:
 				velocity.x = wall_normal.x * WALL_JUMP_HORIZONTAL_SPEED
 				velocity.y = WALL_JUMP_VERTICAL_SPEED
-				last_wall_jump_normal_x = wall_side
+				wall_jump_timer = WALL_JUMP_COOLDOWN
+				wall_jump_push_timer = 0.18
+				wall_jump_push_direction = wall_normal.x
+				did_wall_jump = true
 				update_facing(wall_normal.x)
 	if PlayerData.has_weapon:
 		if Input.is_action_just_pressed("attack") and shot_timer <= 0.0:
 			shoot()
-		velocity.x = direction * SPEED
+		if not did_wall_jump:
+			if wall_jump_push_timer > 0.0 and direction == 0.0:
+				velocity.x = wall_jump_push_direction * WALL_JUMP_HORIZONTAL_SPEED
+			else:
+				velocity.x = direction * SPEED
 		if not is_on_floor():
 			play_animation("armed_jump")
 		elif direction != 0:
@@ -115,17 +123,14 @@ func _physics_process(delta: float) -> void:
 		else:
 			play_animation("armed_idle")
 	else:
-		if Input.is_action_just_pressed("attack") and not is_attacking:
-			is_attacking = true
-			sprite.play("attack")
-			attack_shape.set_deferred("disabled", false)
-		velocity.x = direction * SPEED
-		if is_attacking:
-			if direction != 0 and sprite.sprite_frames.has_animation("walking_attack"):
-				play_animation("walking_attack")
-			elif sprite.animation != "attack":
-				sprite.play("attack")
-		elif not is_on_floor():
+		# Sem arma: o jogador não possui ataque corpo a corpo.
+		# O botão de ataque só funciona depois de coletar uma arma.
+		if not did_wall_jump:
+			if wall_jump_push_timer > 0.0 and direction == 0.0:
+				velocity.x = wall_jump_push_direction * WALL_JUMP_HORIZONTAL_SPEED
+			else:
+				velocity.x = direction * SPEED
+		if not is_on_floor():
 			play_animation("jump")
 		elif direction != 0:
 			play_animation("run")
@@ -141,8 +146,11 @@ func _physics_process(delta: float) -> void:
 func update_facing(direction: float) -> void:
 	facing = sign(direction)
 	sprite.flip_h = facing < 0
-	body_shape.position.x = -original_body_x - body_left_offset if facing < 0 else original_body_x
 	attack_area.position.x = -original_attack_x if facing < 0 else original_attack_x
+
+func unlock_wall_jump() -> void:
+	PlayerData.has_wall_jump = true
+	print("HABILIDADE DESBLOQUEADA: WALL JUMP")
 
 func set_near_portal(value: bool) -> void:
 	near_portal = value

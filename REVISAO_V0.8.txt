@@ -1,0 +1,42 @@
+CYBERKILL V0.8 — REVISÃO E AJUSTES
+==================================
+
+Fluxo principal conferido:
+Menu.tscn -> IntroCinematic.tscn -> Tutorial.tscn -> node_2d.tscn (cidade/HUB).
+
+O botão JOGAR do menu ativo já iniciava o prólogo e o prólogo já apontava
+para Tutorial.tscn. O tutorial conclui em node_2d.tscn. Também alinhei os
+menus alternativos (MainMenu.tscn / play_button_2.gd) para reiniciarem os
+dados da campanha antes de iniciar o fluxo do prólogo.
+
+TileMap da Fase 1:
+- Level01Entrance.tscn instancia map.tscn.
+- map.tscn tem um TileSet de 16x16.
+- O TileSet declara physics_layer_0/collision_layer = 1.
+- O TileMapLayer que contém os dados do mapa tem collision_enabled = true.
+- O atlas possui 900 definições de tile com polígonos retangulares 16x16.
+
+IMPORTANTE SOBRE A COLISÃO:
+A estrutura de colisão está presente e ativa no arquivo. Entretanto, o atlas
+usa polígonos quadrados completos em todas as 900 definições. Isso significa
+que tiles decorativos ou tiles que deveriam ser atravessáveis também podem
+bloquear o jogador. A correção perfeita exige identificar visualmente quais
+tiles do atlas representam chão, parede e plataforma, e quais são decoração.
+Não removi polígonos às cegas para não deixar partes sólidas sem colisão.
+Teste a fase no Godot e ajuste os tiles decorativos no editor de TileSet.
+
+Hitbox:
+- personagem.gd não reposiciona mais a CollisionShape2D principal ao virar.
+- O sprite continua usando flip_h.
+- A área de ataque continua mudando de lado para acompanhar a direção.
+
+Prólogo:
+- intro_cinematic.gd já move e reposiciona os três sprites de fundo em ciclo.
+- A velocidade pode ser ajustada em background_scroll_speed no Inspector.
+
+Não implementei o menu de configurações de áudio nesta revisão, pois ficou
+combinado deixar essa parte para depois.
+
+Validação:
+Foi feita inspeção estática dos arquivos. Não havia executável Godot disponível
+neste ambiente para abrir e executar o projeto; teste o ZIP no Godot 4.7.

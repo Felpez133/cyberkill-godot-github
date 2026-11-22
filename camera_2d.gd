@@ -1,13 +1,38 @@
+
 extends Camera2D
 
+@export var tempo_para_ativar: float = 4.0
+@export var altura_extra: float = 250.0
+@export var velocidade_normal: float = 5.0
+@export var velocidade_queda: float = 8.0
 
-# Called when the node enters the scene tree for the first time.
+var tempo_caindo: float = 0.0
+var offset_original: Vector2
+
+
 func _ready() -> void:
-	pass # Replace with function body.
+	offset_original = offset
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
-	
-	
+	var personagem = get_parent()
+
+	if not personagem is CharacterBody2D:
+		return
+
+	if personagem.velocity.y > 0:
+		tempo_caindo += delta
+	else:
+		tempo_caindo = 0.0
+
+	var alvo = offset_original
+	var velocidade = velocidade_normal
+
+	if tempo_caindo >= tempo_para_ativar:
+		alvo.y += altura_extra
+		velocidade = velocidade_queda
+
+	offset = offset.lerp(
+		alvo,
+		clamp(velocidade * delta, 0.0, 1.0)
+	)

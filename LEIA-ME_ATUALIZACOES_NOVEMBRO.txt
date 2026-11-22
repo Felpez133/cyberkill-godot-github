@@ -1,0 +1,27 @@
+CYBERKILL v0.7 — alterações desta entrega
+
+1) Progressão obrigatória:
+   Menu > Iniciar > Prólogo > Tutorial > Cidade (HUB).
+   O botão "Rever Tutorial" continua disponível no menu para praticar novamente.
+   A campanha é reiniciada ao clicar em Iniciar.
+
+2) Prólogo:
+   O fundo da cidade agora se desloca continuamente e os três painéis de fundo
+   são reposicionados para repetir o cenário horizontalmente.
+   A velocidade pode ser ajustada em background_scroll_speed no Inspector
+   do nó IntroCinematic.
+
+3) Hitbox:
+   Removida a mudança horizontal de posição da CollisionShape2D principal
+   quando o personagem vira. O sprite continua virando normalmente e a
+   AttackArea continua acompanhando a direção para o disparo/ataque.
+
+Observações:
+- Mantive os TileMapLayers e os recursos de arte que vieram no ZIP enviado.
+- O interior continua usando a composição existente em BuildingInterior.tscn
+  e building_interior.gd.
+- Não alterei o enquadramento/posição vertical do Biker porque o arquivo atual
+  usa offsets intencionais para alinhar sprite, colisão e câmera; mexer nisso
+  sem uma captura do jogo poderia deslocar o personagem incorretamente.
+- Não foi possível executar o Godot neste ambiente. Abra o projeto no Godot 4
+  e teste a sequência Menu > Prólogo > Tutorial > Cidade.

@@ -33,34 +33,39 @@ horizontal_alignment = 1
 
 [node name="Worlds" type="HBoxContainer" parent="." unique_id=1511386412]
 layout_mode = 0
-offset_left = 110.0
+offset_left = 35.0
 offset_top = 260.0
-offset_right = 1170.0
+offset_right = 1245.0
 offset_bottom = 370.0
 alignment = 1
 
+[node name="TutorialButton" type="Button" parent="Worlds"]
+custom_minimum_size = Vector2(160, 90)
+layout_mode = 2
+text = "TUTORIAL"
+
 [node name="World1" type="Button" parent="Worlds" unique_id=2097476546]
-custom_minimum_size = Vector2(190, 90)
+custom_minimum_size = Vector2(160, 90)
 layout_mode = 2
 text = "MUNDO 1"
 
 [node name="World2" type="Button" parent="Worlds" unique_id=1295878229]
-custom_minimum_size = Vector2(190, 90)
+custom_minimum_size = Vector2(160, 90)
 layout_mode = 2
 text = "MUNDO 2"
 
 [node name="World3" type="Button" parent="Worlds" unique_id=1204280029]
-custom_minimum_size = Vector2(190, 90)
+custom_minimum_size = Vector2(160, 90)
 layout_mode = 2
 text = "MUNDO 3"
 
 [node name="World4" type="Button" parent="Worlds" unique_id=554730327]
-custom_minimum_size = Vector2(190, 90)
+custom_minimum_size = Vector2(160, 90)
 layout_mode = 2
 text = "MUNDO 4"
 
 [node name="World5" type="Button" parent="Worlds" unique_id=401071614]
-custom_minimum_size = Vector2(190, 90)
+custom_minimum_size = Vector2(160, 90)
 layout_mode = 2
 text = "MUNDO 5"
 
