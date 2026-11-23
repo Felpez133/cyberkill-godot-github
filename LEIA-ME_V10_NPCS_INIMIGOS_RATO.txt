@@ -1,0 +1,159 @@
+CYBERKILL v10 — ORGANIZAÇÃO, COLISÕES, NPCs, RATO E INIMIGOS
+==============================================================
+
+*** IMPORTANTE: NADA DISTO FOI EXECUTADO NO GODOT. ***
+Não havia o executável da Godot neste ambiente. Foram feitas verificações ESTÁTICAS
+(caminhos, ids de recursos, árvore de nós, TileSets e uma simulação geométrica das
+posições/colisões). Abra o projeto no Godot 4.7 e teste. Na primeira abertura a Godot
+vai gerar os arquivos .uid das cenas/scripts novos (é normal).
+
+--------------------------------------------------------------
+1) CENAS CRIADAS
+--------------------------------------------------------------
+Enemies/enemy_cyborg.tscn      inimigo humanoide (sprites inimigos/cyborg)
+Enemies/enemy_tank.tscn        inimigo-tanque lento (sprites inimigos/te1)
+NPCs/npc_guitarrista.tscn      NPC (sprites npcs/5)
+NPCs/npc_garota.tscn           NPC (sprites npcs/9)
+NPCs/npc_rapaz.tscn            NPC (sprites npcs/11)
+Rat/rat.tscn                   rato de ambiente (sprites inimigos/rat/giant_rat_*)
+Tutorial/tutorial_trigger.tscn gatilho de diálogo do tutorial (Area2D)
+Interior/interior_portal.tscn  portal de fase do interior
+Interior/interior_exit_door.tscn porta de saída do interior
+
+CENAS ALTERADAS: Tutorial.tscn, BuildingInterior.tscn, Level01Entrance.tscn.
+
+--------------------------------------------------------------
+2) SCRIPTS CRIADOS / MODIFICADOS
+--------------------------------------------------------------
+CRIADOS
+Enemies/enemy_base.gd          base de TODOS os inimigos (lógica do BB9 + recuo)
+NPCs/npc.gd                    toca "idle" em loop; opção face_left
+Rat/rat.gd                     movimento em um sentido, detecção de borda, fade e remoção
+Tutorial/tutorial_trigger.gd   guarda a etapa ("stage") do diálogo
+Interior/interior_door.gd      lógica de portal/porta (área, prompt, estado ativo)
+
+MODIFICADOS
+enemy.gd                       agora só "extends Enemies/enemy_base.gd" (BB9 intacto)
+tutorial.gd                    removida toda a construção do cenário por código
+building_interior.gd           removida toda a construção do cenário por código
+
+NÃO MODIFICADOS (de propósito): personagem.gd, world_map.gd (a porta da cidade ainda é
+criada por código lá — a cidade não estava no pedido), map.tscn, node_2d.tscn, menus.
+
+--------------------------------------------------------------
+3) O QUE FOI ALTERADO
+--------------------------------------------------------------
+TUTORIAL (Tutorial.tscn + tutorial.gd)
+ - Removido do código: fundo, chão, StaticBody2D do chão, paredes do Wall Jump,
+   título, spawn do jogador, caixa, arma e criação dos gatilhos.
+ - Agora são nós: Fundo (Polygon2D), TileMapLayer (sala pintada), Titulo (Label),
+   WallJumpCrate, WeaponPickup, Triggers/* (5 gatilhos) e Player.
+ - As 2 paredes do Wall Jump agora são PILARES PINTADOS no TileMapLayer (colunas 9-10
+   e 19-20, 10 tiles de altura) usando os tiles do atlas (16..17, 0..5).
+ - O diálogo (UI), as mensagens e o fluxo (ir para node_2d.tscn) continuam no script.
+ - Havia DOIS jogadores (um na cena e outro criado pelo script em outra sala). Agora há
+   só o da cena, em (-754,-150). Os demais objetos foram transportados da sala de código
+   para a sala pintada com o mesmo espaçamento relativo (x_novo = x_antigo - 864).
+
+INTERIOR (BuildingInterior.tscn + building_interior.gd)
+ - Removido do código: painéis/chão/paredes, StaticBody2D, título, jogador, portais,
+   porta de saída. Mantidos: tecla E + fade/transição (agora lendo as portas da cena).
+ - Agora são nós: Fundo, TileMapLayer, Titulo, Portais/Portal_Fase1..3, PortaSaida,
+   NPCs/*, Rato e Player.
+ - O jogador/portais estavam posicionados para uma sala de código diferente do TileMap
+   (diferença de ~70 px na altura do chão). Reposicionados para o chão real (y = 688).
+
+FASE 1 (Level01Entrance.tscn): adicionados EnemyCyborg e EnemyTank ao lado do BB9.
+
+>>> CORREÇÃO FEITA NO CAMINHO: o portal "FASE 1" do interior apontava para
+    res://Level01Entrace.tscn (com erro de digitação). Essa cena é só o prefab de portal
+    e quebra se for carregada sozinha. Agora aponta para res://Level01Entrance.tscn
+    (a fase de verdade). Se não for isso que você queria, troque "Target Scene" no
+    Inspector de Portais/Portal_Fase1.
+
+--------------------------------------------------------------
+4) COMO FUNCIONA CADA NPC
+--------------------------------------------------------------
+Cada NPC é um Node2D com um AnimatedSprite2D (animação "idle" em loop, autoplay) e o
+script npc.gd (só liga o loop e a opção "Face Left"). Sem corpo, sem colisão, sem ataque,
+sem movimento. A origem do NPC fica nos PÉS: basta colocar o nó na altura do chão.
+Sprites: guitarrista (npcs/5), garota (npcs/9), rapaz (npcs/11), quadros de 48x48.
+
+--------------------------------------------------------------
+5) COMO FUNCIONA O RATO
+--------------------------------------------------------------
+CharacterBody2D (collision_layer 0: não bloqueia nem fere o jogador; mask 1: pisa no cenário).
+Anda sempre no sentido de "Direction" (Direita/Esquerda). Dois RayCast2D detectam a borda:
+ - WallRay  (horizontal, à frente): acerta parede/limite sólido -> borda;
+ - FloorRay (para baixo, à frente): NÃO acerta chão -> fim do piso -> borda.
+Ao detectar a borda ele para, faz fade (0,35 s) e some com queue_free(). Segurança extra:
+se ficar sem avançar por 1,5 s (preso), também some. Não usa coordenadas fixas.
+Animação: "walk" (giant_rat_walk_0/1); o sprite espelha conforme o sentido.
+
+--------------------------------------------------------------
+6) COMO FUNCIONA O RECUO DOS INIMIGOS (todos, incluindo o BB9)
+--------------------------------------------------------------
+Está em Enemies/enemy_base.gd. Ao ENCOSTAR no jogador (colisão física OU a regra de
+proximidade do BB9: |dx| <= Contact Range e mesma altura):
+ 1. direção do recuo = lado OPOSTO ao jogador (jogador à direita -> recua para a esquerda);
+ 2. anda para trás por "Recoil Duration" s a "Recoil Distance" px (velocidade = dist/tempo),
+    continuando virado para o jogador;
+ 3. cancela se houver parede atrás ou se não houver chão atrás (não cai de plataformas);
+ 4. ao terminar, espera "Recoil Cooldown" s antes de poder recuar de novo (sem loop infinito).
+Qualquer cena nova que use enemy_base.gd ganha o recuo automaticamente.
+DANO: o dano de contato do sistema original (1 de dano, 1 s de intervalo) foi MANTIDO.
+Para um inimigo que não machuca, ponha "Contact Damage" = 0.
+
+--------------------------------------------------------------
+7) COLISÕES DOS TILEMAPS
+--------------------------------------------------------------
+Tutorial.tscn: o TileSet ganhou physics_layer_0 (collision_layer = 1) e polígonos
+quadrados 16x16 nos tiles SÓLIDOS (100% opacos, linhas 0..9 do atlas Tileset.png: 154 tiles).
+SEM colisão: a grama (tiles 8..15,1), os tiles parciais (cantos/triângulos) e as linhas
+10..17 do atlas (parecem textura de fundo, não são usados no mapa).
+BuildingInterior.tscn: physics_layer_0 + polígono nos 24 tiles das 6 fontes (todos são
+blocos metálicos opacos: chão, paredes e massa). A fonte IndustrialTile_04 não tinha tiles
+definidos; defini seus 4 tiles (já com colisão) para você poder pintar com ela.
+TileMapLayer com collision_enabled = true (padrão). Layers/masks: tiles = layer 1;
+Player e inimigos usam layer/mask 1 (padrão), então enxergam o cenário.
+Sem "colisão gigante": a colisão vem só das células pintadas. Sem duplicadas: removi as
+colisões feitas por código.
+map.tscn (fase 1): analisado e NÃO alterado — os 878 tiles usados são todos opacos
+(terreno sólido) e já tinham colisão. Há 32 células que apontam para coordenadas fora do
+atlas (x 30..32); a Godot não desenha nem colide com elas (resíduo inofensivo).
+
+--------------------------------------------------------------
+8) COMO ADICIONAR NPCs, INIMIGOS E RATOS PELO EDITOR
+--------------------------------------------------------------
+ - Arraste o .tscn do FileSystem para dentro da cena aberta (ou Ctrl+Shift+A "Instanciar
+   cena filha"). Posicione com a ferramenta Mover (W). A origem de todos fica nos PÉS.
+ - Duplicar: Ctrl+D no nó. Referências não quebram (são instâncias).
+ - Inimigo: coloque no chão; ajuste velocidade/vida/recuo no Inspector.
+ - Rato: escolha "Direction"; ele some sozinho na borda.
+ - Gatilho do tutorial: instancie Tutorial/tutorial_trigger.tscn dentro de "Triggers" e
+   escolha "Stage".
+ - Portal: instancie Interior/interior_portal.tscn dentro de "Portais"; defina Title,
+   Target Scene e Active.
+
+--------------------------------------------------------------
+9) TROCAR SPRITES, ANIMAÇÕES E PROPRIEDADES NO INSPECTOR
+--------------------------------------------------------------
+ - Sprite/animações: clique com o botão direito na instância > "Filhos editáveis", selecione
+   o AnimatedSprite2D, no Inspector abra "Sprite Frames" e edite as animações "idle"/"walk"
+   (adicione quadros, troque FPS). Para uma nova arte, crie uma cena herdada ou duplique a
+   cena e troque as texturas dos quadros (cada quadro é um AtlasTexture 48x48).
+ - Inimigos (grupos do Inspector): Movimento (Speed, Patrol Distance, Detection Radius,
+   Sprite Faces Right), Vida e dano (Max Health, Contact Damage, Contact Range, Damage
+   Cooldown), Recuo (Recoil Enabled, Distance, Duration, Cooldown, Avoid Ledges).
+ - Rato: Direction, Speed, Wall Check Distance, Floor Check Offset/Depth, Fade Time,
+   Stuck Timeout. NPC: Face Left.
+ - Se um sprite olhar para o lado errado ao andar, alterne "Sprite Faces Right".
+
+--------------------------------------------------------------
+10) PONTOS PARA VOCÊ CONFERIR NO EDITOR / EM EXECUÇÃO
+--------------------------------------------------------------
+ - Se o Cyborg/Tank/BB9 andam de costas ao encostar e param antes de cair;
+ - se o rato some na parede e na ponta do chão;
+ - se o jogador anda/pula nas salas do Tutorial e do Interior sem atravessar tiles;
+ - posições dos objetos do tutorial (transportadas da sala antiga) — ajuste no editor;
+ - o sprite do Cyborg tem arte levemente deslocada do centro (a colisão é centrada).

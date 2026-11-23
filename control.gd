@@ -6,7 +6,8 @@ func _ready() -> void:
 	$BotaoSair.pressed.connect(_on_sair_pressed)
 
 func _on_iniciar_pressed() -> void:
-	get_tree().change_scene_to_file("res://WorldSelect.tscn")
+	PlayerData.new_game()
+	get_tree().change_scene_to_file("res://IntroCinematic.tscn")
 
 func _on_tutorial_pressed() -> void:
 	# Permite rever o tutorial pelo menu, mesmo depois de concluir a campanha.

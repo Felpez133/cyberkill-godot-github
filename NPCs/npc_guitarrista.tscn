@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://NPCs/npc.gd" id="1_npc"]
+[ext_resource type="Texture2D" path="res://sprites/npcs/5/Idle.png" id="2_idle"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle_0"]
+atlas = ExtResource("2_idle")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle_1"]
+atlas = ExtResource("2_idle")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle_2"]
+atlas = ExtResource("2_idle")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle_3"]
+atlas = ExtResource("2_idle")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npc_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npc_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npc_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npc_idle_3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="NPC_Guitarrista" type="Node2D"]
+script = ExtResource("1_npc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -24)
+sprite_frames = SubResource("SpriteFrames_npc")
+animation = &"idle"
+autoplay = "idle"

@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://b054feeggosfi" path="res://enemy.tscn" id="3_2a8em"]
 [ext_resource type="Texture2D" uid="uid://dvbpwovr7f463" path="res://sprites/fundo beta/city 4/1.png" id="4_56m0x"]
 [ext_resource type="PackedScene" path="res://wall_jump_crate.tscn" id="5_wall_jump_crate"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_cyborg.tscn" id="6_cyborg"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_tank.tscn" id="7_tank"]
 
 [node name="Level01Entrance" type="Node2D" unique_id=798484912]
 
@@ -15,6 +17,12 @@ position = Vector2(-2928, 3876)
 
 [node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("3_2a8em")]
 position = Vector2(445, 605)
+
+[node name="EnemyCyborg" parent="." instance=ExtResource("6_cyborg")]
+position = Vector2(820, 654)
+
+[node name="EnemyTank" parent="." instance=ExtResource("7_tank")]
+position = Vector2(1040, 654)
 
 [node name="WallJumpCrate" parent="." instance=ExtResource("5_wall_jump_crate")]
 position = Vector2(-2760, 4020)
