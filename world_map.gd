@@ -2,6 +2,14 @@ extends Node2D
 
 @export_file("*.tscn") var interior_scene: String = "res://BuildingInterior.tscn"
 
+# Falas da narradora ao chegar na cidade (só tocam uma vez por jogo). Edite à vontade.
+const CITY_INTRO: Array = [
+	"Ei, Biker... você chegou. Bem-vindo à cidade. Eu sou a sua narradora e vou te acompanhar daqui em diante.",
+	"Os portais antigos da rua estão desligados. O caminho agora é pela porta do prédio, logo à frente.",
+	"Chegue perto dela e aperte E. Lá dentro ficam os acessos às fases. Algumas coisas por aí só respondem à tecla E: caixas, pendrives, botões...",
+	"Pronto para começar? Então vamos nessa.",
+]
+
 var player_near_door := false
 var transitioning := false
 var door_area: Area2D
@@ -19,6 +27,13 @@ func _ready() -> void:
 
 	_create_door()
 	_create_transition()
+	_play_narrator_intro()
+
+
+func _play_narrator_intro() -> void:
+	await get_tree().create_timer(0.8).timeout
+	if is_inside_tree():
+		Narrator.say(CITY_INTRO, "city_intro")
 
 func _create_door() -> void:
 	door_area = Area2D.new()

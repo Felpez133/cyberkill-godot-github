@@ -1,0 +1,79 @@
+CYBERKILL — PORTA DE MÃO ÚNICA, BOTÃO, PENDRIVE, NARRADORA, MÚSICA E PRÓLOGO
+=============================================================================
+
+*** NADA DISTO FOI EXECUTADO NO GODOT (não havia o executável aqui). ***
+Foram feitas só verificações estáticas (caminhos, estrutura das cenas, decodificação do
+TileMap). Abra no Godot 4.7, deixe reimportar e teste. Se aparecer algum erro vermelho no
+painel "Saída"/"Depurador", me mande o texto.
+
+1) PORTA DE MÃO ÚNICA  (Doors/one_way_door.tscn + one_way_door.gd)
+ - Só abre pelo lado definido em "Open Side" (Left/Right). Do lado errado mostra
+   "TRANCADA DESTE LADO". No lado certo: aperte E.
+ - "Stay Open": marcado = fica aberta para sempre; desmarcado = fecha sozinha depois de
+   "Close Delay" segundos sem o jogador por perto.
+ - A origem fica NO CHÃO, no centro da porta. Arte provisória (Polygon2D neon): edite os
+   nós Frame/Panel/Light ou troque por Sprite2D.
+ - Na fase 1 coloquei uma em (1250, 656), abrindo pela esquerda ("PortaMaoUnica").
+   Ela fecha o caminho até o poço da fase: mova/delete como quiser.
+
+2) BOTÃO  (button.tscn + interactive_button.gd)
+ - Chegue perto, aperte E ("E — DESTRAVAR"). Opções no Inspector:
+     Action = None / Change Scene (+ Target Scene)
+     Vanish Targets = nós que somem (ex.: TileMapLayer da passagem secreta)
+     Vanish Time, Prompt Text, Activated Text, One Shot, cores.
+ - Na fase 1 há dois botões:
+     BotaoVoltarCidade (1380, 612): Action = Change Scene -> res://node_2d.tscn (cidade).
+       Coloquei perto do início só para testar: arraste para o FIM da fase.
+     BotaoPassagemSecreta (600, 612): faz sumir a camada "PassagemSecreta" (item 5).
+
+3) PENDRIVE POR INTERAÇÃO  (wall_jump_pickup.tscn + wall_jump_pickupp.gd)
+ - Não é mais coletado ao encostar. Chegue perto e aperte E ("E — PEGAR PENDRIVE").
+ - Textos do tutorial atualizados (tutorial.gd).
+
+4) NARRADORA  (Narrator/narrator.gd — autoload "Narrator")
+ - Caixa de diálogo com nome, retrato e texto digitando. Avança com E, Enter/Espaço ou
+   clique. Pausa o jogo enquanto fala.
+ - Ao chegar em node_2d.tscn ela fala (world_map.gd, constante CITY_INTRO — edite os textos).
+   Só toca uma vez por jogo (ids guardados em PlayerData.narration_seen).
+ - Para usar em outros lugares:
+     a) código:  Narrator.say(["fala 1", "fala 2"], "id_unico")
+     b) cena:    arraste Narrator/narrator_trigger.tscn para a fase, escreva "Lines",
+                 "Narration Id" e "Size" no Inspector (exemplos: NarradoraInicio e
+                 NarradoraPorta na fase 1).
+ - Retrato: salve a imagem em res://Narrator/narradora.png (carrega sozinha). O nome padrão
+   é "NARRADORA" (propriedade Speaker Name do autoload ou "speaker" por fala).
+ - NÃO usei o Dialogic (o projeto o tem instalado, mas só com um timeline mínimo) porque não
+   consigo testar o plugin aqui. Dá para migrar depois, sem mudar as chamadas.
+
+5) PASSAGEM SECRETA COM TILEMAP QUE SOME  (map.tscn)
+ - Novo nó TileMapLayer "PassagemSecreta" dentro de map.tscn, com o mesmo TileSet.
+ - ATENÇÃO: eu ESCAVEI 220 células do TileMapLayer principal (uma escada descendo a partir
+   de x=20..33 e um túnel x=34..60, y=43..48, em coordenadas de tile) e coloquei EXATAMENTE
+   as mesmas células na camada PassagemSecreta. Resultado: visualmente a fase é igual, mas
+   atrás do botão existe uma passagem fechada. Ao apertar E no botão a camada pisca e
+   desaparece (a colisão é removida no fim do efeito).
+ - Fim do túnel: Marker2D "EntradaDaInstalacao" (930, 784) na Level01Entrance.tscn.
+   Construa a instalação a partir dali.
+ - Para reaproveitar em outro lugar: pinte tiles numa camada própria, ponha o caminho dela em
+   "Vanish Targets" do botão. Funciona com qualquer nó visual (TileMapLayer, Sprite, etc.).
+
+6) MÚSICA CONTÍNUA  (music_manager.gd — autoload "MusicManager")
+ - Toca na cidade, prédio/seletor de fases, WorldSelect e Fase 1 SEM reiniciar ao trocar
+   de cena nem ao morrer e recarregar. Sai com fade no menu, prólogo e tutorial.
+ - Removi os nós BackgroundMusic de node_2d.tscn e WorldMap.tscn (senão tocaria duas vezes).
+ - Para outra cena tocar a música, adicione o caminho dela em MUSIC_SCENES.
+
+7) PRÓLOGO (IntroCinematic.tscn + intro_cinematic.gd)
+ - Fundo infinito reescrito: os 3 painéis ficam colados e voltam ao fim da fila ao sair da
+   tela (antes dependia de espaçamentos fixos). Velocidade: Background Scroll Speed.
+ - Segunda página criada: edite "Lore Text" (página 1) e "Lore Text Page 2" no Inspector do
+   nó IntroCinematic. Botões: CONTINUAR / VOLTAR / PULAR; na última página vira "COMEÇAR".
+ - A página 1 começa com "Neste mundo, existem 7 grandes IAs..." (era o nome de um nó).
+
+PARA CONFERIR EM EXECUÇÃO
+ - A porta abre só pela esquerda e bloqueia o pulo por cima.
+ - O buraco/escada da passagem secreta realmente fica coberto até apertar o botão, e a
+   colisão some depois (o jogador consegue descer a escada e andar no túnel).
+ - O botão "voltar" leva ao node_2d e a narradora NÃO repete na volta.
+ - Música contínua entre cidade -> prédio -> fase 1 -> morrer/recarregar.
+ - Posições dos objetos novos (foram escolhidas pelos números do mapa, sem ver a fase).

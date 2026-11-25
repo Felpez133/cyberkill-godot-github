@@ -7,7 +7,7 @@ extends CharacterBody2D
 ## Não usa coordenadas fixas: funciona em qualquer ponto de qualquer mapa.
 
 ## Sentido do movimento (1 = direita, -1 = esquerda).
-@export_enum("Direita:1", "Esquerda:-1") var direction: int = 1
+@export_enum("Direita:1", "Esquerda:-1") var direction: int = -1
 @export var speed: float = 70.0
 ## Alcance do raio horizontal que procura parede à frente.
 @export var wall_check_distance: float = 10.0

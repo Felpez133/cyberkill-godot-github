@@ -1,3 +1,4 @@
+
 extends CharacterBody2D
 
 const SPEED := 300.0
@@ -7,16 +8,13 @@ const WALL_JUMP_VERTICAL_SPEED := -420.0
 const WALL_SLIDE_SPEED := 110.0
 const WALL_JUMP_COOLDOWN := 0.25
 const PROJECTILE_SCENE := preload("res://projectile.tscn")
-const ARMED_SPRITES := {
-	"armed_idle": ["res://sprites/guns/1 Characters/1 Biker/Idle1.png", 4, 5.0],
-	"armed_run": ["res://sprites/guns/1 Characters/1 Biker/Run1.png", 6, 10.0],
-	"armed_jump": ["res://sprites/guns/1 Characters/1 Biker/Jump1.png", 4, 7.0]
-}
 
 @export var max_health: int = 5
 @export var attack_left_offset: float = 500.0
 @export var projectile_speed: float = 520.0
 @export var shot_cooldown: float = 0.35
+@export var dash_speed: float = 600.0
+@export var dash_duration: float = 0.2
 
 var health: int = 5
 var is_attacking := false
@@ -31,6 +29,9 @@ var original_attack_x: float
 var wall_jump_timer := 0.0
 var wall_jump_push_timer := 0.0
 var wall_jump_push_direction := 0.0
+var is_dashing: bool = false
+var dash_timer: float = 0.0
+var dash_direction: float = 1.0
 
 @onready var footsteps: AudioStreamPlayer2D = get_node_or_null("Footsteps")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -48,7 +49,6 @@ var wall_jump_push_direction := 0.0
 func _ready() -> void:
 	health = max_health
 	add_to_group("player")
-	_setup_armed_animations()
 	original_attack_x = attack_area.position.x
 	attack_shape.disabled = true
 	attack_area.monitoring = false
@@ -56,92 +56,121 @@ func _ready() -> void:
 	if PlayerData.current_checkpoint != Vector2.ZERO and PlayerData.checkpoint_scene == get_tree().current_scene.scene_file_path:
 		global_position = PlayerData.current_checkpoint
 
-func _setup_armed_animations() -> void:
-	sprite.sprite_frames = sprite.sprite_frames.duplicate()
-	for animation_name in ARMED_SPRITES:
-		sprite.sprite_frames.add_animation(animation_name)
-		var texture: Texture2D = load(ARMED_SPRITES[animation_name][0])
-		var frame_count: int = ARMED_SPRITES[animation_name][1]
-		for i in range(frame_count):
-			var atlas := AtlasTexture.new()
-			atlas.atlas = texture
-			atlas.region = Rect2(i * 48, 0, 48, 48)
-			sprite.sprite_frames.add_frame(animation_name, atlas)
-		sprite.sprite_frames.set_animation_speed(animation_name, ARMED_SPRITES[animation_name][2])
-		sprite.sprite_frames.set_animation_loop(animation_name, true)
 
 func _physics_process(delta: float) -> void:
 	if dead:
 		return
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+
+	# DASH
+	if Input.is_action_just_pressed("dash") and not is_dashing:
+		start_dash()
+
+	# INVULNERABILIDADE
 	if invulnerability_time > 0.0:
 		invulnerability_time -= delta
 		sprite.visible = int(Time.get_ticks_msec() / 90) % 2 == 0
 	else:
 		sprite.visible = true
+
 	if shot_timer > 0.0:
 		shot_timer -= delta
+
 	if wall_jump_timer > 0.0:
 		wall_jump_timer = maxf(0.0, wall_jump_timer - delta)
+
 	if wall_jump_push_timer > 0.0:
 		wall_jump_push_timer = maxf(0.0, wall_jump_push_timer - delta)
+
 	var direction := Input.get_axis("move_left", "move_right")
+
 	if direction != 0.0:
 		update_facing(direction)
 
+	# MOVIMENTAÇÃO DO DASH
+	if is_dashing:
+		dash_timer -= delta
+
+		velocity.x = dash_direction * dash_speed
+		velocity.y = 0
+
+		if dash_timer <= 0.0:
+			is_dashing = false
+			velocity.x = 0.0
+
+		move_and_slide()
+		return
+
+	# GRAVIDADE
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# WALL SLIDE
 	var touching_wall := is_on_wall() and not is_on_floor()
+
 	if touching_wall and velocity.y > 0.0:
 		velocity.y = minf(velocity.y, WALL_SLIDE_SPEED)
 
+	# PULO E WALL JUMP
 	var did_wall_jump := false
+
 	if Input.is_action_just_pressed("move_up") and not near_portal:
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
+
 		elif touching_wall and PlayerData.has_wall_jump and wall_jump_timer <= 0.0:
 			var wall_normal := get_wall_normal()
+
 			if wall_normal.x != 0.0:
 				velocity.x = wall_normal.x * WALL_JUMP_HORIZONTAL_SPEED
 				velocity.y = WALL_JUMP_VERTICAL_SPEED
+
 				wall_jump_timer = WALL_JUMP_COOLDOWN
 				wall_jump_push_timer = 0.18
 				wall_jump_push_direction = wall_normal.x
+
 				did_wall_jump = true
 				update_facing(wall_normal.x)
+
+	# DISPARO
 	if PlayerData.has_weapon:
 		if Input.is_action_just_pressed("attack") and shot_timer <= 0.0:
 			shoot()
-		if not did_wall_jump:
-			if wall_jump_push_timer > 0.0 and direction == 0.0:
-				velocity.x = wall_jump_push_direction * WALL_JUMP_HORIZONTAL_SPEED
-			else:
-				velocity.x = direction * SPEED
-		if not is_on_floor():
-			play_animation("armed_jump")
-		elif direction != 0:
-			play_animation("armed_run")
+
+	# MOVIMENTAÇÃO NORMAL
+	if not did_wall_jump:
+		if wall_jump_push_timer > 0.0 and direction == 0.0:
+			velocity.x = wall_jump_push_direction * WALL_JUMP_HORIZONTAL_SPEED
 		else:
-			play_animation("armed_idle")
+			velocity.x = direction * SPEED
+
+	# ANIMAÇÕES
+	if not is_on_floor():
+		play_animation("jump")
+	elif direction != 0:
+		play_animation("run")
 	else:
-		# Sem arma: o jogador não possui ataque corpo a corpo.
-		# O botão de ataque só funciona depois de coletar uma arma.
-		if not did_wall_jump:
-			if wall_jump_push_timer > 0.0 and direction == 0.0:
-				velocity.x = wall_jump_push_direction * WALL_JUMP_HORIZONTAL_SPEED
-			else:
-				velocity.x = direction * SPEED
-		if not is_on_floor():
-			play_animation("jump")
-		elif direction != 0:
-			play_animation("run")
-		else:
-			play_animation("idle")
+		play_animation("idle")
+
 	move_and_slide()
+
+	# PASSOS
 	if footsteps:
 		if is_on_floor() and abs(velocity.x) > 10 and not dead:
-			if not footsteps.playing: footsteps.play()
+			if not footsteps.playing:
+				footsteps.play()
 		else:
 			footsteps.stop()
+
+
+func start_dash():
+	if is_dashing:
+		return
+
+	is_dashing = true
+	dash_timer = dash_duration
+	dash_direction = facing
+
+	velocity.y = 0
 
 func update_facing(direction: float) -> void:
 	facing = sign(direction)
@@ -190,10 +219,12 @@ func shoot() -> void:
 	get_tree().current_scene.add_child(projectile)
 
 func die() -> void:
-	if dead: return
+	if dead:
+		return
 	dead = true
 	velocity = Vector2.ZERO
-	if footsteps: footsteps.stop()
+	if footsteps:
+		footsteps.stop()
 	set_physics_process(false)
 	_show_end_panel(true)
 
@@ -259,4 +290,5 @@ func _on_overlay_choice(choice: int, is_death: bool) -> void:
 
 func _remove_panel() -> void:
 	var overlay := get_node_or_null("GameOverlay")
-	if overlay: overlay.queue_free()
+	if overlay:
+		overlay.queue_free()

@@ -2,34 +2,72 @@
 
 [ext_resource type="PackedScene" uid="uid://dg8bqebkuxbcb" path="res://map.tscn" id="1_56m0x"]
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_player"]
+[ext_resource type="Texture2D" uid="uid://bycn6557dfrnu" path="res://sprites/fundo beta/city 4/7.png" id="2_xjdo3"]
 [ext_resource type="PackedScene" uid="uid://b054feeggosfi" path="res://enemy.tscn" id="3_2a8em"]
-[ext_resource type="Texture2D" uid="uid://dvbpwovr7f463" path="res://sprites/fundo beta/city 4/1.png" id="4_56m0x"]
 [ext_resource type="PackedScene" path="res://wall_jump_crate.tscn" id="5_wall_jump_crate"]
 [ext_resource type="PackedScene" path="res://Enemies/enemy_cyborg.tscn" id="6_cyborg"]
-[ext_resource type="PackedScene" path="res://Enemies/enemy_tank.tscn" id="7_tank"]
+[ext_resource type="PackedScene" uid="uid://bu2x654f207ol" path="res://Enemies/enemy_tank.tscn" id="7_tank"]
+[ext_resource type="PackedScene" path="res://Rat/rat.tscn" id="8_qk43d"]
+[ext_resource type="PackedScene" uid="uid://7p64i08v52he" path="res://button.tscn" id="9_button"]
+[ext_resource type="PackedScene" path="res://Doors/one_way_door.tscn" id="10_door"]
+[ext_resource type="PackedScene" path="res://Narrator/narrator_trigger.tscn" id="11_narrator"]
 
 [node name="Level01Entrance" type="Node2D" unique_id=798484912]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=902133215]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=705935028]
+position = Vector2(-9, 0)
+motion_mirroring = Vector2(760, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=389666027]
+position = Vector2(217.50006, 504.87497)
+scale = Vector2(1.3246528, 1.0300925)
+texture = ExtResource("2_xjdo3")
 
 [node name="map" parent="." unique_id=1450266795 instance=ExtResource("1_56m0x")]
 
 [node name="Player" parent="." unique_id=2007473112 instance=ExtResource("2_player")]
-position = Vector2(-2928, 3876)
+position = Vector2(151, 515)
 
 [node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("3_2a8em")]
-position = Vector2(445, 605)
+position = Vector2(917, 640)
 
-[node name="EnemyCyborg" parent="." instance=ExtResource("6_cyborg")]
+[node name="EnemyCyborg" parent="." unique_id=1503554759 instance=ExtResource("6_cyborg")]
 position = Vector2(820, 654)
 
-[node name="EnemyTank" parent="." instance=ExtResource("7_tank")]
+[node name="EnemyTank" parent="." unique_id=1684376685 instance=ExtResource("7_tank")]
 position = Vector2(1040, 654)
 
-[node name="WallJumpCrate" parent="." instance=ExtResource("5_wall_jump_crate")]
-position = Vector2(-2760, 4020)
+[node name="WallJumpCrate" parent="." unique_id=1236858170 instance=ExtResource("5_wall_jump_crate")]
+position = Vector2(453, 4188)
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=394979115]
+[node name="Rat" parent="." unique_id=782071777 instance=ExtResource("8_qk43d")]
+position = Vector2(710, 656)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground" unique_id=1008246727]
-position = Vector2(427.99997, 153)
-scale = Vector2(2.5920143, 2.470679)
-texture = ExtResource("4_56m0x")
+[node name="NarradoraInicio" parent="." unique_id=1439175515 instance=ExtResource("11_narrator")]
+position = Vector2(330, 560)
+lines = PackedStringArray("Muito bem, Biker. Esta é a Fase 1. Daqui para frente o caminho é fechado por portas e botões.", "Fique de olho nos avisos na tela: sempre que aparecer E, é porque dá para interagir com alguma coisa.", "Dizem que existe uma passagem secreta por aqui... Procure um botão e aperte E para destravar.")
+narration_id = "fase1_inicio"
+size = Vector2(500, 400)
+
+[node name="NarradoraPorta" parent="." unique_id=440279090 instance=ExtResource("11_narrator")]
+position = Vector2(1090, 580)
+lines = PackedStringArray("Aquela porta só abre de um lado: o lado de cá. Chegue perto e aperte E.", "Se tentar abrir pelo outro lado, ela continua trancada.")
+narration_id = "fase1_porta"
+size = Vector2(220, 300)
+
+[node name="PortaMaoUnica" parent="." unique_id=1626925091 instance=ExtResource("10_door")]
+position = Vector2(-668, 650)
+
+[node name="BotaoPassagemSecreta" parent="." unique_id=833946094 instance=ExtResource("9_button")]
+position = Vector2(-491, 1107)
+vanish_targets = Array[NodePath]([NodePath("../map/PassagemSecreta")])
+
+[node name="BotaoVoltarCidade" parent="." unique_id=1461162902 instance=ExtResource("9_button")]
+position = Vector2(-843, 619)
+action = 1
+
+[node name="EntradaDaInstalacao" type="Marker2D" parent="." unique_id=1940560931]
+position = Vector2(930, 784)
+gizmo_extents = 40.0

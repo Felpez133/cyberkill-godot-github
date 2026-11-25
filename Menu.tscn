@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfp6e3qqgrgrc" path="res://control.gd" id="1_uubjt"]
 [ext_resource type="Texture2D" uid="uid://dab4isw3q7whj" path="res://sprites/fundo beta/city 3/9.png" id="2_5yleq"]
+[ext_resource type="Texture2D" uid="uid://cco3umjapbvwx" path="res://sprites/logo/Logo Cyberkill em Estilo Metalcore.png" id="3_ylpcl"]
 
 [node name="Control" type="Control" unique_id=1267851613]
 layout_mode = 3
@@ -26,17 +27,10 @@ grow_vertical = 2
 texture = ExtResource("2_5yleq")
 expand_mode = 1
 
-[node name="Titulo" type="Label" parent="." unique_id=216215303]
-layout_mode = 0
-offset_left = -5.0
-offset_top = 48.0
-offset_right = 1145.0
-offset_bottom = 136.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
-theme_override_font_sizes/font_size = 64
-text = "Cyber Kill"
-horizontal_alignment = 1
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1296446651]
+position = Vector2(584, 147.00002)
+scale = Vector2(0.45442706, 0.45898435)
+texture = ExtResource("3_ylpcl")
 
 [node name="BotaoIniciar" type="Button" parent="." unique_id=1539365096]
 layout_mode = 0

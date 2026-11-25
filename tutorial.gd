@@ -44,12 +44,12 @@ func _on_trigger_entered(body: Node2D, stage: int) -> void:
 		0:
 			_show_dialogue("MOVIMENTAÇÃO", "Você pode andar para a esquerda e para a direita com A/D ou as setas.\n\nPule com ESPAÇO ou W para alcançar plataformas e evitar obstáculos.", "ENTENDI")
 		1:
-			_show_dialogue("A CAIXA", "Encontrou uma caixa? Chegue perto e aperte E.\n\nEla vai explodir e revelar um pendrive. Pegue o pendrive para desbloquear o Wall Jump.", "VOU TENTAR")
+			_show_dialogue("A CAIXA", "Encontrou uma caixa? Chegue perto e aperte E.\n\nEla vai explodir e revelar um pendrive. Chegue perto do pendrive e aperte E para pegá-lo e desbloquear o Wall Jump.", "VOU TENTAR")
 		2:
 			if PlayerData.has_wall_jump:
 				_show_dialogue("WALL JUMP DESBLOQUEADO", "Agora encoste em uma parede e aperte ESPAÇO/W.\n\nO Biker será impulsionado para longe da parede. O salto pode ser repetido respeitando o pequeno intervalo.", "PRATICAR")
 			else:
-				_show_dialogue("DICA", "A habilidade Wall Jump ainda está bloqueada. Abra a caixa com E e colete o pendrive antes de tentar saltar nas paredes.", "CONTINUAR")
+				_show_dialogue("DICA", "A habilidade Wall Jump ainda está bloqueada. Abra a caixa com E e pegue o pendrive (também com E) antes de tentar saltar nas paredes.", "CONTINUAR")
 		3:
 			_show_dialogue("PEGUE UMA ARMA", "A arma está logo adiante. Chegue perto e aperte E para pegá-la.\n\nSem arma, o Biker não tem ataque.", "CONTINUAR")
 		4:

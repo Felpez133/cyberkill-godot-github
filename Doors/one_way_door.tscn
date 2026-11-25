@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Doors/one_way_door.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(24, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sense"]
+size = Vector2(150, 160)
+
+[node name="OneWayDoor" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -64)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="Leaf" type="Node2D" parent="."]
+
+[node name="Frame" type="Polygon2D" parent="Leaf"]
+color = Color(0.05, 0.85, 1, 0.95)
+polygon = PackedVector2Array(-12, -128, 12, -128, 12, 0, -12, 0)
+
+[node name="Panel" type="Polygon2D" parent="Leaf"]
+color = Color(0.035, 0.025, 0.12, 1)
+polygon = PackedVector2Array(-8, -122, 8, -122, 8, -4, -8, -4)
+
+[node name="Light" type="Polygon2D" parent="Leaf"]
+color = Color(0.1, 0.85, 1, 0.9)
+polygon = PackedVector2Array(-3, -110, 3, -110, 3, -70, -3, -70)
+
+[node name="Sense" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sense"]
+position = Vector2(0, -64)
+shape = SubResource("RectangleShape2D_sense")
+
+[node name="Prompt" type="Label" parent="."]
+offset_left = -90.0
+offset_top = -164.0
+offset_right = 90.0
+offset_bottom = -136.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 16
+text = "E  —  ABRIR"
+horizontal_alignment = 1

@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="8_rj586"]
 [ext_resource type="AudioStream" uid="uid://can0u6egu0vca" path="res://sounds/running_player/Footsteps.mp3" id="12_nr8wp"]
 [ext_resource type="Texture2D" uid="uid://fs3hxql0c4o5" path="res://sprites/portal/portals.png" id="15_d2bti"]
-[ext_resource type="AudioStream" uid="uid://befkq4nftl1qm" path="res://sounds/BackgroundMusic/Endless Cyber Runner.mp3" id="15_ta5nu"]
 [ext_resource type="Script" uid="uid://cfnsrx5ibodt3" path="res://portal.gd" id="16_portal"]
 [ext_resource type="Script" uid="uid://8lt3mtrqxw06" path="res://world_map.gd" id="17_world_map"]
 [ext_resource type="PackedScene" path="res://checkpoint.tscn" id="checkpoint_scene"]
@@ -611,11 +610,6 @@ position = Vector2(570, 130)
 
 [node name="Checkpoint" parent="." unique_id=1768448503 instance=ExtResource("checkpoint_scene")]
 position = Vector2(1450, 100)
-
-[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=1955862355]
-stream = ExtResource("15_ta5nu")
-volume_db = -3.535
-autoplay = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1850188914]
 visible = false

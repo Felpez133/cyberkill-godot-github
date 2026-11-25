@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="6_d26g4"]
 [ext_resource type="PackedScene" uid="uid://d3fecgs06kvyl" path="res://Level01Entrace.tscn" id="8_psonl"]
 [ext_resource type="Script" uid="uid://4a6ck6lixy4x" path="res://enter_button.gd" id="9_pf4w3"]
-[ext_resource type="AudioStream" uid="uid://befkq4nftl1qm" path="res://sounds/BackgroundMusic/Endless Cyber Runner.mp3" id="15_1mnah"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("1_bmh0k")
@@ -216,11 +215,6 @@ position = Vector2(1398, 105)
 shape = SubResource("RectangleShape2D_3ngjr")
 
 [node name="Player" parent="." unique_id=389633421 groups=["player"] instance=ExtResource("6_d26g4")]
-
-[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." unique_id=1955862355]
-stream = ExtResource("15_1mnah")
-volume_db = 19.101
-autoplay = true
 
 [node name="portal" parent="." unique_id=1494584719 instance=ExtResource("8_psonl")]
 position = Vector2(254, 82)
