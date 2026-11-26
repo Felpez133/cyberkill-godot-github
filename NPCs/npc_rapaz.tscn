@@ -1,7 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://ccskgf235s7w5"]
 
-[ext_resource type="Script" path="res://NPCs/npc.gd" id="1_npc"]
-[ext_resource type="Texture2D" path="res://sprites/npcs/11/Idle.png" id="2_idle"]
+[ext_resource type="Script" uid="uid://dmdj8jui2xx1v" path="res://NPCs/npc.gd" id="1_npc"]
+[ext_resource type="PackedScene" path="res://NPCs/speech_bubble.tscn" id="9_bubble"]
+[ext_resource type="Texture2D" uid="uid://dsv685w3h74b3" path="res://sprites/npcs/11/Idle.png" id="2_idle"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle_0"]
 atlas = ExtResource("2_idle")
@@ -34,16 +35,18 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_npc_idle_3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 5.0
 }]
 
-[node name="NPC_Rapaz" type="Node2D"]
+[node name="NPC_Rapaz" type="Node2D" unique_id=11643433]
 script = ExtResource("1_npc")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=767598458]
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_npc")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="SpeechBubble" parent="." instance=ExtResource("9_bubble")]

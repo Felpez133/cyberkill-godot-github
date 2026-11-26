@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://djsuycvgdtgvj"]
+
+[ext_resource type="Script" uid="uid://cuayjdke02vr1" path="res://building_door.gd" id="1_d4sld"]
+[ext_resource type="Texture2D" uid="uid://451nru3y7lsp" path="res://sprites/door/door.png" id="2_tbnx1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ebum8"]
+size = Vector2(77.5, 94)
+
+[node name="BuildingDoor" type="Area2D" unique_id=1477431834]
+script = ExtResource("1_d4sld")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1091199895]
+position = Vector2(1.75, 0)
+shape = SubResource("RectangleShape2D_ebum8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1431217690]
+position = Vector2(1.0000019, -1)
+scale = Vector2(0.5625, 0.59375)
+texture = ExtResource("2_tbnx1")
+
+[node name="Prompt" type="Label" parent="." unique_id=225641147]
+offset_left = -90.0
+offset_top = -87.0
+offset_right = 97.0
+offset_bottom = -64.0
+text = "E — ENTRAR NO PRÉDIO"

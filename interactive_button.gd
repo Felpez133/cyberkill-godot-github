@@ -14,6 +14,9 @@ enum Action { NONE, CHANGE_SCENE }
 @export var activated_text := "DESTRAVADO!"
 @export var action: Action = Action.NONE
 @export_file("*.tscn") var target_scene := "res://node_2d.tscn"
+## Missão (UI/mission_hud.tscn) concluída quando este botão é ativado. Deixe vazio para nenhuma.
+## Ex.: "nucleo_ia" = "Desligar um núcleo da IA".
+@export var mission_id := ""
 ## Nós que somem quando o botão é ativado (caminho relativo a este botão).
 @export var vanish_targets: Array[NodePath] = []
 @export var vanish_time := 1.2
@@ -78,6 +81,8 @@ func _activate() -> void:
 		prompt.text = activated_text
 		prompt.show()
 	activated.emit()
+	if mission_id != "":
+		PlayerData.complete_mission(mission_id)
 	for path in vanish_targets:
 		var node := get_node_or_null(path)
 		if node == null:

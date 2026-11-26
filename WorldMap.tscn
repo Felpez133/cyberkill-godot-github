@@ -214,7 +214,7 @@ animation = &"activated"
 position = Vector2(1398, 105)
 shape = SubResource("RectangleShape2D_3ngjr")
 
-[node name="Player" parent="." unique_id=389633421 groups=["player"] instance=ExtResource("6_d26g4")]
+[node name="Player" parent="." unique_id=389633421 instance=ExtResource("6_d26g4")]
 
 [node name="portal" parent="." unique_id=1494584719 instance=ExtResource("8_psonl")]
 position = Vector2(254, 82)

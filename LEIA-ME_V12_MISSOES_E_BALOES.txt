@@ -1,0 +1,39 @@
+CYBERKILL v0.7 — BALÃO DE FALA DOS NPCs + LISTA DE MISSÕES DA FASE 1
+=====================================================================
+
+*** NADA DISTO FOI EXECUTADO NO GODOT (não havia o executável aqui). ***
+Só houve verificação estática (caminhos, nós, sintaxe revisada à mão). Abra no Godot 4.7,
+deixe reimportar e teste. Se aparecer erro vermelho no painel "Saída", me mande o texto.
+
+1) BALÃO DE FALA DOS NPCs  (NPCs/speech_bubble.tscn + speech_bubble.gd, npc.gd)
+ - Os 3 NPCs (garota, guitarrista, rapaz) ganharam um nó filho "SpeechBubble".
+ - Por enquanto o balão mostra "..." (marcador). Para mudar: no NPC, Inspector > "Balão de
+   fala" > Bubble Text; "Bubble Visible" desmarcado esconde o balão.
+ - Por código: npc.say("texto"), npc.say("texto", 3.0) (some em 3 s), npc.hide_bubble().
+ - Visual (cor, fonte, formato): edite o nó Label dentro de speech_bubble.tscn.
+ - OBS: as cenas de NPC são "prefabs"; hoje o nó NPCs do BuildingInterior.tscn está vazio, então
+   nenhum NPC aparece em nenhuma fase até você arrastar um para a cena.
+
+2) LISTA DE MISSÕES  (UI/mission_hud.tscn + mission_hud.gd, player_data.gd)
+ - Canto superior esquerdo, abaixo dos corações. Já está instanciada em Level01Entrance.tscn.
+ - [ ] Desligar um núcleo da IA  -> concluída ao apertar E no botão com Mission Id = nucleo_ia.
+      Coloquei esse Mission Id no "BotaoVoltarCidade" (o botão que leva de volta à cidade),
+      assumindo que ele é o botão do núcleo. Se for outro, mude "Mission Id" no Inspector do
+      botão certo (e apague do BotaoVoltarCidade).
+ - [ ] Encontrar o chip de Wall Jump -> concluída ao pegar o pendrive (E) na fase 1.
+ - [ ] BÔNUS: Derrotar inimigos (x/15) -> conta cada inimigo derrotado (BB9, cyborg, tanque e
+      qualquer cena nova que use Enemies/enemy_base.gd). O contador é PlayerData.KILL_GOAL.
+ - As missões só contam enquanto a lista existir na cena (por isso o pendrive e os inimigos do
+   tutorial NÃO contam). O progresso é guardado no PlayerData: sobrevive a morte/recarregar e
+   zera em PlayerData.new_game().
+ - Textos: constante TEXTS em UI/mission_hud.gd. Cores: exports do nó MissionHUD.
+ - ATENÇÃO: hoje a fase 1 tem só 3 inimigos; o bônus de 15 só dá para cumprir depois que
+   houver inimigos suficientes no mapa.
+
+3) TILEMAP DA FASE 1
+ - NÃO alterei o map.tscn nesta versão (ver mensagem do chat).
+
+ARQUIVOS NOVOS: NPCs/speech_bubble.gd/.tscn, UI/mission_hud.gd/.tscn
+ARQUIVOS ALTERADOS: NPCs/npc.gd, NPCs/npc_*.tscn (3), player_data.gd, interactive_button.gd,
+ personagem.gd (1 linha em unlock_wall_jump), Enemies/enemy_base.gd (contagem em take_damage),
+ Level01Entrance.tscn (HUD + Mission Id no BotaoVoltarCidade).

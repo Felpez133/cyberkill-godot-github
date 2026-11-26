@@ -32,6 +32,8 @@ var wall_jump_push_direction := 0.0
 var is_dashing: bool = false
 var dash_timer: float = 0.0
 var dash_direction: float = 1.0
+var max_air_dashes: int = 2
+var air_dashes_remaining: int = 2
 
 @onready var footsteps: AudioStreamPlayer2D = get_node_or_null("Footsteps")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -49,9 +51,6 @@ var dash_direction: float = 1.0
 func _ready() -> void:
 	health = max_health
 	add_to_group("player")
-	original_attack_x = attack_area.position.x
-	attack_shape.disabled = true
-	attack_area.monitoring = false
 	update_health_display()
 	if PlayerData.current_checkpoint != Vector2.ZERO and PlayerData.checkpoint_scene == get_tree().current_scene.scene_file_path:
 		global_position = PlayerData.current_checkpoint
@@ -61,10 +60,9 @@ func _physics_process(delta: float) -> void:
 	if dead:
 		return
 
-	# DASH
+# DASH
 	if Input.is_action_just_pressed("dash") and not is_dashing:
 		start_dash()
-
 	# INVULNERABILIDADE
 	if invulnerability_time > 0.0:
 		invulnerability_time -= delta
@@ -99,6 +97,10 @@ func _physics_process(delta: float) -> void:
 
 		move_and_slide()
 		return
+		
+		# RECUPERAR DASHES AO TOCAR NO CHÃO
+	if is_on_floor():
+		air_dashes_remaining = max_air_dashes
 
 	# GRAVIDADE
 	if not is_on_floor():
@@ -163,15 +165,16 @@ func _physics_process(delta: float) -> void:
 
 
 func start_dash():
-	if is_dashing:
+	if is_dashing or air_dashes_remaining <= 0:
 		return
+
+	air_dashes_remaining -= 1
 
 	is_dashing = true
 	dash_timer = dash_duration
 	dash_direction = facing
 
 	velocity.y = 0
-
 func update_facing(direction: float) -> void:
 	facing = sign(direction)
 	sprite.flip_h = facing < 0
@@ -179,6 +182,7 @@ func update_facing(direction: float) -> void:
 
 func unlock_wall_jump() -> void:
 	PlayerData.has_wall_jump = true
+	PlayerData.complete_mission("chip_walljump")
 	print("HABILIDADE DESBLOQUEADA: WALL JUMP")
 
 func set_near_portal(value: bool) -> void:

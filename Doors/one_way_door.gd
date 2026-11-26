@@ -9,7 +9,7 @@ extends StaticBody2D
 signal opened
 signal closed
 
-enum DoorSide { LEFT, RIGHT }
+enum DoorSide { RIGHT, LEFT }
 
 ## Lado de onde a porta pode ser aberta (o jogador precisa estar desse lado).
 @export var open_side: DoorSide = DoorSide.LEFT

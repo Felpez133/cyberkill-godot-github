@@ -128,9 +128,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sn0t7"]
 size = Vector2(14.5, 37)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(19.5, 21)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_e8dv2"]
 atlas = ExtResource("8_op7ga")
 region = Rect2(0, 0, 32, 32)
@@ -162,10 +159,12 @@ animations = [{
 script = ExtResource("1_n7ghd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=102352416]
-position = Vector2(-9, 114)
+position = Vector2(-10, 111)
 scale = Vector2(1.2083334, 1.1666666)
 sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"jump"
+animation = &"idle"
+frame = 2
+frame_progress = 0.0897862
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=593194639]
 position = Vector2(-9, 112)
@@ -181,10 +180,6 @@ script = ExtResource("7_u1c27")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=450811]
 collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=131950539]
-position = Vector2(7, 111)
-shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2124339909]
 

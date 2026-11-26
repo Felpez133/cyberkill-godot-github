@@ -39,6 +39,7 @@ extends CharacterBody2D
 @export var recoil_avoid_ledges: bool = true
 
 var health: int
+var _dead := false
 var player: Node2D
 var damage_timer := 0.0
 var flash_timer := 0.0
@@ -172,9 +173,13 @@ func _try_damage_player() -> void:
 
 
 func take_damage(amount: int) -> void:
+	if _dead:
+		return
 	health -= amount
 	flash_timer = 0.16
 	if health <= 0:
+		_dead = true
+		PlayerData.register_kill()
 		queue_free()
 
 

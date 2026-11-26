@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://NPCs/npc.gd" id="1_npc"]
+[ext_resource type="PackedScene" path="res://NPCs/speech_bubble.tscn" id="9_bubble"]
 [ext_resource type="Texture2D" path="res://sprites/npcs/9/Idle.png" id="2_idle"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle_0"]
@@ -47,3 +48,5 @@ position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_npc")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="SpeechBubble" parent="." instance=ExtResource("9_bubble")]

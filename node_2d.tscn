@@ -8,16 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://d26hysyq3aheh" path="res://sprites/fundo beta/city 1/11.png" id="3_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://7v13i6ycm64n" path="res://sprites/personagens beta/1 Biker/Biker_attack1.png" id="3_rj586"]
 [ext_resource type="Script" uid="uid://buamyj5ye5myc" path="res://camera_2d.gd" id="4_q6r6c"]
+[ext_resource type="PackedScene" uid="uid://djsuycvgdtgvj" path="res://building_door.tscn" id="5_ei405"]
 [ext_resource type="Texture2D" uid="uid://d3kuw5rw83n6d" path="res://sprites/personagens beta/1 Biker/Biker_run_attack.png" id="8_0h7mo"]
 [ext_resource type="Texture2D" uid="uid://cs8vpa5cbftve" path="res://sprites/vida 1-style/normal_Heath.png" id="8_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://3cppwunp7x0n" path="res://sprites/vida 1-style/empty.png" id="8_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://cax6tpxljchrp" path="res://sprites/fundo beta/city 1/1.png" id="8_rj586"]
 [ext_resource type="AudioStream" uid="uid://can0u6egu0vca" path="res://sounds/running_player/Footsteps.mp3" id="12_nr8wp"]
-[ext_resource type="Texture2D" uid="uid://fs3hxql0c4o5" path="res://sprites/portal/portals.png" id="15_d2bti"]
-[ext_resource type="Script" uid="uid://cfnsrx5ibodt3" path="res://portal.gd" id="16_portal"]
+[ext_resource type="PackedScene" path="res://NPCs/npc_garota.tscn" id="17_flf07"]
 [ext_resource type="Script" uid="uid://8lt3mtrqxw06" path="res://world_map.gd" id="17_world_map"]
 [ext_resource type="PackedScene" path="res://checkpoint.tscn" id="checkpoint_scene"]
-[ext_resource type="PackedScene" uid="uid://dkxphnms0ff4m" path="res://weapon_pickup.tscn" id="weapon_scene"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt76g"]
 atlas = ExtResource("8_rj586")
@@ -39,159 +38,6 @@ size = Vector2(150.99998, 528.99994)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
 size = Vector2(2307, 41.25)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qr0ht"]
-size = Vector2(96, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bjha6"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(128, 0, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kq1c5"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(256, 0, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ornx7"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(384, 0, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cnnru"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_540hr"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_sn0t7"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bjha6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kq1c5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ornx7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cnnru")
-}],
-"loop": 1,
-"name": &"activated",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_540hr")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ip5v"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(128, 128, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q5dlx"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(256, 128, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c4wnb"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(384, 128, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7plk7"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(0, 128, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fbwgr"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(0, 128, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_6f8o3"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6ip5v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q5dlx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c4wnb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7plk7")
-}],
-"loop": 1,
-"name": &"activated",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fbwgr")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xfyss"]
-size = Vector2(119, 73.5)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7mj2a"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(128, 256, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fshgd"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(256, 256, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lbrxf"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(384, 256, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xjt7e"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(0, 256, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0xo8l"]
-atlas = ExtResource("15_d2bti")
-region = Rect2(0, 256, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_qr0ht"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7mj2a")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fshgd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lbrxf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xjt7e")
-}],
-"loop": 1,
-"name": &"activated",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0xo8l")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ngjr"]
-size = Vector2(110, 83)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_flf07"]
 atlas = ExtResource("3_rj586")
@@ -494,43 +340,8 @@ texture = ExtResource("8_rj586")
 position = Vector2(511.5, 164.625)
 shape = SubResource("RectangleShape2D_riqys")
 
-[node name="Level1Entrance" type="Area2D" parent="." unique_id=469857505]
-script = ExtResource("16_portal")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level1Entrance" unique_id=120352818]
-position = Vector2(404, 101)
-shape = SubResource("RectangleShape2D_qr0ht")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Level1Entrance" unique_id=2062533153]
-position = Vector2(402, 106)
-scale = Vector2(0.671875, 0.640625)
-sprite_frames = SubResource("SpriteFrames_sn0t7")
-animation = &"activated"
-frame_progress = 0.8476882
-
-[node name="Level2Entrance" type="Area2D" parent="." unique_id=1101987250]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Level2Entrance" unique_id=63590309]
-position = Vector2(833, 105)
-scale = Vector2(0.677, 0.641)
-sprite_frames = SubResource("SpriteFrames_6f8o3")
-animation = &"activated"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2Entrance" unique_id=1828463205]
-position = Vector2(830.5, 105.75)
-shape = SubResource("RectangleShape2D_xfyss")
-
-[node name="Level3Entrance" type="Area2D" parent="." unique_id=1865303050]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Level3Entrance" unique_id=2093592464]
-position = Vector2(1398, 108)
-scale = Vector2(0.672, 0.672)
-sprite_frames = SubResource("SpriteFrames_qr0ht")
-animation = &"activated"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3Entrance" unique_id=1009865277]
-position = Vector2(1398, 105)
-shape = SubResource("RectangleShape2D_3ngjr")
+[node name="BuildingDoor" parent="." unique_id=1477431834 instance=ExtResource("5_ei405")]
+position = Vector2(403, 107)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=789966263 groups=["player"]]
 script = ExtResource("1_epypp")
@@ -605,9 +416,6 @@ volume_db = 4.245
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D" unique_id=1716782509]
 
-[node name="WeaponPickup" parent="." unique_id=897978754 instance=ExtResource("weapon_scene")]
-position = Vector2(570, 130)
-
 [node name="Checkpoint" parent="." unique_id=1768448503 instance=ExtResource("checkpoint_scene")]
 position = Vector2(1450, 100)
 
@@ -629,6 +437,9 @@ grow_vertical = 2
 text = "PRESSIONE \"E\" PARA ENTRAR"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="NPC_Garota" parent="." unique_id=1725092301 instance=ExtResource("17_flf07")]
+position = Vector2(-87, 142)
 
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_body_entered"]

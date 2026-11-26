@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://d1uo15dg4su2k"]
 
 [ext_resource type="PackedScene" uid="uid://dg8bqebkuxbcb" path="res://map.tscn" id="1_56m0x"]
+[ext_resource type="Texture2D" uid="uid://b534j53bqc8fs" path="res://sprites/fundo beta/city 4/7 - Copia.png" id="2_nlnkr"]
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_player"]
 [ext_resource type="Texture2D" uid="uid://bycn6557dfrnu" path="res://sprites/fundo beta/city 4/7.png" id="2_xjdo3"]
 [ext_resource type="PackedScene" uid="uid://b054feeggosfi" path="res://enemy.tscn" id="3_2a8em"]
@@ -9,20 +10,57 @@
 [ext_resource type="PackedScene" uid="uid://bu2x654f207ol" path="res://Enemies/enemy_tank.tscn" id="7_tank"]
 [ext_resource type="PackedScene" path="res://Rat/rat.tscn" id="8_qk43d"]
 [ext_resource type="PackedScene" uid="uid://7p64i08v52he" path="res://button.tscn" id="9_button"]
-[ext_resource type="PackedScene" path="res://Doors/one_way_door.tscn" id="10_door"]
+[ext_resource type="PackedScene" uid="uid://8xe04kkb4gvf" path="res://Doors/one_way_door.tscn" id="10_door"]
 [ext_resource type="PackedScene" path="res://Narrator/narrator_trigger.tscn" id="11_narrator"]
+[ext_resource type="PackedScene" path="res://UI/mission_hud.tscn" id="12_missions"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqfht"]
+size = Vector2(55.19635, 217.68745)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(239.48074, 39.656204)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
 
 [node name="Level01Entrance" type="Node2D" unique_id=798484912]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=902133215]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=410193695]
+position = Vector2(329.5, 473)
+scale = Vector2(1.1232638, 1.1851852)
+texture = ExtResource("2_xjdo3")
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=705935028]
-position = Vector2(-9, 0)
-motion_mirroring = Vector2(760, 0)
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=481707312]
+position = Vector2(976, 473)
+scale = Vector2(1.1232638, 1.1851852)
+texture = ExtResource("2_xjdo3")
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=389666027]
-position = Vector2(217.50006, 504.87497)
-scale = Vector2(1.3246528, 1.0300925)
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=125649715]
+position = Vector2(1623, 473)
+scale = Vector2(1.1232638, 1.1851852)
+texture = ExtResource("2_nlnkr")
+
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=2060946185]
+position = Vector2(2270, 473)
+scale = Vector2(1.1232638, 1.1851852)
+texture = ExtResource("2_xjdo3")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D4" unique_id=1992192294]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D4/StaticBody2D" unique_id=950274988]
+position = Vector2(262.62756, 44.71875)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_wqfht")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Sprite2D4" unique_id=295806084]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D4/StaticBody2D2" unique_id=438036751]
+position = Vector2(170.93054, -75.09375)
+scale = Vector2(0.9999995, 0.99999976)
+shape = SubResource("RectangleShape2D_bhunq")
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=1375161072]
+position = Vector2(2916, 473)
+scale = Vector2(1.1232638, 1.1851852)
 texture = ExtResource("2_xjdo3")
 
 [node name="map" parent="." unique_id=1450266795 instance=ExtResource("1_56m0x")]
@@ -67,7 +105,15 @@ vanish_targets = Array[NodePath]([NodePath("../map/PassagemSecreta")])
 [node name="BotaoVoltarCidade" parent="." unique_id=1461162902 instance=ExtResource("9_button")]
 position = Vector2(-843, 619)
 action = 1
+mission_id = "nucleo_ia"
 
 [node name="EntradaDaInstalacao" type="Marker2D" parent="." unique_id=1940560931]
 position = Vector2(930, 784)
 gizmo_extents = 40.0
+
+[node name="MissionHUD" parent="." unique_id=632065287 instance=ExtResource("12_missions")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2139683801]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=976762485]
+shape = SubResource("RectangleShape2D_riqys")
