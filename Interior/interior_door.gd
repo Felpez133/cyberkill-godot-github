@@ -11,6 +11,10 @@ extends Area2D
 @export var active: bool = true
 ## Duração do fade de saída (segundos).
 @export var fade_time: float = 0.6
+## Se for 0 ou mais, o portal LIBERA sozinho quando PlayerData.world_unlocked[índice] for true
+## (1 = Fase 2). Use junto com "Unlocked Title".
+@export var unlock_world_index: int = -1
+@export var unlocked_title: String = ""
 
 var player_inside := false
 
@@ -20,6 +24,10 @@ var player_inside := false
 
 func _ready() -> void:
 	add_to_group("interior_doors")
+	if unlock_world_index >= 0 and unlock_world_index < PlayerData.world_unlocked.size() and PlayerData.world_unlocked[unlock_world_index]:
+		active = true
+		if unlocked_title != "":
+			title = unlocked_title
 	if title_label != null:
 		title_label.text = title
 		var color := Color(0.45, 0.95, 1.0) if active else Color(0.65, 0.65, 0.72)

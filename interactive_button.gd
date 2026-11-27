@@ -21,12 +21,29 @@ enum Action { NONE, CHANGE_SCENE }
 @export var vanish_targets: Array[NodePath] = []
 @export var vanish_time := 1.2
 @export var one_shot := true
+## Câmera: ao ativar, a câmera viaja até este nó (caminho relativo ao botão), espera, faz os
+## "Vanish Targets" sumirem NA FRENTE do jogador e volta. Deixe vazio para não ter cutscene.
+@export_group("Câmera")
+@export var camera_focus: NodePath
+@export var camera_travel_time := 1.1
+## Pausa com a câmera parada no alvo ANTES de começar a sumir.
+@export var camera_hold_before := 0.5
+## Pausa depois que o efeito de sumir termina, antes de voltar.
+@export var camera_hold_after := 0.8
+@export var camera_focus_offset := Vector2.ZERO
+## Congela o jogador (e o deixa sem levar dano) durante a cutscene.
+@export var freeze_player := true
+@export_group("Progressão")
+## Mundo liberado ao ativar este botão (0 = Mundo 1, 1 = Mundo 2...). -1 = nenhum.
+@export var unlock_world_index := -1
+@export_group("Cores")
 @export var locked_color := Color(1.0, 0.45, 0.45)
 @export var unlocked_color := Color(0.45, 1.0, 0.6)
 
 var player_near := false
 var used := false
 var transitioning := false
+var busy := false
 
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D") as Sprite2D
 @onready var prompt: Label = get_node_or_null("Prompt") as Label
@@ -64,7 +81,7 @@ func _update_prompt() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not player_near or transitioning:
+	if not player_near or transitioning or busy:
 		return
 	if used and one_shot:
 		return
@@ -83,14 +100,73 @@ func _activate() -> void:
 	activated.emit()
 	if mission_id != "":
 		PlayerData.complete_mission(mission_id)
+	if unlock_world_index >= 0:
+		PlayerData.unlock_world(unlock_world_index)
+	var focus: Node2D = null
+	if not camera_focus.is_empty():
+		focus = get_node_or_null(camera_focus) as Node2D
+		if focus == null:
+			push_warning("Botão: nó não encontrado em Camera Focus: %s" % str(camera_focus))
+	if focus != null:
+		busy = true
+		await _camera_sequence(focus)
+		busy = false
+	else:
+		_vanish_all()
+	if action == Action.CHANGE_SCENE:
+		_change_scene()
+
+
+func _vanish_all() -> void:
 	for path in vanish_targets:
 		var node := get_node_or_null(path)
 		if node == null:
 			push_warning("Botão: nó não encontrado em Vanish Targets: %s" % str(path))
 			continue
 		_vanish(node)
-	if action == Action.CHANGE_SCENE:
-		_change_scene()
+
+
+## Câmera vai até o alvo, espera, a passagem some na frente do jogador, e a câmera volta.
+func _camera_sequence(focus: Node2D) -> void:
+	var player_cam := get_viewport().get_camera_2d()
+	if player_cam == null:
+		_vanish_all()
+		return
+	var player := get_tree().get_first_node_in_group("player")
+	_lock_player(player, true)
+	var cam := Camera2D.new()
+	cam.zoom = player_cam.zoom
+	cam.position_smoothing_enabled = false
+	get_tree().current_scene.add_child(cam)
+	cam.global_position = player_cam.get_screen_center_position()
+	cam.make_current()
+	var go := create_tween()
+	go.tween_property(cam, "global_position", focus.global_position + camera_focus_offset, camera_travel_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	await go.finished
+	await get_tree().create_timer(camera_hold_before).timeout
+	_vanish_all()
+	await get_tree().create_timer(vanish_time + camera_hold_after).timeout
+	if is_instance_valid(player_cam):
+		var back := create_tween()
+		back.tween_property(cam, "global_position", player_cam.get_screen_center_position(), camera_travel_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		await back.finished
+		player_cam.make_current()
+	cam.queue_free()
+	_lock_player(player, false)
+
+
+func _lock_player(player: Node, locked: bool) -> void:
+	if player == null or not freeze_player:
+		return
+	player.set("cutscene_lock", locked)
+	player.set_physics_process(not locked)
+	if locked:
+		player.set("velocity", Vector2.ZERO)
+		var steps = player.get("footsteps")
+		if steps != null:
+			steps.stop()
+		if player.has_method("play_animation"):
+			player.play_animation("idle")
 
 
 func _vanish(node: Node) -> void:
@@ -125,6 +201,8 @@ func _change_scene() -> void:
 		push_error("Botão: a cena de destino não existe: " + target_scene)
 		return
 	transitioning = true
+	if target_scene.ends_with("node_2d.tscn"):
+		PlayerData.returned_from_level = true
 	var layer := CanvasLayer.new()
 	layer.layer = 40
 	get_tree().current_scene.add_child(layer)

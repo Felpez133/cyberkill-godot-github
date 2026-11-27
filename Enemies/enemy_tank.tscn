@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bu2x654f207ol"]
 
-[ext_resource type="Script" uid="uid://dcbkvvyggfqnf" path="res://Enemies/enemy_base.gd" id="1_base"]
+[ext_resource type="Script" path="res://Enemies/enemy_tank.gd" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://12pghasgus2q" path="res://sprites/inimigos/te1/Idle.png" id="2_idle"]
 [ext_resource type="Texture2D" uid="uid://bnmj6oue2e7dx" path="res://sprites/inimigos/te1/Walk.png" id="3_walk"]
+[ext_resource type="Texture2D" path="res://sprites/inimigos/te1/Attack.png" id="4_attack"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_enemytank_idle_0"]
 atlas = ExtResource("2_idle")
@@ -36,8 +37,41 @@ region = Rect2(96, 0, 48, 48)
 atlas = ExtResource("3_walk")
 region = Rect2(144, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemytank_attack_0"]
+atlas = ExtResource("4_attack")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemytank_attack_1"]
+atlas = ExtResource("4_attack")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemytank_attack_2"]
+atlas = ExtResource("4_attack")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemytank_attack_3"]
+atlas = ExtResource("4_attack")
+region = Rect2(144, 0, 48, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_enemytank"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enemytank_attack_0")
+},{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enemytank_attack_1")
+},{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enemytank_attack_2")
+},{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enemytank_attack_3")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_enemytank_idle_0")
@@ -90,6 +124,8 @@ damage_cooldown = 1.2
 recoil_distance = 36.0
 recoil_duration = 0.4
 recoil_cooldown = 0.8
+shoot_range = 260.0
+shoot_interval = 1.8
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=421586735]
 position = Vector2(0, -24)

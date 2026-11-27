@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerData="*res://player_data.gd"
+GameSettings="*res://game_settings.gd"
 MusicManager="*res://music_manager.gd"
 Narrator="*res://Narrator/narrator.gd"
 Dialogic="*uid://ds2q0uclmolvu"

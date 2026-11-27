@@ -119,6 +119,9 @@ title = "FASE 1  —  CIDADE"
 position = Vector2(1080, 615)
 title = "FASE 2  —  BLOQUEADA"
 active = false
+target_scene = "res://level_2.tscn"
+unlock_world_index = 1
+unlocked_title = "FASE 2"
 
 [node name="Portal_Fase3" parent="Portais" unique_id=1394101515 instance=ExtResource("9_portal")]
 position = Vector2(1550, 615)

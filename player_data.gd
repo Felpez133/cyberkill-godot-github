@@ -17,6 +17,8 @@ var narration_seen: Dictionary = {}
 # Missões da fase. Só contam enquanto existir uma lista de missões (UI/mission_hud.tscn) na cena;
 # ela liga/desliga missions_tracking sozinha. Assim o tutorial e a cidade não contam.
 var missions_tracking: bool = false
+# Marcado quando o jogador volta de uma fase para a cidade (muda a fala da narradora em world_map.gd).
+var returned_from_level: bool = false
 var missions_done: Dictionary = {}
 var enemies_killed: int = 0
 
@@ -29,6 +31,13 @@ func new_game() -> void:
 	narration_seen = {}
 	missions_done = {}
 	enemies_killed = 0
+	returned_from_level = false
+
+
+## Libera um mundo (0 = Mundo 1, 1 = Mundo 2...). O portal do prédio acende sozinho.
+func unlock_world(index: int) -> void:
+	if index >= 0 and index < world_unlocked.size():
+		world_unlocked[index] = true
 
 
 func complete_mission(id: String) -> void:

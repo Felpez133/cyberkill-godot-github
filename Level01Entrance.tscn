@@ -4,15 +4,24 @@
 [ext_resource type="Texture2D" uid="uid://b534j53bqc8fs" path="res://sprites/fundo beta/city 4/7 - Copia.png" id="2_nlnkr"]
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_player"]
 [ext_resource type="Texture2D" uid="uid://bycn6557dfrnu" path="res://sprites/fundo beta/city 4/7.png" id="2_xjdo3"]
-[ext_resource type="PackedScene" uid="uid://b054feeggosfi" path="res://enemy.tscn" id="3_2a8em"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_bb9_fase1.tscn" id="3_2a8em"]
+[ext_resource type="Texture2D" uid="uid://dvtnoqfpbtps6" path="res://sprites/fundo beta/city 4/8.png" id="3_x2mlw"]
+[ext_resource type="Texture2D" uid="uid://cfsg7jpulay38" path="res://sprites/fundo beta/city 4/7 - Copia (2).png" id="4_gj0go"]
 [ext_resource type="PackedScene" path="res://wall_jump_crate.tscn" id="5_wall_jump_crate"]
-[ext_resource type="PackedScene" path="res://Enemies/enemy_cyborg.tscn" id="6_cyborg"]
+[ext_resource type="PackedScene" uid="uid://qjdv7op0tsba" path="res://Enemies/enemy_cyborg.tscn" id="6_cyborg"]
+[ext_resource type="Texture2D" uid="uid://mnbl5ccoyymg" path="res://sprites/fundo beta/city 4/3.png" id="6_it8wg"]
 [ext_resource type="PackedScene" uid="uid://bu2x654f207ol" path="res://Enemies/enemy_tank.tscn" id="7_tank"]
 [ext_resource type="PackedScene" path="res://Rat/rat.tscn" id="8_qk43d"]
 [ext_resource type="PackedScene" uid="uid://7p64i08v52he" path="res://button.tscn" id="9_button"]
 [ext_resource type="PackedScene" uid="uid://8xe04kkb4gvf" path="res://Doors/one_way_door.tscn" id="10_door"]
 [ext_resource type="PackedScene" path="res://Narrator/narrator_trigger.tscn" id="11_narrator"]
 [ext_resource type="PackedScene" path="res://UI/mission_hud.tscn" id="12_missions"]
+[ext_resource type="Texture2D" uid="uid://dvbpwovr7f463" path="res://sprites/fundo beta/city 4/1.png" id="13_sky"]
+[ext_resource type="Texture2D" uid="uid://di8j8hkdp7hci" path="res://sprites/tilesmap/pointer tilemap/separed/Tiles/tile_0070.png" id="16_mqadr"]
+[ext_resource type="Script" uid="uid://dshoo5aow55k8" path="res://sky_background.gd" id="20_sky"]
+[ext_resource type="PackedScene" path="res://PowerUps/powerup_infi_life.tscn" id="21_infi"]
+[ext_resource type="PackedScene" path="res://PowerUps/powerup_randon.tscn" id="22_randon"]
+[ext_resource type="Texture2D" uid="uid://bdj7m8jp118qo" path="res://sprites/tilesmap/pointer tilemap/separed/Tiles/tile_0071.png" id="22_vvsv8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wqfht"]
 size = Vector2(55.19635, 217.68745)
@@ -20,17 +29,56 @@ size = Vector2(55.19635, 217.68745)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 size = Vector2(239.48074, 39.656204)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mqadr"]
+size = Vector2(55.19635, 217.68745)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cn5p"]
+size = Vector2(239.48074, 39.656204)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
 
 [node name="Level01Entrance" type="Node2D" unique_id=798484912]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=410193695]
-position = Vector2(329.5, 473)
-scale = Vector2(1.1232638, 1.1851852)
-texture = ExtResource("2_xjdo3")
+[node name="FundoCeu" type="CanvasLayer" parent="." unique_id=491566052]
+layer = -100
+script = ExtResource("20_sky")
+
+[node name="Fundo" type="TextureRect" parent="FundoCeu" unique_id=1535636822]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("13_sky")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=912142548]
+scale = Vector2(1.1232637, 1.1851851)
+repeat_size = Vector2(475, 0)
+
+[node name="Sprite2D7" type="Sprite2D" parent="Parallax2D2" unique_id=121505044]
+position = Vector2(501.21793, 419.34378)
+scale = Vector2(0.85085046, 0.8255209)
+texture = ExtResource("3_x2mlw")
+
+[node name="Parallax2D3" type="Parallax2D" parent="." unique_id=389258925]
+scale = Vector2(1.1232638, 1.1851851)
+repeat_size = Vector2(475, 0)
+
+[node name="Sprite2D7" type="Sprite2D" parent="Parallax2D3" unique_id=1286298205]
+position = Vector2(501.21793, 419.34378)
+scale = Vector2(0.85085046, 0.8255209)
+texture = ExtResource("3_x2mlw")
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=481707312]
 position = Vector2(976, 473)
+scale = Vector2(1.1232638, 1.1851852)
+texture = ExtResource("2_xjdo3")
+
+[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=164588949]
+position = Vector2(2917, 473)
 scale = Vector2(1.1232638, 1.1851852)
 texture = ExtResource("2_xjdo3")
 
@@ -38,6 +86,29 @@ texture = ExtResource("2_xjdo3")
 position = Vector2(1623, 473)
 scale = Vector2(1.1232638, 1.1851852)
 texture = ExtResource("2_nlnkr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2135188171]
+position = Vector2(325.71603, 473.4815)
+scale = Vector2(1.1398749, 1.1819845)
+texture = ExtResource("4_gj0go")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=359687315]
+position = Vector2(2270, 473)
+scale = Vector2(1.1232638, 1.1851852)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" unique_id=634529249]
+position = Vector2(262.62756, 44.71875)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_wqfht")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="." unique_id=1295782380]
+position = Vector2(2270, 473)
+scale = Vector2(1.1232638, 1.1851852)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4" unique_id=386540054]
+position = Vector2(170.93054, -75.09375)
+scale = Vector2(0.9999995, 0.99999976)
+shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="Sprite2D4" type="Sprite2D" parent="." unique_id=2060946185]
 position = Vector2(2270, 473)
@@ -47,41 +118,51 @@ texture = ExtResource("2_xjdo3")
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D4" unique_id=1992192294]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D4/StaticBody2D" unique_id=950274988]
-position = Vector2(262.62756, 44.71875)
+position = Vector2(-1707.5242, 44.71875)
 scale = Vector2(0.9999998, 0.9999998)
-shape = SubResource("RectangleShape2D_wqfht")
+shape = SubResource("RectangleShape2D_mqadr")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="Sprite2D4" unique_id=295806084]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D4/StaticBody2D2" unique_id=438036751]
-position = Vector2(170.93054, -75.09375)
+position = Vector2(-1617.6073, -75.09375)
 scale = Vector2(0.9999995, 0.99999976)
-shape = SubResource("RectangleShape2D_bhunq")
+shape = SubResource("RectangleShape2D_8cn5p")
 
-[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=1375161072]
-position = Vector2(2916, 473)
-scale = Vector2(1.1232638, 1.1851852)
-texture = ExtResource("2_xjdo3")
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1342850694]
+scale = Vector2(1.1232637, 1.1851851)
+repeat_size = Vector2(475, 0)
+repeat_times = 4
+
+[node name="Sprite2D7" type="Sprite2D" parent="Parallax2D" unique_id=489366222]
+position = Vector2(1260.612, 393.18753)
+scale = Vector2(0.85085046, 0.8255209)
+texture = ExtResource("6_it8wg")
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=1314839120]
+position = Vector2(-132, 864.0001)
+scale = Vector2(5.3437505, 7.125001)
+texture = ExtResource("16_mqadr")
 
 [node name="map" parent="." unique_id=1450266795 instance=ExtResource("1_56m0x")]
 
 [node name="Player" parent="." unique_id=2007473112 instance=ExtResource("2_player")]
-position = Vector2(151, 515)
+position = Vector2(-148, 518)
 
 [node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("3_2a8em")]
-position = Vector2(917, 640)
+position = Vector2(851, 1273)
 
 [node name="EnemyCyborg" parent="." unique_id=1503554759 instance=ExtResource("6_cyborg")]
-position = Vector2(820, 654)
+position = Vector2(712, 1270)
 
 [node name="EnemyTank" parent="." unique_id=1684376685 instance=ExtResource("7_tank")]
-position = Vector2(1040, 654)
+position = Vector2(1017, 1259)
 
 [node name="WallJumpCrate" parent="." unique_id=1236858170 instance=ExtResource("5_wall_jump_crate")]
 position = Vector2(453, 4188)
 
 [node name="Rat" parent="." unique_id=782071777 instance=ExtResource("8_qk43d")]
-position = Vector2(710, 656)
+position = Vector2(618, 1257)
 
 [node name="NarradoraInicio" parent="." unique_id=1439175515 instance=ExtResource("11_narrator")]
 position = Vector2(330, 560)
@@ -96,16 +177,101 @@ narration_id = "fase1_porta"
 size = Vector2(220, 300)
 
 [node name="PortaMaoUnica" parent="." unique_id=1626925091 instance=ExtResource("10_door")]
-position = Vector2(-668, 650)
+position = Vector2(-1496, 669)
+open_side = 0
 
 [node name="BotaoPassagemSecreta" parent="." unique_id=833946094 instance=ExtResource("9_button")]
-position = Vector2(-491, 1107)
+position = Vector2(-3767, 1057)
 vanish_targets = Array[NodePath]([NodePath("../map/PassagemSecreta")])
+camera_focus = NodePath("../Sprite2D5")
 
 [node name="BotaoVoltarCidade" parent="." unique_id=1461162902 instance=ExtResource("9_button")]
-position = Vector2(-843, 619)
+position = Vector2(-1865, 622)
 action = 1
 mission_id = "nucleo_ia"
+unlock_world_index = 1
+
+[node name="Inimigos" type="Node2D" parent="." unique_id=1990891189]
+
+[node name="BB9_1" parent="Inimigos" unique_id=1816498222 instance=ExtResource("3_2a8em")]
+position = Vector2(1976, 644)
+patrol_distance = 160.0
+
+[node name="Cyborg_1" parent="Inimigos" unique_id=644856169 instance=ExtResource("6_cyborg")]
+position = Vector2(-546, 1152)
+
+[node name="Cyborg_2" parent="Inimigos" unique_id=2055515290 instance=ExtResource("6_cyborg")]
+position = Vector2(-1144, 1264)
+patrol_distance = 56.0
+
+[node name="BB9_2" parent="Inimigos" unique_id=1827948896 instance=ExtResource("3_2a8em")]
+position = Vector2(-2616, 1524)
+patrol_distance = 160.0
+
+[node name="Cyborg_3" parent="Inimigos" unique_id=158469983 instance=ExtResource("6_cyborg")]
+position = Vector2(-3576, 1744)
+
+[node name="Tanque_1" parent="Inimigos" unique_id=928827729 instance=ExtResource("7_tank")]
+position = Vector2(-1656, 1888)
+patrol_distance = 160.0
+
+[node name="BB9_3" parent="Inimigos" unique_id=1338755112 instance=ExtResource("3_2a8em")]
+position = Vector2(-408, 1892)
+patrol_distance = 56.0
+
+[node name="Cyborg_4" parent="Inimigos" unique_id=1653103855 instance=ExtResource("6_cyborg")]
+position = Vector2(-3016, 2480)
+
+[node name="Tanque_2" parent="Inimigos" unique_id=600196003 instance=ExtResource("7_tank")]
+position = Vector2(-3896, 3008)
+patrol_distance = 152.0
+
+[node name="BB9_4" parent="Inimigos" unique_id=1554076332 instance=ExtResource("3_2a8em")]
+position = Vector2(-424, 2996)
+patrol_distance = 160.0
+
+[node name="BB9_6" parent="Inimigos" unique_id=1344755672 instance=ExtResource("3_2a8em")]
+position = Vector2(831, 2932)
+patrol_distance = 160.0
+
+[node name="Cyborg_5" parent="Inimigos" unique_id=1288069677 instance=ExtResource("6_cyborg")]
+position = Vector2(392, 3008)
+patrol_distance = 112.0
+
+[node name="Tanque_3" parent="Inimigos" unique_id=1313473602 instance=ExtResource("7_tank")]
+position = Vector2(1336, 3008)
+patrol_distance = 160.0
+
+[node name="BB9_5" parent="Inimigos" unique_id=1654941222 instance=ExtResource("3_2a8em")]
+position = Vector2(-2472, 3124)
+patrol_distance = 120.0
+
+[node name="Cyborg_6" parent="Inimigos" unique_id=1486404021 instance=ExtResource("6_cyborg")]
+position = Vector2(-40, 4176)
+
+[node name="Tanque_4" parent="Inimigos" unique_id=1207650593 instance=ExtResource("7_tank")]
+position = Vector2(-984, 4224)
+patrol_distance = 160.0
+
+[node name="EnemyBB9Fase1" parent="Inimigos" unique_id=418109716 instance=ExtResource("3_2a8em")]
+position = Vector2(-1091, 641)
+
+[node name="EnemyBB9Fase2" parent="Inimigos" unique_id=1228698708 instance=ExtResource("3_2a8em")]
+position = Vector2(-1065, 641)
+
+[node name="EnemyBB9Fase3" parent="Inimigos" unique_id=349355324 instance=ExtResource("3_2a8em")]
+position = Vector2(-1115, 643)
+
+[node name="EnemyBB9Fase4" parent="Inimigos" unique_id=1698562541 instance=ExtResource("3_2a8em")]
+position = Vector2(-1042, 638)
+
+[node name="PowerUps" type="Node2D" parent="." unique_id=1412163430]
+
+[node name="PowerUpInfiLife2" parent="PowerUps" unique_id=837813677 instance=ExtResource("21_infi")]
+position = Vector2(-300, 628)
+
+[node name="PowerUpRandon" parent="PowerUps" unique_id=1314142425 instance=ExtResource("22_randon")]
+position = Vector2(531, 1599)
 
 [node name="EntradaDaInstalacao" type="Marker2D" parent="." unique_id=1940560931]
 position = Vector2(930, 784)
@@ -117,3 +283,44 @@ gizmo_extents = 40.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=976762485]
 shape = SubResource("RectangleShape2D_riqys")
+
+[node name="sing" type="Sprite2D" parent="." unique_id=2083961072]
+position = Vector2(-1041, 2944)
+scale = Vector2(4.406247, 5.218758)
+texture = ExtResource("22_vvsv8")
+
+[node name="EnemyCyborg2" parent="." unique_id=2070073962 instance=ExtResource("6_cyborg")]
+position = Vector2(-1145, 655)
+
+[node name="EnemyCyborg3" parent="." unique_id=813649708 instance=ExtResource("6_cyborg")]
+position = Vector2(-1009, 654)
+
+[node name="EnemyTank2" parent="." unique_id=305427365 instance=ExtResource("7_tank")]
+position = Vector2(-963, 653)
+
+[node name="EnemyTank3" parent="." unique_id=1365531436 instance=ExtResource("7_tank")]
+position = Vector2(-1173, 655)
+
+[node name="EnemyCyborg4" parent="." unique_id=1483066920 instance=ExtResource("6_cyborg")]
+position = Vector2(-926, 656)
+
+[node name="EnemyBB9Fase1" parent="." unique_id=882305732 instance=ExtResource("3_2a8em")]
+position = Vector2(-898, 642)
+
+[node name="EnemyBB9Fase2" parent="." unique_id=244304367 instance=ExtResource("3_2a8em")]
+position = Vector2(-864, 643)
+
+[node name="EnemyBB9Fase3" parent="." unique_id=1014163044 instance=ExtResource("3_2a8em")]
+position = Vector2(-827, 645)
+
+[node name="EnemyTank4" parent="." unique_id=1547875739 instance=ExtResource("7_tank")]
+position = Vector2(-783, 655)
+
+[node name="EnemyCyborg5" parent="." unique_id=1072670453 instance=ExtResource("6_cyborg")]
+position = Vector2(-756, 654)
+
+[node name="EnemyCyborg6" parent="." unique_id=566802336 instance=ExtResource("6_cyborg")]
+position = Vector2(-732, 655)
+
+[node name="EnemyTank5" parent="." unique_id=1778962643 instance=ExtResource("7_tank")]
+position = Vector2(-696, 657)

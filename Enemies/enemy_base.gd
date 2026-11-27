@@ -17,6 +17,10 @@ extends CharacterBody2D
 @export var speed: float = 85.0
 @export var patrol_distance: float = 180.0
 @export var detection_radius: float = 230.0
+## Marque para o inimigo ficar PARADO (não patrulha nem persegue). Ele ainda pode ser atingido.
+@export var stationary: bool = false
+## Não anda para fora de plataformas (buracos) nem fica empurrando parede.
+@export var avoid_ledges: bool = true
 ## Marque se a arte original olha para a DIREITA (padrão). Desmarque se ela olha para a esquerda.
 @export var sprite_faces_right: bool = true
 
@@ -38,7 +42,9 @@ extends CharacterBody2D
 ## Se ligado, o recuo é cancelado quando não há chão atrás (evita cair de plataformas).
 @export var recoil_avoid_ledges: bool = true
 
-var health: int
+var health: float
+## Travado = não anda (usado pelo tanque enquanto atira).
+var move_locked := false
 var _dead := false
 var player: Node2D
 var damage_timer := 0.0
@@ -87,7 +93,7 @@ func _physics_process(delta: float) -> void:
 
 	if _player_in_contact():
 		_try_damage_player()
-		if recoil_enabled and recoil_timer <= 0.0 and recoil_cooldown_timer <= 0.0:
+		if recoil_enabled and not stationary and recoil_timer <= 0.0 and recoil_cooldown_timer <= 0.0:
 			_start_recoil()
 
 	if recoil_timer > 0.0:
@@ -105,8 +111,14 @@ func _physics_process(delta: float) -> void:
 
 # ---------------------------------------------------------------- movimento normal
 func _walk_step() -> void:
+	if stationary or move_locked:
+		velocity.x = 0.0
+		if is_instance_valid(player):
+			_set_facing(signf(player.global_position.x - global_position.x))
+		return
+	var chasing := is_instance_valid(player)
 	var dir := patrol_direction
-	if is_instance_valid(player):
+	if chasing:
 		dir = signf(player.global_position.x - global_position.x)
 	else:
 		if global_position.x >= patrol_origin + patrol_distance:
@@ -114,6 +126,18 @@ func _walk_step() -> void:
 		elif global_position.x <= patrol_origin - patrol_distance:
 			patrol_direction = 1.0
 		dir = patrol_direction
+	# Não anda para fora de plataformas nem empurra parede: patrulhando, dá meia-volta;
+	# perseguindo, só para.
+	if is_on_floor() and dir != 0.0:
+		var blocked := avoid_ledges and not _has_floor_ahead(dir)
+		if is_on_wall() and get_wall_normal().x * dir < 0.0:
+			blocked = true
+		if blocked:
+			if not chasing:
+				patrol_direction = -dir
+			velocity.x = 0.0
+			_set_facing(dir if chasing else patrol_direction)
+			return
 	velocity.x = dir * speed
 	_set_facing(dir)
 
@@ -172,16 +196,20 @@ func _try_damage_player() -> void:
 		damage_timer = damage_cooldown
 
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: float) -> void:
 	if _dead:
 		return
+
 	health -= amount
 	flash_timer = 0.16
+
 	if health <= 0:
 		_dead = true
 		PlayerData.register_kill()
-		queue_free()
 
+		get_tree().call_group("enemy_labels", "on_enemy_died", self)
+
+		queue_free()
 
 func _on_detection_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

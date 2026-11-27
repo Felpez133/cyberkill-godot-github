@@ -1,0 +1,42 @@
+CYBERKILL v0.9 — 11 MUDANÇAS
+============================
+*** NADA FOI EXECUTADO NO GODOT (não havia o executável aqui). Só revisão estática. ***
+Abra no Godot 4.7, deixe reimportar e teste. Se aparecer erro vermelho, me mande o texto.
+
+1) PORTA: PortaMaoUnica (Level01Entrance) agora tem Open Side = Right (abre pelo lado direito).
+2) TANQUE ATIRA: Enemies/enemy_tank.gd (+ Enemies/enemy_bullet.tscn). Atira quando o jogador está
+   dentro de "Shoot Range" (260 px) e sem parede no caminho. Ajuste no Inspector: Shoot Interval,
+   Bullet Speed, Bullet Damage, Muzzle Offset (posição do cano). Usa Attack.png e Ball1.png.
+   Todos os inimigos agora também NÃO andam para fora de plataformas (Avoid Ledges) e podem ser
+   marcados como Stationary (parados).
+3) PASSAGEM SECRETA: o BotaoPassagemSecreta tem "Camera Focus" = ../Sprite2D5. Ao apertar E a
+   câmera viaja até lá, a passagem pisca e some, e a câmera volta. O jogador fica congelado e sem
+   levar dano durante isso. Opções no grupo "Câmera" do botão.
+4) POWER-UPS (cada um em sua cena, na pasta PowerUps/), ambos com aviso e botão RECUSAR:
+   - powerup_infi_life.tscn: aviso -> COMEÇAR -> 20 s imortal; quem encostar em você morre.
+   - powerup_randon.tscn: aviso -> SORTEAR -> roleta -> avisa a habilidade: TIRO HITKILL,
+     VELOCIDADE+ (menos dano), DANO+ (menos velocidade), SUPER PULO. Edite ABILITIES no .gd.
+   Só a VIDA INFINITA tem timer (Duration = 20 s). Os sorteados duram a partida inteira (até
+   morrer/recarregar a fase) e podem ficar junto com a vida infinita. Estão na fase 1 (nó PowerUps).
+   Interpretei "pontos baixos" como pontos fracos/desvantagens de cada power-up.
+5) FLUTUAR: power-ups e a arma (weapon_pickup) sobem e descem em loop até serem pegos
+   (Bob Height / Bob Time).
+6) SOL: o fundo agora é uma CanvasLayer (FundoCeu) presa à câmera, sempre atrás. Nas cavernas ele
+   some aos poucos (Hide Underground no nó FundoCeu; desmarque para o sol ficar sempre visível).
+7) INIMIGOS: 15 novos no nó "Inimigos" da fase 1 (5 BB9, 6 cyborgs, 4 tanques), em chão plano
+   calculado a partir do mapa. Total 18 => o bônus de 15 inimigos fica possível.
+8) FASE 2: o BotaoVoltarCidade libera o Mundo 2 (Unlock World Index = 1). Ao voltar, o Portal_Fase2
+   do prédio acende e leva para res://level_2.tscn (cena provisória que criei; troque Target Scene
+   do portal se a sua tiver outro nome).
+9) BB9: Enemies/enemy_bb9_fase1.tscn (rápido, speed 170) na fase 1 e
+   Enemies/enemy_bb9_tutorial.tscn (parado) no tutorial. enemy.tscn continua como base.
+10) CONFIGURAÇÕES: o botão "Rever Tutorial" virou "Configurações" (Settings/settings_menu.tscn):
+   volume geral e música (barra OU número), campo de cheats. Cheats: "morais" = skin de rato,
+   "infi" = invencível (digite de novo para desligar). Volumes ficam salvos; cheats não.
+   Novo autoload GameSettings (game_settings.gd).
+11) TUTORIAL: a Area2D dos espinhos (TileMapLayer2/Area2D) agora leva o jogador de volta ao começo
+   sem repetir diálogos, com um único aviso "TENTE DE NOVO". Trigger_Dash foi movido para perto do
+   buraco (x=600) e explica o dash (SHIFT).
+
+PARA CONFERIR: hitbox/posição do rato (cheat morais), posição do cano do tanque, se os inimigos
+novos estão em lugares justos, e se o Sprite2D5 enquadra bem a passagem na câmera.

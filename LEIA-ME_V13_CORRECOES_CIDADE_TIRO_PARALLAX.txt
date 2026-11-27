@@ -1,0 +1,32 @@
+CYBERKILL — CORREÇÕES: HITBOX NA CIDADE, TIRO NO TUTORIAL, FALA AO VOLTAR, PARALLAX
+====================================================================================
+
+*** NADA FOI EXECUTADO NO GODOT (sem o executável aqui). Teste e me mande qualquer erro. ***
+
+1) HITBOX / SPRITE DO PLAYER NO node_2d
+ Causa: o node_2d.tscn tem uma CÓPIA do Player dentro dele (não é instância de player.tscn) e
+ essa cópia estava desalinhada: sprite em (-9,114) e CollisionShape2D em (-21.25,125), enquanto o
+ player.tscn usa (-10,111) e (-9,112). Ou seja, a hitbox ficava ~12 px à esquerda e ~11 px
+ abaixo do desenho. Corrigi os valores no node_2d.tscn para os do player.tscn.
+ Junto: câmera com position_smoothing_speed = 20 (igual às outras fases; antes 5, ficava
+ "arrastando") e a animação inicial do sprite agora é "idle" (estava em "walking_attack").
+ Também arrumei a ordem dos corações do HUD no node_2d (Heart3/4/5 estavam fora de ordem).
+ Dica: se mexer no Player do player.tscn, lembre que o do node_2d é uma cópia separada.
+
+2) FALA DA NARRADORA AO VOLTAR PARA A CIDADE
+ world_map.gd: ao voltar de uma fase pelo botão (interactive_button.gd com destino node_2d),
+ toca CITY_RETURN em vez da introdução. A intro (CITY_INTRO) continua só na primeira vez.
+ Edite os textos de CITY_RETURN em world_map.gd (são provisórios).
+
+3) TIRO NO TUTORIAL
+ Causa: personagem.gd > shoot() definia global_position do tiro ANTES de adicioná-lo à cena.
+ No Tutorial a raiz fica em (448, 684), então o tiro nascia deslocado e nunca chegava no
+ inimigo. Agora adiciona primeiro e posiciona depois (vale para qualquer cena).
+
+4) PARALLAX NA FASE 1
+ Level01Entrance.tscn: novo nó Parallax2D (primeiro filho, z_index -10) com o sprite
+ "sprites/fundo beta/city 4/1.png". scroll_scale = (0.3, 1):
+   X = 0.3 -> acompanha o jogador andando (mais lento que o cenário, efeito de profundidade)
+   Y = 1   -> não acompanha na vertical (some de vista quando desce ao esgoto)
+ Para o fundo "colar" mais no jogador, aumente o X (ex.: 0.6); para ficar parado na tela, use 0.
+ repeat_size X = 647 (largura da imagem escalada) repete o fundo infinitamente na horizontal.

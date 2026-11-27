@@ -14,8 +14,8 @@ position = Vector2(1.75, 0)
 shape = SubResource("RectangleShape2D_ebum8")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1431217690]
-position = Vector2(1.0000019, -1)
-scale = Vector2(0.5625, 0.59375)
+position = Vector2(-1, 1)
+scale = Vector2(0.65625, 0.67968744)
 texture = ExtResource("2_tbnx1")
 
 [node name="Prompt" type="Label" parent="." unique_id=225641147]

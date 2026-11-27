@@ -15,3 +15,5 @@ texture = ExtResource("2_wxgof")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2058904206]
 shape = SubResource("Shape")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=945975025]

@@ -15,16 +15,45 @@ var dialogue_text: Label
 var dialogue_button: Button
 var pending_finish := false
 var shown_stages: Dictionary = {}
+var player_start := Vector2.ZERO
+var spike_lock := false
 
 func _ready() -> void:
 	PlayerData.new_game()
 	_connect_triggers()
+	_connect_spikes()
 	_build_dialogue_ui()
 	_show_dialogue(
 		"TREINAMENTO // BIKER",
 		"Bem-vindo ao treinamento, Biker.\n\nUse A e D ou as setas para andar.\nUse ESPAÇO ou W para pular.\nAperte E para interagir com objetos.\n\nAvance pelo cenário para aprender as habilidades.",
 		"COMEÇAR"
 	)
+
+## Espinhos do buraco (TileMapLayer2/Area2D): voltam o jogador ao começo SEM repetir os diálogos
+## já mostrados e com um único aviso "tente de novo".
+func _connect_spikes() -> void:
+	var player := get_node_or_null("Player") as Node2D
+	if player != null:
+		player_start = player.global_position
+	var spikes := get_node_or_null("TileMapLayer2/Area2D") as Area2D
+	if spikes == null:
+		push_warning("Tutorial: Area2D dos espinhos (TileMapLayer2/Area2D) não encontrada.")
+		return
+	spikes.body_entered.connect(_on_spikes_entered)
+
+func _on_spikes_entered(body: Node2D) -> void:
+	if not body.is_in_group("player") or spike_lock:
+		return
+	spike_lock = true
+	body.global_position = player_start
+	body.set("velocity", Vector2.ZERO)
+	body.set("is_dashing", false)
+	body.set("air_dashes_remaining", body.get("max_air_dashes"))
+	var camera := body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.reset_smoothing()
+	_show_dialogue("TENTE DE NOVO", "Os espinhos te mandaram de volta ao começo.\n\nTente de novo!", "TENTAR DE NOVO")
+	spike_lock = false
 
 func _connect_triggers() -> void:
 	var triggers := get_node_or_null("Triggers")
@@ -42,7 +71,7 @@ func _on_trigger_entered(body: Node2D, stage: int) -> void:
 	shown_stages[stage] = true
 	match stage:
 		0:
-			_show_dialogue("MOVIMENTAÇÃO", "Você pode andar para a esquerda e para a direita com A/D ou as setas.\n\nPule com ESPAÇO ou W para alcançar plataformas e evitar obstáculos.", "ENTENDI")
+			_show_dialogue("MOVIMENTAÇÃO", "Você pode andar para a esquerda e para a direita com A/D ou as setas.\n\nPule com ESPAÇO para alcançar plataformas e evitar obstáculos.", "ENTENDI")
 		1:
 			_show_dialogue("A CAIXA", "Encontrou uma caixa? Chegue perto e aperte E.\n\nEla vai explodir e revelar um pendrive. Chegue perto do pendrive e aperte E para pegá-lo e desbloquear o Wall Jump.", "VOU TENTAR")
 		2:
@@ -52,6 +81,8 @@ func _on_trigger_entered(body: Node2D, stage: int) -> void:
 				_show_dialogue("DICA", "A habilidade Wall Jump ainda está bloqueada. Abra a caixa com E e pegue o pendrive (também com E) antes de tentar saltar nas paredes.", "CONTINUAR")
 		3:
 			_show_dialogue("PEGUE UMA ARMA", "A arma está logo adiante. Chegue perto e aperte E para pegá-la.\n\nSem arma, o Biker não tem ataque.", "CONTINUAR")
+		5:
+			_show_dialogue("DASH", "Esse buraco é largo demais para um pulo comum.\n\nPule e, no ar, aperte SHIFT para dar um DASH: um impulso rápido para a frente na direção em que você olha.\n\nVocê tem até 2 dashes antes de tocar o chão de novo (eles recarregam ao pisar). Cair nos espinhos te leva de volta ao começo.", "VOU TENTAR")
 		4:
 			_show_dialogue("ATAQUE", "Agora que você tem uma arma, clique com o botão esquerdo do mouse para disparar.\n\nBoa! O treinamento terminou. Siga para a cidade quando estiver pronto.", "IR PARA A CIDADE", true)
 

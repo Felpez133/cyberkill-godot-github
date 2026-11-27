@@ -12,6 +12,7 @@ const MUSIC_SCENES: Array[String] = [
 	"res://WorldMap.tscn",
 	"res://BuildingInterior.tscn",
 	"res://Level01Entrance.tscn",
+	"res://level_2.tscn",
 	"res://WorldSelect.tscn",
 ]
 const TARGET_VOLUME_DB := -3.5
@@ -27,7 +28,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	player = AudioStreamPlayer.new()
 	player.name = "Music"
-	player.bus = "Master"
+	# Barramento "Music" criado pelo GameSettings (slider de música nas Configurações).
+	player.bus = GameSettings.MUSIC_BUS if AudioServer.get_bus_index(GameSettings.MUSIC_BUS) != -1 else "Master"
 	if ResourceLoader.exists(MUSIC_PATH):
 		var stream := load(MUSIC_PATH)
 		if stream is AudioStreamMP3:

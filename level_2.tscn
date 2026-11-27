@@ -1,0 +1,63 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://button.tscn" id="2_button"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_cyborg.tscn" id="3_cyborg"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_tank.tscn" id="4_tank"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(4000, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(60, 1200)
+
+[node name="Level2" type="Node2D"]
+
+[node name="Fundo" type="Polygon2D" parent="."]
+z_index = -10
+color = Color(0.025, 0.025, 0.08, 1)
+polygon = PackedVector2Array(-600, -600, 3400, -600, 3400, 900, -600, 900)
+
+[node name="Titulo" type="Label" parent="."]
+offset_left = 80.0
+offset_top = 120.0
+offset_right = 900.0
+offset_bottom = 170.0
+theme_override_colors/font_color = Color(0.35, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "FASE 2  //  EM CONSTRUÇÃO"
+
+[node name="Chao" type="StaticBody2D" parent="."]
+position = Vector2(1400, 450)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chao"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Visual" type="Polygon2D" parent="Chao"]
+color = Color(0.1, 0.45, 0.6, 1)
+polygon = PackedVector2Array(-2000, -50, 2000, -50, 2000, 50, -2000, 50)
+
+[node name="ParedeEsquerda" type="StaticBody2D" parent="."]
+position = Vector2(-600, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParedeEsquerda"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ParedeDireita" type="StaticBody2D" parent="."]
+position = Vector2(3400, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParedeDireita"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(100, 250)
+
+[node name="Cyborg" parent="." instance=ExtResource("3_cyborg")]
+position = Vector2(900, 400)
+
+[node name="Tanque" parent="." instance=ExtResource("4_tank")]
+position = Vector2(1500, 400)
+
+[node name="BotaoVoltarCidade" parent="." instance=ExtResource("2_button")]
+position = Vector2(2600, 350)
+action = 1

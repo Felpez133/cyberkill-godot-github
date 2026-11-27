@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://qjdv7op0tsba"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_base.gd" id="1_base"]
-[ext_resource type="Texture2D" path="res://sprites/inimigos/cyborg/Idle.png" id="2_idle"]
-[ext_resource type="Texture2D" path="res://sprites/inimigos/cyborg/Walk.png" id="3_walk"]
+[ext_resource type="Script" uid="uid://dcbkvvyggfqnf" path="res://Enemies/enemy_base.gd" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://clvay37klf56n" path="res://sprites/inimigos/cyborg/Idle.png" id="2_idle"]
+[ext_resource type="Texture2D" uid="uid://lvtgt4el4ado" path="res://sprites/inimigos/cyborg/Walk.png" id="3_walk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_enemycyborg_idle_0"]
 atlas = ExtResource("2_idle")
@@ -59,7 +59,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_enemycyborg_idle_3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 5.0
 }, {
@@ -82,7 +82,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_enemycyborg_walk_5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 9.0
 }]
@@ -93,29 +93,28 @@ size = Vector2(16, 38)
 [sub_resource type="CircleShape2D" id="CircleShape2D_sight"]
 radius = 240.0
 
-[node name="EnemyCyborg" type="CharacterBody2D" groups=["enemy"]]
+[node name="EnemyCyborg" type="CharacterBody2D" unique_id=2070073962 groups=["enemy"]]
 script = ExtResource("1_base")
 speed = 70.0
-max_health = 4
 patrol_distance = 160.0
 detection_radius = 240.0
+max_health = 4
 contact_range = 28.0
 recoil_distance = 56.0
-recoil_duration = 0.35
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -24)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=553936371]
+position = Vector2(9, -25)
 sprite_frames = SubResource("SpriteFrames_enemycyborg")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494155168]
 position = Vector2(0, -19)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=506877425]
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1375494364]
 shape = SubResource("CircleShape2D_sight")
