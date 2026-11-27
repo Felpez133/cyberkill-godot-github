@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7jnafaa4w3ul"
-path="res://.godot/imported/New Piskel-2.png.png-9443d4406d38d63f0494772b494fc2bb.ctex"
+uid="uid://bkul0g4qp40gw"
+path="res://.godot/imported/verity-front.png-ea4a33656fa93134ee282aca3d46246f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/inimigos/verity/New Piskel-2.png.png"
-dest_files=["res://.godot/imported/New Piskel-2.png.png-9443d4406d38d63f0494772b494fc2bb.ctex"]
+source_file="res://sprites/inimigos/verity/verity-front.png"
+dest_files=["res://.godot/imported/verity-front.png-ea4a33656fa93134ee282aca3d46246f.ctex"]
 
 [params]
 

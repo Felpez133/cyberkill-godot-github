@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://dxtm5r13fdvcv"]
+
+[ext_resource type="Texture2D" uid="uid://cng8bdefbad87" path="res://sprites/powerups/health-power.png" id="1_5pqnk"]
+
+[sub_resource type="GDScript" id="GDScript_vida"]
+script/source = "extends Area2D
+## Power-up de vida: flutua subindo e descendo em loop até ser pego.
+## Cura o jogador (grupo \"player\") ao encostar. Se a vida já estiver cheia, não é consumido.
+
+signal coletado(quem)
+
+@export var cura: int = 1
+@export var amplitude: float = 6.0
+@export var velocidade: float = 2.5
+@export var grupo_jogador: StringName = &\"player\"
+
+@onready var visual: Node2D = $Visual
+
+var _t: float = 0.0
+var _coletado: bool = false
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+
+func _process(delta: float) -> void:
+	_t += delta * velocidade
+	visual.position.y = sin(_t) * amplitude
+
+func _on_body_entered(body: Node) -> void:
+	if _coletado:
+		return
+	if not body.is_in_group(grupo_jogador):
+		return
+	if not _curar(body):
+		return
+	_coletado = true
+	coletado.emit(body)
+	var tw := create_tween()
+	tw.tween_property(visual, \"scale\", Vector2.ZERO, 0.15)
+	tw.tween_callback(queue_free)
+
+func _curar(alvo: Node) -> bool:
+	# 1) se o jogador tiver um método de cura, usa ele
+	for m in [\"curar\", \"heal\", \"add_health\", \"ganhar_vida\"]:
+		if alvo.has_method(m):
+			alvo.call(m, cura)
+			return true
+	# 2) senão, mexe direto na variável de vida
+	for nome in [\"vida\", \"health\", \"hp\"]:
+		if nome in alvo:
+			var atual = alvo.get(nome)
+			var maximo = null
+			for mx in [\"vida_max\", \"max_vida\", \"vida_maxima\", \"max_health\", \"max_hp\"]:
+				if mx in alvo:
+					maximo = alvo.get(mx)
+					break
+			if maximo != null and atual >= maximo:
+				return false
+			var novo = atual + cura
+			if maximo != null:
+				novo = min(novo, maximo)
+			alvo.set(nome, novo)
+			return true
+	push_warning(\"PowerUpVida: não achei vida no jogador (ajuste _curar).\")
+	return false
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vida"]
+radius = 14.035668
+
+[node name="PowerUpVida" type="Area2D" unique_id=1169423056]
+script = SubResource("GDScript_vida")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1394304825]
+shape = SubResource("CircleShape2D_vida")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1974458120]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=213014340]
+scale = Vector2(0.671875, 0.59375)
+texture = ExtResource("1_5pqnk")
