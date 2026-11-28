@@ -3,6 +3,16 @@
 [ext_resource type="PackedScene" uid="uid://bg0yddsk87itx" path="res://map-cut.tscn" id="1_f050h"]
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_f1v0n"]
 [ext_resource type="PackedScene" path="res://wall_jump_crate.tscn" id="3_7slqm"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_bb9_fase1.tscn" id="20_bb9"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_cyborg.tscn" id="21_cyborg"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_tank.tscn" id="22_tank"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_verity.tscn" id="24_verity"]
+[ext_resource type="PackedScene" path="res://powerup_vida.tscn" id="23_vida"]
+[ext_resource type="PackedScene" path="res://checkpoint.tscn" id="30_check"]
+[ext_resource type="PackedScene" path="res://systems/guide_arrow.tscn" id="31_arrow"]
+[ext_resource type="PackedScene" path="res://Narrator/difficulty_narrator_trigger.tscn" id="32_dnt"]
+[ext_resource type="PackedScene" path="res://Doors/closed_door.tscn" id="33_door"]
+[ext_resource type="PackedScene" path="res://button.tscn" id="34_button"]
 
 [node name="Node2D" type="Node2D" unique_id=594964757]
 
@@ -14,3 +24,115 @@ position = Vector2(509, 2917)
 
 [node name="Player" parent="." unique_id=389633421 instance=ExtResource("2_f1v0n")]
 position = Vector2(397, 520)
+
+[node name="Inimigos" type="Node2D" parent="."]
+
+[node name="BB9_1" parent="Inimigos" instance=ExtResource("20_bb9")]
+position = Vector2(1225, 645)
+patrol_distance = 160.0
+
+[node name="Cyborg_1" parent="Inimigos" instance=ExtResource("21_cyborg")]
+position = Vector2(2089, 655)
+
+[node name="BB9_2" parent="Inimigos" instance=ExtResource("20_bb9")]
+position = Vector2(1449, 1269)
+patrol_distance = 160.0
+
+[node name="Verity_1" parent="Inimigos" instance=ExtResource("24_verity")]
+position = Vector2(585, 1279)
+
+[node name="Cyborg_2" parent="Inimigos" instance=ExtResource("21_cyborg")]
+position = Vector2(313, 1647)
+
+[node name="Tanque_1" parent="Inimigos" instance=ExtResource("22_tank")]
+position = Vector2(-791, 2287)
+
+[node name="BB9_3" parent="Inimigos" instance=ExtResource("20_bb9")]
+position = Vector2(-871, 2933)
+patrol_distance = 160.0
+
+[node name="Verity_2" parent="Inimigos" instance=ExtResource("24_verity")]
+position = Vector2(1225, 1647)
+
+[node name="PowerUps" type="Node2D" parent="."]
+
+[node name="PowerUpVida1" parent="PowerUps" instance=ExtResource("23_vida")]
+position = Vector2(793, 1629)
+
+[node name="PowerUpVida2" parent="PowerUps" instance=ExtResource("23_vida")]
+position = Vector2(-439, 2925)
+
+[node name="Checkpoint_1" parent="." instance=ExtResource("30_check")]
+position = Vector2(1017, 1281)
+checkpoint_id = "cut_cp1"
+
+[node name="Checkpoint_2" parent="." instance=ExtResource("30_check")]
+position = Vector2(73, 2289)
+checkpoint_id = "cut_cp2"
+
+[node name="PortaCubo" parent="." instance=ExtResource("33_door")]
+position = Vector2(-383, 2777)
+size = Vector2(32, 336)
+
+[node name="BotaoPortaCubo" parent="." instance=ExtResource("34_button")]
+position = Vector2(-2200, 2935)
+prompt_text = "E  —  ABRIR A PORTA"
+activated_text = "PORTA ABERTA!"
+vanish_targets = Array[NodePath]([NodePath("../PortaCubo")])
+camera_focus = NodePath("../PortaCubo")
+
+[node name="BotaoVoltarCidade" parent="." instance=ExtResource("34_button")]
+position = Vector2(650, 2919)
+prompt_text = "E  —  VOLTAR PARA A CIDADE"
+action = 1
+unlock_world_index = 1
+
+[node name="SetaBotaoPorta" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(-2200, 2880)
+angle_degrees = 90
+tier = 1
+
+[node name="SetaPorta" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(-383, 2600)
+angle_degrees = 90
+tier = 1
+
+[node name="SetaSaida" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(650, 2860)
+angle_degrees = 90
+tier = 0
+
+[node name="DicaInicio" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(397, 540)
+narration_id = "dif_cut_inicio"
+size = Vector2(500, 300)
+lines_easy = PackedStringArray("Bem-vindo à Fase 1, Biker. No modo FÁCIL o mapa é menor e eu vou te mostrar o caminho.", "As setas azuis indicam para onde ir. Itens verdes com cruz recuperam vida, e as placas coloridas são checkpoints: se você morrer, volta para a última que ativou.")
+lines_medium = PackedStringArray("Fase 1. Placas coloridas são checkpoints e itens verdes recuperam vida.")
+
+[node name="DicaVida" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(793, 1630)
+narration_id = "dif_cut_vida"
+size = Vector2(300, 200)
+lines_easy = PackedStringArray("Esse é um item de vida: encoste nele para recuperar um coração. Se sua vida já estiver cheia, ele fica esperando por você.")
+lines_medium = PackedStringArray("Item de vida: recupera um coração.")
+
+[node name="DicaPorta" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(-1000, 2850)
+narration_id = "dif_cut_porta"
+size = Vector2(500, 300)
+lines_easy = PackedStringArray("Aquela porta no fim do corredor está trancada.", "Procure um botão na parte mais estreita do mapa, no túnel à esquerda. Chegue perto dele e aperte E para abrir a porta.")
+lines_medium = PackedStringArray("Porta trancada: ela só abre com um botão em algum lugar do mapa.")
+
+[node name="DicaBotao" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(-2150, 2890)
+narration_id = "dif_cut_botao"
+size = Vector2(320, 220)
+lines_easy = PackedStringArray("Este é o botão da porta. Aperte E: a câmera vai mostrar a porta abrindo e depois volta para você.")
+lines_medium = PackedStringArray("Botão: abre algo à distância.")
+
+[node name="DicaCaixa" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(509, 2890)
+narration_id = "dif_cut_caixa"
+size = Vector2(280, 220)
+lines_easy = PackedStringArray("Uma caixa! Chegue perto e aperte E para abri-la: dentro tem um pendrive.", "Pegue o pendrive com E para liberar o Wall Jump: encoste na parede e aperte pulo para se impulsionar.")
+lines_medium = PackedStringArray("Caixa com um pendrive: abra com E.")

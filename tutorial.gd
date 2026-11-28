@@ -144,4 +144,68 @@ func _close_dialogue() -> void:
 	get_tree().paused = false
 	dialogue_layer.hide()
 	if pending_finish:
-		get_tree().change_scene_to_file("res://node_2d.tscn")
+		_show_difficulty_choice()
+
+
+## --- ESCOLHA DE DIFICULDADE (acontece quando o tutorial termina) ---------------------------------
+## O valor escolhido vai para PlayerData.difficulty (via Difficulty.set_mode) e vale na campanha toda.
+var difficulty_chosen := false
+
+func _show_difficulty_choice() -> void:
+	get_tree().paused = true
+	var layer := CanvasLayer.new()
+	layer.layer = 51
+	layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(layer)
+
+	var shade := ColorRect.new()
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.color = Color(0.005, 0.008, 0.025, 0.72)
+	layer.add_child(shade)
+
+	var panel := Panel.new()
+	panel.position = Vector2(65, 250)
+	panel.size = Vector2(1030, 390)
+	panel.add_theme_stylebox_override("panel", _panel_style())
+	layer.add_child(panel)
+
+	var title := Label.new()
+	title.position = Vector2(28, 20)
+	title.size = Vector2(970, 38)
+	title.text = "ESCOLHA A DIFICULDADE"
+	title.add_theme_font_size_override("font_size", 26)
+	title.add_theme_color_override("font_color", Color(0.35, 0.9, 1.0))
+	panel.add_child(title)
+
+	var body := Label.new()
+	body.position = Vector2(28, 68)
+	body.size = Vector2(970, 190)
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.add_theme_font_size_override("font_size", 18)
+	body.add_theme_color_override("font_color", Color(0.94, 0.96, 1.0))
+	body.text = "Agora que você já conhece os controles, escolha como será a campanha. A escolha vale até o fim dela.\n\nFÁCIL: mapas menores, menos inimigos e com menos vida, bosses de uma fase só e mais setas e dicas ensinando as mecânicas.\n\nMÉDIO: mapas maiores, mais inimigos com a vida padrão, bosses de duas fases e menos setas, só com introduções curtas."
+	panel.add_child(body)
+
+	var easy_button := Button.new()
+	easy_button.position = Vector2(150, 295)
+	easy_button.size = Vector2(300, 56)
+	easy_button.text = "FÁCIL"
+	easy_button.pressed.connect(_on_difficulty_chosen.bind(Difficulty.Mode.EASY))
+	panel.add_child(easy_button)
+
+	var medium_button := Button.new()
+	medium_button.position = Vector2(580, 295)
+	medium_button.size = Vector2(300, 56)
+	medium_button.text = "MÉDIO"
+	medium_button.pressed.connect(_on_difficulty_chosen.bind(Difficulty.Mode.MEDIUM))
+	panel.add_child(medium_button)
+	medium_button.grab_focus()
+
+func _on_difficulty_chosen(mode: int) -> void:
+	if difficulty_chosen:
+		return
+	difficulty_chosen = true
+	Difficulty.set_mode(mode)
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://node_2d.tscn")
+

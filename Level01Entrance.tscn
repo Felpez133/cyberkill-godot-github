@@ -24,6 +24,9 @@
 [ext_resource type="Texture2D" uid="uid://bdj7m8jp118qo" path="res://sprites/tilesmap/pointer tilemap/separed/Tiles/tile_0071.png" id="22_vvsv8"]
 [ext_resource type="PackedScene" uid="uid://dxtm5r13fdvcv" path="res://powerup_vida.tscn" id="23_682fh"]
 [ext_resource type="PackedScene" path="res://Enemies/enemy_verity.tscn" id="24_verity"]
+[ext_resource type="PackedScene" path="res://checkpoint.tscn" id="30_check"]
+[ext_resource type="PackedScene" path="res://systems/guide_arrow.tscn" id="31_arrow"]
+[ext_resource type="PackedScene" path="res://Narrator/difficulty_narrator_trigger.tscn" id="32_dnt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wqfht"]
 size = Vector2(55.19635, 217.68745)
@@ -356,3 +359,67 @@ texture = ExtResource("22_vvsv8")
 
 [node name="EnemyVerity" parent="." unique_id=679204104 instance=ExtResource("24_verity")]
 position = Vector2(735, 645)
+
+[node name="Checkpoint_1" parent="." instance=ExtResource("30_check")]
+position = Vector2(-229, 1152)
+checkpoint_id = "checkpoint_1"
+
+[node name="Checkpoint_2" parent="." instance=ExtResource("30_check")]
+position = Vector2(-1781, 1888)
+checkpoint_id = "checkpoint_2"
+
+[node name="Checkpoint_3" parent="." instance=ExtResource("30_check")]
+position = Vector2(1451, 3008)
+checkpoint_id = "checkpoint_3"
+
+[node name="Checkpoint_4" parent="." instance=ExtResource("30_check")]
+position = Vector2(-197, 4176)
+checkpoint_id = "checkpoint_4"
+
+[node name="SetaVoltarCidade" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(-1865, 560)
+angle_degrees = 90
+tier = 0
+
+[node name="SetaPassagemSecreta" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(-3767, 1000)
+angle_degrees = 90
+tier = 1
+
+[node name="SetaPortaMaoUnica" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(-1496, 590)
+angle_degrees = 90
+tier = 1
+
+[node name="SetaCaixaWallJump" parent="." instance=ExtResource("31_arrow")]
+position = Vector2(453, 4120)
+angle_degrees = 90
+tier = 1
+
+[node name="DicaCheckpoint" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(-229, 1112)
+narration_id = "dif_f1_checkpoint"
+size = Vector2(300, 200)
+lines_easy = PackedStringArray("Essa placa colorida é um CHECKPOINT. Passe na frente dela: o jogo salva seu progresso e, se você morrer, escolha ÚLTIMO CHECKPOINT para voltar aqui.")
+lines_medium = PackedStringArray("Checkpoint: passe na frente para salvar o progresso.")
+
+[node name="DicaVidaF1" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(906, 610)
+narration_id = "dif_f1_vida"
+size = Vector2(300, 200)
+lines_easy = PackedStringArray("Item de vida: encoste nele para recuperar um coração. Se a vida estiver cheia, ele espera por você.")
+lines_medium = PackedStringArray("Item de vida: recupera um coração.")
+
+[node name="DicaPowerUpF1" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(531, 1570)
+narration_id = "dif_f1_powerup"
+size = Vector2(300, 200)
+lines_easy = PackedStringArray("Esse é um power-up: encoste para receber um efeito temporário. Leia a mensagem que aparece para saber o que ele faz.")
+lines_medium = PackedStringArray("Power-up: efeito temporário.")
+
+[node name="DicaCaixaF1" parent="." instance=ExtResource("32_dnt")]
+position = Vector2(453, 4160)
+narration_id = "dif_f1_caixa"
+size = Vector2(300, 200)
+lines_easy = PackedStringArray("Uma caixa! Chegue perto e aperte E para abri-la; pegue o pendrive com E para liberar o Wall Jump.")
+lines_medium = PackedStringArray("Caixa com um pendrive: abra com E.")

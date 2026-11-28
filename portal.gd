@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if player_inside != null and Input.is_action_just_pressed("interact"):
-		get_tree().change_scene_to_file(target_scene)
+		get_tree().change_scene_to_file(Difficulty.resolve_scene(target_scene))
 
 
 func _on_body_entered(body: Node2D) -> void:

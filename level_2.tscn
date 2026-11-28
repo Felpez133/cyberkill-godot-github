@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://duysgwkalbka7" path="res://map-boss.tscn" id="2_nmjpi"]
 [ext_resource type="PackedScene" uid="uid://wu3redd6sy1a" path="res://Boss/boss_fb1.tscn" id="3_boss"]
 [ext_resource type="Script" uid="uid://dq6ilf06136j4" path="res://Boss/boss_arena.gd" id="4_arena"]
+[ext_resource type="PackedScene" path="res://checkpoint.tscn" id="30_check"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(600, 352)
@@ -48,3 +49,7 @@ disabled = true
 visible = false
 color = Color(0.32, 0.38, 0.5, 1)
 polygon = PackedVector2Array(-16, -24, 16, -24, 16, 24, -16, 24)
+
+[node name="Checkpoint_Arena" parent="." instance=ExtResource("30_check")]
+position = Vector2(1830, 452)
+checkpoint_id = "cp_arena"

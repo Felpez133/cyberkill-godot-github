@@ -26,7 +26,7 @@ func _process(_delta: float) -> void:
 		return
 	for door in get_tree().get_nodes_in_group("interior_doors"):
 		if door.player_inside and door.active and door.target_scene != "":
-			_change_scene_with_fade(door.target_scene, door.fade_time)
+			_change_scene_with_fade(Difficulty.resolve_scene(door.target_scene), door.fade_time)
 			return
 
 func _change_scene_with_fade(scene_path: String, duration: float) -> void:

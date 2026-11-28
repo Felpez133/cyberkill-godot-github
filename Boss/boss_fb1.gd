@@ -74,6 +74,8 @@ var health: float = 0.0
 var player: Node2D
 var enraged := false
 var enrage_pending := false
+## Definido pela dificuldade: FÁCIL = só a fase 1 da luta; MÉDIO = duas fases.
+var second_phase_enabled := true
 var invulnerable := false
 var face_direction := 1.0
 
@@ -105,6 +107,7 @@ func _ready() -> void:
 	add_to_group("enemy")
 	add_to_group("boss")
 	health = max_health
+	second_phase_enabled = Difficulty.boss_has_second_phase()
 	_apply_scale()
 	_build_hud()
 	_face(1.0)
@@ -361,7 +364,7 @@ func take_damage(amount: float) -> void:
 	if health <= 0.0:
 		_die()
 		return
-	if not enraged and not enrage_pending and health <= max_health * enrage_health_ratio:
+	if second_phase_enabled and not enraged and not enrage_pending and health <= max_health * enrage_health_ratio:
 		enrage_pending = true
 	if state == State.ACTIVE:
 		hurt_timer = 0.2

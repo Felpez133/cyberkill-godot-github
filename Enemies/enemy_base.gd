@@ -64,7 +64,7 @@ var detection: Area2D
 
 
 func _ready() -> void:
-	health = max_health
+	health = Difficulty.scaled_enemy_health(max_health)
 	patrol_origin = global_position.x
 	plain_sprite = get_node_or_null("Sprite2D") as Sprite2D
 	animated_sprite = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D

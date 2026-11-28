@@ -12,6 +12,7 @@ const MUSIC_SCENES: Array[String] = [
 	"res://WorldMap.tscn",
 	"res://BuildingInterior.tscn",
 	"res://Level01Entrance.tscn",
+	"res://level-1-cut.tscn",
 	"res://level_2.tscn",
 	"res://WorldSelect.tscn",
 ]

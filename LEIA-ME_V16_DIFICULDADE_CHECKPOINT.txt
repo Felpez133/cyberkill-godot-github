@@ -1,0 +1,107 @@
+CYBERKILL — V16: DIFICULDADE, CHECKPOINT, PORTA DO LEVEL 1 CUT E DUMMY
+=====================================================================
+*** NADA FOI EXECUTADO NO GODOT (não havia o executável neste ambiente). ***
+Foi feita só revisão estática: sintaxe dos scripts, referências ExtResource/SubResource e caminhos
+de arquivos conferidos. Coordenadas de mapa foram calculadas a partir dos dados do TileMap.
+Copie as pastas/arquivos deste zip por cima do projeto. FAÇA BACKUP ANTES. Abra no Godot 4.7 e deixe reimportar.
+
+ARQUIVOS CRIADOS
+  systems/difficulty.gd                        gerenciador central (class_name Difficulty, funções static)
+  systems/guide_arrow.gd / .tscn               seta de orientação (por código, balança)
+  Narrator/difficulty_narrator_trigger.gd/.tscn  dica da narradora diferente por dificuldade
+  Enemies/enemy_dummy.gd                        Dummy do tutorial (independente do BB9)
+  Enemies/enemy_dummy_tutorial.tscn             cena do Dummy (AnimatedSprite2D)
+  Doors/closed_door.gd / .tscn                  porta fechada que some quando um botão é ativado
+ARQUIVOS MODIFICADOS (alterações pontuais)
+  player_data.gd        + difficulty (0 fácil, 1 médio) e checkpoint_id; zerados em new_game()
+  tutorial.gd           depois do último diálogo ("IR PARA A CIDADE") aparece a escolha FÁCIL/MÉDIO
+  tutorial.tscn         o inimigo do tutorial agora é o Dummy (1 linha: caminho da cena do Enemy)
+  Enemies/enemy_base.gd vida dos inimigos comuns multiplicada pela dificuldade (1 linha)
+  Boss/boss_fb1.gd      segunda fase só no MÉDIO (3 linhas)
+  building_interior.gd, portal.gd   a Fase 1 abre o mapa da dificuldade escolhida (1 linha cada)
+  music_manager.gd      level-1-cut.tscn entra na lista de cenas com música
+  checkpoint.gd / checkpoint.tscn   viraram a placa estilo Sonic (reescritos; o checkpoint antigo
+                                    não estava colocado em nenhuma fase)
+  level-1-cut.tscn      fase completada (inimigos, itens, checkpoints, porta, botões, setas, dicas)
+  Level01Entrance.tscn  + 4 checkpoints, 4 setas, 4 dicas
+  level_2.tscn          + 1 checkpoint antes da porta da arena do boss
+
+1) DIFICULDADE
+  Escolha: ao terminar o tutorial. Todo o resto consulta Difficulty (systems/difficulty.gd).
+  Balanceamento (constantes no topo do arquivo): ENEMY_HEALTH_EASY = 0.6, ENEMY_HEALTH_MEDIUM = 1.0.
+                      FÁCIL                              MÉDIO
+  Mapa da Fase 1      level-1-cut.tscn (menor)           Level01Entrance.tscn (completo)
+  Inimigos            8 no mapa menor                    26 (todos os atuais)
+  Vida dos inimigos   60% da vida (mínimo 1)             vida padrão
+  Boss                só fase 1 da luta                  2 fases (fase 2 a 50% da vida)
+  Setas               todas (tier 0 e tier 1)            só as essenciais (tier 0)
+  Dicas               tutorial explicativo (lines_easy)  introdução curta (lines_medium)
+  Tutorial original   mantido nas duas
+  - A escolha fica em PlayerData.difficulty durante a campanha. "MUNDO 1" no WorldSelect chama
+    new_game() e volta para MÉDIO (é um "novo jogo").
+  - Setas: instancie systems/guide_arrow.tscn; Tier 0 = essencial, Tier 1 = só no FÁCIL; Angle Degrees
+    (0 direita, 90 baixo, 180 esquerda, -90 cima).
+  - Dicas: instancie Narrator/difficulty_narrator_trigger.tscn; preencha Lines Easy / Lines Medium
+    e um Narration Id único (a dica só aparece 1 vez por campanha). Lista vazia = não mostra.
+  - Interpretação: "mapas menores" = o Level 1 Cut é a Fase 1 do FÁCIL. "Quantidade intermediária"
+    no MÉDIO = o conteúdo completo atual (não há Difícil ainda).
+
+2) CHECKPOINT (placa estilo Sonic)
+  Instancie checkpoint.tscn com a base da placa no chão. Ao passar na frente: a placa gira e muda de
+  vermelho para ciano, soltam fogos (nó Fireworks), aparece "CHECKPOINT!" sobre a placa e um aviso
+  "✔ CHECKPOINT REGISTRADO" no alto da tela. O jogador renasce de pé ao lado da placa.
+  Morte: a tela de morte já tinha "ÚLTIMO CHECKPOINT" (volta ao checkpoint) e "RECOMEÇAR" (volta ao
+  início e apaga o checkpoint). Sem checkpoint na fase, qualquer botão volta ao ponto inicial.
+  Colocados: Level01Entrance (4), level-1-cut (2), level_2 (1, antes da arena).
+  TROCAR O VISUAL POR AnimatedSprite2D:
+   - Nó que será substituído: "Visual" (a placa desenhada por código, filho do Checkpoint).
+   - Como adicionar: no Checkpoint, Adicionar Nó filho > AnimatedSprite2D e deixe o nome
+     "AnimatedSprite2D". Os pés do sprite ficam na origem (0,0) do Checkpoint.
+   - Animações no SpriteFrames: "inactive" (loop), "activate" (sem loop), "active" (loop).
+   - Conexão: o script já faz tudo. Ao existir o AnimatedSprite2D ele esconde o "Visual", toca
+     "inactive" ao carregar e "activate" quando o jogador ativa, depois "active". Se a animação
+     "activate" não existir, vai direto para "active". Depois pode apagar o nó "Visual".
+   - O sinal checkpoint_reached(player) também pode ser ligado a sons/luzes.
+
+3) PORTA DO LEVEL 1 CUT
+  Reaproveita o botão do Level 1 (button.tscn / interactive_button.gd): a mesma animação de câmera
+  (a câmera viaja até a porta, ela pisca e some, a câmera volta). Nada de código novo para isso.
+  - PortaCubo (Doors/closed_door.tscn) em (-383, 2777), tamanho 32x336: fecha por completo o corredor
+    que leva à câmara onde fica a WallJumpCrate (conferi no TileMap: com a porta, a câmara fica isolada).
+  - BotaoPortaCubo em (-2200, 2935): no túnel estreito (128 px de altura) do mesmo nível do corredor.
+    Vanish Targets e Camera Focus apontam para a PortaCubo.
+  - BotaoVoltarCidade (sair da fase e liberar o Mundo 2) em (650, 2919), DENTRO da câmara. Então no
+    FÁCIL é preciso abrir a porta para terminar a fase. Se não quiser isso, mova o botão.
+  - ATENÇÃO: o editor não pôde ser aberto. Interpretei "cubo fechado" como essa câmara. Se for outro
+    lugar, basta arrastar PortaCubo e BotaoPortaCubo (e ajustar o Size da porta).
+
+4) BB9 / DUMMY
+  O Dummy do tutorial (Enemies/enemy_dummy_tutorial.tscn) NÃO instancia mais enemy.tscn: o BB9 do
+  resto do jogo (enemy.tscn, enemy_bb9_fase1.tscn, enemy_base.gd) não é afetado. O arquivo
+  Enemies/enemy_bb9_tutorial.tscn ficou no projeto sem uso (não apaguei).
+  Sprites: IDLE (1 quadro), HIT (7), BREAKING (9); quadros 80x48. Estados: idle, hit, breaking.
+  Morre com 6 acertos (Max Hits), independente do dano. Acertos repetidos em 0,05 s são ignorados
+  (Hit Lockout). Cada acerto reinicia a animação "hit"; a morte toca uma vez, desliga colisão e
+  física e esconde o texto "derrote-o". O Dummy quebrado fica no chão.
+
+PROBLEMAS ENCONTRADOS
+  - O WorldMap.tscn usa Level01Entrace.gd com caminho inexistente ("res://Level01Entrace"); não
+    alterei (fora do escopo). goal.gd também tem caminho errado (chenge_scene_to_file). Não é usado.
+  - Há um arquivo ".tscn" sem nome na raiz do projeto (lixo); não mexi.
+PRECISA DE ATENÇÃO / NÃO VERIFICADO
+  - Posições (inimigos, itens, checkpoints, porta e botões do mapa menor) vieram do TileMap por
+    cálculo; conectividade conferida, mas alcance por pulo não foi simulado. Confira jogando.
+  - Se o jogador tocar numa placa antiga depois de recarregar a fase, ela passa a ser o último
+    checkpoint. O checkpoint vale só enquanto o jogo está aberto (não é salvo em arquivo).
+  - A Fase 1 do FÁCIL (level-1-cut) não tem missões nem fundo/parallax como a fase completa.
+
+COMO TESTAR
+  1. Dificuldade: Menu > JOGAR > prólogo > tutorial. No último diálogo ("IR PARA A CIDADE") deve
+     aparecer ESCOLHA A DIFICULDADE. Escolha FÁCIL, entre no portal da Fase 1: abre o mapa menor,
+     com setas azuis e dicas da narradora. Repita com MÉDIO: mapa completo e dicas curtas.
+  2. Boss: Fase 2, entre na arena. No FÁCIL ele não muda de fase aos 50%; no MÉDIO muda.
+  3. Checkpoint: passe numa placa (gira, fogos, aviso). Morra: ÚLTIMO CHECKPOINT renasce ao lado
+     dela; RECOMEÇAR volta ao início. Sem checkpoint, volta ao início.
+  4. Porta: no FÁCIL vá ao túnel estreito à esquerda (nível ~2960), aperte E no botão: câmera vai
+     até a porta, ela some, câmera volta. Entre na câmara (caixa e botão de voltar à cidade).
+  5. Dummy: no tutorial, 6 tiros: idle, hit a cada tiro, breaking no sexto, e para de reagir.

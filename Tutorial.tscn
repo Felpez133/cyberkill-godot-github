@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://k64ebsb4aa2d" path="res://sprites/objects/spikes/16-bit-spike-Sheet.png" id="3_4t6hg"]
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="3_fr6qw"]
 [ext_resource type="PackedScene" uid="uid://dkxphnms0ff4m" path="res://weapon_pickup.tscn" id="5_weapon"]
-[ext_resource type="PackedScene" path="res://Enemies/enemy_bb9_tutorial.tscn" id="6_hlpnd"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_dummy_tutorial.tscn" id="6_hlpnd"]
 [ext_resource type="PackedScene" path="res://Tutorial/tutorial_trigger.tscn" id="6_trigger"]
 [ext_resource type="Script" uid="uid://cn6om3r3swh2k" path="res://label-robot.gd" id="7_0cr88"]
 

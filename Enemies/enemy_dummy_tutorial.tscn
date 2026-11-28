@@ -1,0 +1,160 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Enemies/enemy_dummy.gd" id="1_dummy"]
+[ext_resource type="Texture2D" path="res://sprites/inimigos/dummy/IDLE.png" id="idle_tex"]
+[ext_resource type="Texture2D" path="res://sprites/inimigos/dummy/HIT.png" id="hit_tex"]
+[ext_resource type="Texture2D" path="res://sprites/inimigos/dummy/BREAKING.png" id="breaking_tex"]
+
+[sub_resource type="AtlasTexture" id="Atlas_idle_0"]
+atlas = ExtResource("idle_tex")
+region = Rect2(0, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_0"]
+atlas = ExtResource("hit_tex")
+region = Rect2(0, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_1"]
+atlas = ExtResource("hit_tex")
+region = Rect2(80, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_2"]
+atlas = ExtResource("hit_tex")
+region = Rect2(160, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_3"]
+atlas = ExtResource("hit_tex")
+region = Rect2(240, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_4"]
+atlas = ExtResource("hit_tex")
+region = Rect2(320, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_5"]
+atlas = ExtResource("hit_tex")
+region = Rect2(400, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_hit_6"]
+atlas = ExtResource("hit_tex")
+region = Rect2(480, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_0"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(0, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_1"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(80, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_2"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(160, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_3"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(240, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_4"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(320, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_5"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(400, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_6"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(480, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_7"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(560, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_breaking_8"]
+atlas = ExtResource("breaking_tex")
+region = Rect2(640, 0, 80, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dummy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle_0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_hit_6")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_breaking_8")
+}],
+"loop": false,
+"name": &"breaking",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dummy"]
+size = Vector2(28, 40)
+
+[node name="EnemyDummyTutorial" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_dummy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8.5)
+sprite_frames = SubResource("SpriteFrames_dummy")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(1.5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8.5)
+shape = SubResource("RectangleShape2D_dummy")

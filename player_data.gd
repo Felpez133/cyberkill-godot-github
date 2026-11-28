@@ -11,7 +11,12 @@ var has_weapon: bool = true
 var has_wall_jump: bool = false
 var current_checkpoint: Vector2 = Vector2.ZERO
 var checkpoint_scene: String = ""
+# Identificador do último checkpoint (nó Checkpoint) — evita repetir a animação ao recarregar a fase.
+var checkpoint_id: String = ""
 var world_unlocked: Array[bool] = [true, false, false, false, false]
+# Dificuldade da campanha (0 = FÁCIL, 1 = MÉDIO). Escolhida no fim do tutorial; use a classe
+# Difficulty (systems/difficulty.gd) para ler/consultar.
+var difficulty: int = 1
 # Falas da narradora já exibidas (id -> true). Zerado em new_game().
 var narration_seen: Dictionary = {}
 # Missões da fase. Só contam enquanto existir uma lista de missões (UI/mission_hud.tscn) na cena;
@@ -27,6 +32,8 @@ func new_game() -> void:
 	has_wall_jump = false
 	current_checkpoint = Vector2.ZERO
 	checkpoint_scene = ""
+	checkpoint_id = ""
+	difficulty = 1
 	world_unlocked = [true, false, false, false, false]
 	narration_seen = {}
 	missions_done = {}
