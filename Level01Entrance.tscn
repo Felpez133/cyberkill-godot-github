@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" path="res://PowerUps/powerup_randon.tscn" id="22_randon"]
 [ext_resource type="Texture2D" uid="uid://bdj7m8jp118qo" path="res://sprites/tilesmap/pointer tilemap/separed/Tiles/tile_0071.png" id="22_vvsv8"]
 [ext_resource type="PackedScene" uid="uid://dxtm5r13fdvcv" path="res://powerup_vida.tscn" id="23_682fh"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy_verity.tscn" id="24_verity"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wqfht"]
 size = Vector2(55.19635, 217.68745)
@@ -148,7 +149,7 @@ texture = ExtResource("16_mqadr")
 [node name="map" parent="." unique_id=1450266795 instance=ExtResource("1_56m0x")]
 
 [node name="Player" parent="." unique_id=2007473112 instance=ExtResource("2_player")]
-position = Vector2(-122, 513)
+position = Vector2(504, 519)
 
 [node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("3_2a8em")]
 position = Vector2(851, 1273)
@@ -302,6 +303,18 @@ position = Vector2(-732, 655)
 [node name="EnemyTank5" parent="Inimigos" unique_id=1778962643 instance=ExtResource("7_tank")]
 position = Vector2(-696, 657)
 
+[node name="Verity_1" parent="Inimigos" unique_id=1372677563 instance=ExtResource("24_verity")]
+position = Vector2(-373, 1152)
+
+[node name="Verity_2" parent="Inimigos" unique_id=2078547799 instance=ExtResource("24_verity")]
+position = Vector2(-2901, 2480)
+
+[node name="Verity_3" parent="Inimigos" unique_id=1399776744 instance=ExtResource("24_verity")]
+position = Vector2(-741, 4224)
+
+[node name="Verity_4" parent="Inimigos" unique_id=1571727339 instance=ExtResource("24_verity")]
+position = Vector2(1195, 3008)
+
 [node name="PowerUps" type="Node2D" parent="." unique_id=1412163430]
 
 [node name="PowerUpVida" parent="PowerUps" unique_id=1120028887 instance=ExtResource("23_682fh")]
@@ -312,6 +325,18 @@ position = Vector2(-300, 628)
 
 [node name="PowerUpRandon" parent="PowerUps" unique_id=1314142425 instance=ExtResource("22_randon")]
 position = Vector2(531, 1599)
+
+[node name="PowerUpVida2" parent="PowerUps" unique_id=387041361 instance=ExtResource("23_682fh")]
+position = Vector2(-789, 1132)
+
+[node name="PowerUpVida3" parent="PowerUps" unique_id=30507177 instance=ExtResource("23_682fh")]
+position = Vector2(-1445, 1868)
+
+[node name="PowerUpVida4" parent="PowerUps" unique_id=1319843264 instance=ExtResource("23_682fh")]
+position = Vector2(1547, 2988)
+
+[node name="PowerUpVida5" parent="PowerUps" unique_id=476962723 instance=ExtResource("23_682fh")]
+position = Vector2(187, 4156)
 
 [node name="EntradaDaInstalacao" type="Marker2D" parent="." unique_id=1940560931]
 position = Vector2(930, 784)
@@ -328,3 +353,6 @@ shape = SubResource("RectangleShape2D_riqys")
 position = Vector2(-1041, 2944)
 scale = Vector2(4.406247, 5.218758)
 texture = ExtResource("22_vvsv8")
+
+[node name="EnemyVerity" parent="." unique_id=679204104 instance=ExtResource("24_verity")]
+position = Vector2(735, 645)

@@ -520,19 +520,16 @@ theme_override_font_sizes/font_size = 22
 text = "CYBERKILL  //  ÁREA DE TREINAMENTO"
 
 [node name="WeaponPickup" parent="." unique_id=247124362 instance=ExtResource("5_weapon")]
-position = Vector2(1070, -26)
+position = Vector2(1159, -31)
 
 [node name="Triggers" type="Node2D" parent="." unique_id=201404519]
-
-[node name="Trigger_Movimentacao" parent="Triggers" unique_id=1496519554 instance=ExtResource("6_trigger")]
-position = Vector2(-720, -88)
 
 [node name="Trigger_Dash" parent="Triggers" unique_id=1948308154 instance=ExtResource("6_trigger")]
 position = Vector2(600, -92)
 stage = 5
 
 [node name="Trigger_Arma" parent="Triggers" unique_id=1196914002 instance=ExtResource("6_trigger")]
-position = Vector2(1179, -86)
+position = Vector2(1100, -92)
 stage = 3
 
 [node name="Trigger_Ataque" parent="Triggers" unique_id=370936564 instance=ExtResource("6_trigger")]
@@ -543,7 +540,7 @@ stage = 4
 position = Vector2(-754, -150)
 
 [node name="Enemy" parent="." unique_id=1259613167 instance=ExtResource("6_hlpnd")]
-position = Vector2(1517, -24)
+position = Vector2(1474, -27)
 
 [node name="Label" type="Label" parent="Enemy" unique_id=94755126]
 offset_left = -37.0

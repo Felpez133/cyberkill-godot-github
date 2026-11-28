@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cauars10adoqd"]
+
+[ext_resource type="PackedScene" uid="uid://bg0yddsk87itx" path="res://map-cut.tscn" id="1_f050h"]
+[ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="2_f1v0n"]
+[ext_resource type="PackedScene" path="res://wall_jump_crate.tscn" id="3_7slqm"]
+
+[node name="Node2D" type="Node2D" unique_id=594964757]
+
+[node name="TileMapLayer" parent="." unique_id=559298265 instance=ExtResource("1_f050h")]
+position = Vector2(-2, 1)
+
+[node name="WallJumpCrate" parent="." unique_id=1348104789 instance=ExtResource("3_7slqm")]
+position = Vector2(509, 2917)
+
+[node name="Player" parent="." unique_id=389633421 instance=ExtResource("2_f1v0n")]
+position = Vector2(397, 520)

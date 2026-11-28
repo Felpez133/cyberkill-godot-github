@@ -157,7 +157,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="NPC_Garota" parent="." unique_id=1725092301 instance=ExtResource("17_flf07")]
-position = Vector2(-87, 142)
+position = Vector2(123, 144)
 
 [node name="Player" parent="." unique_id=389633421 instance=ExtResource("8_4d7sh")]
 position = Vector2(-24, 7)

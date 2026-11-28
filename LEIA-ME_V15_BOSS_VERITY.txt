@@ -1,0 +1,66 @@
+CYBERKILL — PACOTE BOSS + VERITY
+================================
+*** NADA FOI EXECUTADO NO GODOT (não havia o executável aqui). Só revisão estática. ***
+Copie as pastas/arquivos deste zip por cima do projeto (mesma estrutura). FAÇA BACKUP ANTES:
+três cenas existentes foram alteradas (map-boss.tscn, level_2.tscn, Level01Entrance.tscn).
+Abra no Godot 4.7, deixe reimportar e teste. Se aparecer erro vermelho, me mande o texto.
+
+ARQUIVOS NOVOS
+  Boss/boss_fb1.gd / .tscn      o boss (sprites de sprites/inimigos/fB1)
+  Boss/boss_bullet.gd / .tscn   tiro do boss (usa fB1/Projectile.png)
+  Boss/boss_arena.gd            arena: câmera fixa, porta que fecha, acorda o boss
+  Enemies/enemy_verity.gd / .tscn   inimigo Verity (sprites de sprites/inimigos/verity)
+ARQUIVOS ALTERADOS
+  map-boss.tscn        TileSet ganhou camada de física: os tiles agora têm COLISÃO (layer 1)
+  level_2.tscn         + Boss, + BossArena (Trigger, CameraCenter, PortaArena)
+  Level01Entrance.tscn + 4 Verity (nó Inimigos) e + 4 itens de vida (nó PowerUps)
+
+FASE 1 (Level01Entrance.tscn)
+  - 4 Verity: Verity_1..4, no chão de 4 trechos diferentes da fase (escolhidos a partir do mapa).
+    Vida 4, velocidade 100, patrulha/perseguição/recuo iguais aos outros inimigos. Parado mostra o
+    rosto de frente; andando, olha para o lado e dá um quiquinho (Bounce Height). Contam no bônus
+    de 15 inimigos (agora são 22 no total).
+  - 4 itens de vida novos: PowerUpVida2..5 (o PowerUpVida original em 906,638 foi mantido).
+    Ficam no chão em quatro alturas da fase: ~1150, ~1890, ~3000 e ~4170.
+  Para mudar: é só arrastar os nós no editor.
+
+FASE 2 (level_2.tscn) — A ARENA
+  A arena é a sala fechada à direita do mapa (640 x 352 px). A entrada é a abertura baixa (48 px)
+  na parede da esquerda.
+  - Ao entrar na área "Trigger": a câmera do jogador sai de cima do jogador e fica FIXA no nó
+    CameraCenter (centro da sala), igual à luta do Bowser no Super Mario World. Com o zoom atual
+    da câmera (1.75) a sala ocupa a tela inteira. Arraste o CameraCenter para mudar o ponto.
+  - A PortaArena fecha a entrada (Fechar Porta no BossArena; desmarque para não trancar).
+  - Quando o boss morre, 2 s depois (Release Delay) a câmera volta ao jogador e a porta abre.
+  - A câmera usa top_level no Camera2D do jogador e pausa o camera_2d.gd durante a luta; ao soltar,
+    tudo volta como estava.
+
+O BOSS (Boss/boss_fb1.tscn) — tudo ajustável no Inspector
+  - Vida 30 (Max Health). Golpe/tiro do jogador causa no máximo 3 de dano por vez (Max Damage Per Hit),
+    para o power-up TIRO HITKILL não matar o boss de uma vez. Aumente se quiser.
+  - ANDA até o jogador (Walk Speed) e para a Stop Distance (170 px) dele.
+  - ATIRA: 1 tiro mirado a cada ~1.7 s (Shoot Interval).
+  - PULA em direção ao jogador a cada 2.6–4.4 s (Jump Interval Min/Max, Jump Velocity).
+  - SOBE EM ESTRUTURAS: degrau de até 18 px (1 tile) ele sobe andando (Step Height); estruturas mais
+    altas, até 130 px (Max Climb Height), ele sobe pulando com o impulso certo. Obstáculos mais altos
+    que isso ele não passa. O jogador e outros inimigos não contam como obstáculo.
+  - FASE 2 ao chegar em 50% da vida (Enrage Health Ratio): toca a animação "special" (1 s,
+    invulnerável), fica 30% mais rápido e passa a atirar em LEQUE de 3 tiros, mais rápido.
+  - Dano por contato: 1, com intervalo de 1 s. O boss atravessa o jogador (não se empurram).
+  - Barra de vida no topo da tela, só durante a luta (nome em Boss Name).
+  - Animações: idle, walk, shoot (Attack1), shoot_spread (Attack4), jump (Attack3), special, hurt, death.
+    A arte do boss não tem sprite de pulo; usei Attack3 como animação de pulo. Attack2 não foi usado.
+  - Para colocar o boss em outro lugar sem arena: marque Wake Distance (ex.: 400) no boss.
+
+COLISÃO DO TILEMAP DA FASE 2
+  Todos os tiles dos 5 atlas do map-boss.tscn têm colisão quadrada 16x16 (camada de física 1, a mesma
+  do jogador). Se você pintar tiles novos usando esses atlas, eles já colidem.
+
+PARA CONFERIR NO TESTE
+  1) O jogador passa pela abertura de 48 px da arena? (a colisão dele tem 37 px de altura)
+  2) A câmera desliza e fica parada no centro da sala; o boss e o jogador ficam inteiros na tela?
+  3) O boss sobe degraus? A arena atual é um chão liso, então para ver isso pinte 1 ou 2 tiles
+     (um degrau) no chão da arena com os atlas do map-boss.
+  4) Os Verity e os itens de vida estão em lugares justos na fase 1?
+  5) Altura do cano do boss: o tiro nasce na mão dele; se ficar desalinhado, mude MUZZLE_OFFSET
+     no topo de boss_fb1.gd.

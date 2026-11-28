@@ -3,67 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cng8bdefbad87" path="res://sprites/powerups/health-power.png" id="1_5pqnk"]
 
 [sub_resource type="GDScript" id="GDScript_vida"]
-script/source = "extends Area2D
-## Power-up de vida: flutua subindo e descendo em loop até ser pego.
-## Cura o jogador (grupo \"player\") ao encostar. Se a vida já estiver cheia, não é consumido.
-
-signal coletado(quem)
-
-@export var cura: int = 1
-@export var amplitude: float = 6.0
-@export var velocidade: float = 2.5
-@export var grupo_jogador: StringName = &\"player\"
-
-@onready var visual: Node2D = $Visual
-
-var _t: float = 0.0
-var _coletado: bool = false
-
-func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-
-func _process(delta: float) -> void:
-	_t += delta * velocidade
-	visual.position.y = sin(_t) * amplitude
-
-func _on_body_entered(body: Node) -> void:
-	if _coletado:
-		return
-	if not body.is_in_group(grupo_jogador):
-		return
-	if not _curar(body):
-		return
-	_coletado = true
-	coletado.emit(body)
-	var tw := create_tween()
-	tw.tween_property(visual, \"scale\", Vector2.ZERO, 0.15)
-	tw.tween_callback(queue_free)
-
-func _curar(alvo: Node) -> bool:
-	# 1) se o jogador tiver um método de cura, usa ele
-	for m in [\"curar\", \"heal\", \"add_health\", \"ganhar_vida\"]:
-		if alvo.has_method(m):
-			alvo.call(m, cura)
-			return true
-	# 2) senão, mexe direto na variável de vida
-	for nome in [\"vida\", \"health\", \"hp\"]:
-		if nome in alvo:
-			var atual = alvo.get(nome)
-			var maximo = null
-			for mx in [\"vida_max\", \"max_vida\", \"vida_maxima\", \"max_health\", \"max_hp\"]:
-				if mx in alvo:
-					maximo = alvo.get(mx)
-					break
-			if maximo != null and atual >= maximo:
-				return false
-			var novo = atual + cura
-			if maximo != null:
-				novo = min(novo, maximo)
-			alvo.set(nome, novo)
-			return true
-	push_warning(\"PowerUpVida: não achei vida no jogador (ajuste _curar).\")
-	return false
-"
+script/source = "extends Area2D\n## Power-up de vida: flutua subindo e descendo em loop até ser pego.\n## Cura o jogador (grupo \"player\") ao encostar. Se a vida já estiver cheia, não é consumido.\n\nsignal coletado(quem)\n\n@export var cura: int = 1\n@export var amplitude: float = 6.0\n@export var velocidade: float = 2.5\n@export var grupo_jogador: StringName = &\"player\"\n\n@onready var visual: Node2D = get_node_or_null(\"Sprite2D\")\n\nvar _t: float = 0.0\nvar _base_y: float = 0.0\nvar _coletado: bool = false\n\nfunc _ready() -> void:\n	body_entered.connect(_on_body_entered)\n	if visual != null:\n		_base_y = visual.position.y\n\nfunc _process(delta: float) -> void:\n	if visual == null:\n		return\n	_t += delta * velocidade\n	visual.position.y = _base_y + sin(_t) * amplitude\n\nfunc _on_body_entered(body: Node) -> void:\n	if _coletado:\n		return\n	if not body.is_in_group(grupo_jogador):\n		return\n	if not _curar(body):\n		return\n	_coletado = true\n	coletado.emit(body)\n	set_deferred(\"monitoring\", false)\n	var tw := create_tween()\n	if visual != null:\n		tw.tween_property(visual, \"scale\", Vector2.ZERO, 0.15)\n	else:\n		tw.tween_interval(0.01)\n	tw.tween_callback(queue_free)\n\nfunc _curar(alvo: Node) -> bool:\n	# 1) se o jogador tiver um método de cura, usa ele\n	for m in [\"curar\", \"heal\", \"add_health\", \"ganhar_vida\"]:\n		if alvo.has_method(m):\n			alvo.call(m, cura)\n			_atualizar_hud(alvo)\n			return true\n	# 2) senão, mexe direto na variável de vida\n	for nome in [\"vida\", \"health\", \"hp\"]:\n		if nome in alvo:\n			var atual = alvo.get(nome)\n			var maximo = null\n			for mx in [\"vida_max\", \"max_vida\", \"vida_maxima\", \"max_health\", \"max_hp\"]:\n				if mx in alvo:\n					maximo = alvo.get(mx)\n					break\n			if maximo != null and atual >= maximo:\n				return false\n			var novo = atual + cura\n			if maximo != null:\n				novo = min(novo, maximo)\n			alvo.set(nome, novo)\n			_atualizar_hud(alvo)\n			return true\n	push_warning(\"PowerUpVida: não achei vida no jogador (ajuste _curar).\")\n	return false\n\n# Atualiza os corações da tela (o jogador só redesenha quando isso é chamado).\nfunc _atualizar_hud(alvo: Node) -> void:\n	if alvo.has_method(\"update_health_display\"):\n		alvo.call(\"update_health_display\")\n"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vida"]
 radius = 14.035668

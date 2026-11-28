@@ -4,9 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://coj0aaj0td50x" path="res://sprites/personagens beta/1 Biker/Biker_idle.png" id="3_ivps1"]
 [ext_resource type="Texture2D" uid="uid://br7h4ancjsnge" path="res://sprites/personagens beta/1 Biker/Biker_jump.png" id="4_urp6f"]
 [ext_resource type="Texture2D" uid="uid://b513mlgyogkei" path="res://sprites/personagens beta/1 Biker/Biker_run.png" id="5_bwjto"]
+[ext_resource type="Texture2D" uid="uid://b42warnc734ah" path="res://sprites/vida 3 remake/baterry-off-remale.png" id="6_b26j0"]
+[ext_resource type="Texture2D" uid="uid://dmm42mvotngbc" path="res://sprites/vida 3 remake/baterry-rameke.png" id="7_n7ghd"]
 [ext_resource type="Script" uid="uid://buamyj5ye5myc" path="res://camera_2d.gd" id="7_u1c27"]
-[ext_resource type="Texture2D" uid="uid://3cppwunp7x0n" path="res://sprites/vida 1-style/empty.png" id="8_op7ga"]
-[ext_resource type="Texture2D" uid="uid://cs8vpa5cbftve" path="res://sprites/vida 1-style/normal_Heath.png" id="9_q13i1"]
+[ext_resource type="Texture2D" uid="uid://cxd6cqiwqh3cj" path="res://sprites/vida 3 remake/infi-life.png" id="8_nvl01"]
 [ext_resource type="AudioStream" uid="uid://can0u6egu0vca" path="res://sounds/running_player/Footsteps.mp3" id="10_pylmc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0h7mo"]
@@ -126,21 +127,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sn0t7"]
-size = Vector2(14.5, 37)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e8dv2"]
-atlas = ExtResource("8_op7ga")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2nhjh"]
-atlas = ExtResource("9_q13i1")
-region = Rect2(0, 0, 32, 29)
+size = Vector2(14.5, 35.5)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bjha6"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_e8dv2")
+"texture": ExtResource("6_b26j0")
 }],
 "loop": 1,
 "name": &"empty",
@@ -148,10 +141,18 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2nhjh")
+"texture": ExtResource("7_n7ghd")
 }],
 "loop": 1,
 "name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_nvl01")
+}],
+"loop": 1,
+"name": &"infi-life",
 "speed": 5.0
 }]
 
@@ -167,7 +168,7 @@ frame = 2
 frame_progress = 0.0897862
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=593194639]
-position = Vector2(-11, 113)
+position = Vector2(-11, 112.25)
 shape = SubResource("RectangleShape2D_sn0t7")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1018815753]
@@ -196,25 +197,25 @@ sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
 [node name="Heart2" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1618925050]
-position = Vector2(128, 60)
+position = Vector2(133, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
 [node name="Heart3" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1110553807]
-position = Vector2(191, 59)
+position = Vector2(206, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
 [node name="Heart4" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1028235804]
-position = Vector2(253, 60)
+position = Vector2(279, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"
 
 [node name="Heart5" type="AnimatedSprite2D" parent="CanvasLayer/HBoxContainer" unique_id=1501652440]
-position = Vector2(315, 59)
+position = Vector2(352, 60)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_bjha6")
 animation = &"empty"

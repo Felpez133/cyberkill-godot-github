@@ -2,11 +2,49 @@
 
 [ext_resource type="PackedScene" uid="uid://m3hbtu3vgbox" path="res://player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://duysgwkalbka7" path="res://map-boss.tscn" id="2_nmjpi"]
+[ext_resource type="PackedScene" uid="uid://wu3redd6sy1a" path="res://Boss/boss_fb1.tscn" id="3_boss"]
+[ext_resource type="Script" uid="uid://dq6ilf06136j4" path="res://Boss/boss_arena.gd" id="4_arena"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(600, 352)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(32, 48)
 
 [node name="Level2" type="Node2D" unique_id=655209269]
 
-[node name="Player" parent="." unique_id=960889874 instance=ExtResource("1_player")]
-position = Vector2(138, 291)
-
 [node name="TileMapLayer" parent="." unique_id=1075139707 instance=ExtResource("2_nmjpi")]
 position = Vector2(43, 452)
+
+[node name="Player" parent="." unique_id=960889874 instance=ExtResource("1_player")]
+position = Vector2(492, 318)
+
+[node name="Boss" parent="." unique_id=77916525 instance=ExtResource("3_boss")]
+position = Vector2(2500, 452)
+
+[node name="BossArena" type="Node2D" parent="." unique_id=658326475]
+script = ExtResource("4_arena")
+boss = NodePath("../Boss")
+
+[node name="Trigger" type="Area2D" parent="BossArena" unique_id=1462734623]
+position = Vector2(2335, 276)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossArena/Trigger" unique_id=373935037]
+shape = SubResource("RectangleShape2D_trigger")
+
+[node name="CameraCenter" type="Marker2D" parent="BossArena" unique_id=14655363]
+position = Vector2(2315, 276)
+gizmo_extents = 24.0
+
+[node name="PortaArena" type="StaticBody2D" parent="BossArena" unique_id=308357432]
+position = Vector2(1979, 428)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossArena/PortaArena" unique_id=1442924177]
+shape = SubResource("RectangleShape2D_door")
+disabled = true
+
+[node name="Visual" type="Polygon2D" parent="BossArena/PortaArena" unique_id=210340433]
+visible = false
+color = Color(0.32, 0.38, 0.5, 1)
+polygon = PackedVector2Array(-16, -24, 16, -24, 16, 24, -16, 24)

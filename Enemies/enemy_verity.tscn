@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Enemies/enemy_verity.gd" id="1_verity"]
+[ext_resource type="Texture2D" path="res://sprites/inimigos/verity/verity-front.png" id="2_front"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(26, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sight"]
+radius = 260.0
+
+[node name="EnemyVerity" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_verity")
+speed = 100.0
+patrol_distance = 150.0
+detection_radius = 260.0
+max_health = 4
+contact_range = 26.0
+recoil_distance = 52.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -14)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_front")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_sight")
